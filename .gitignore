@@ -1,0 +1,5 @@
+*.exe
+node_modules/
+.DS_STORE
+npm-debug.log
+public/assets/js/main-optimized.js

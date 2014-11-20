@@ -1,0 +1,31 @@
+{
+    "name": "justdoit",
+    "version": "0.1.0",
+    "description": "justdoit",
+    "author": "Osman RDK Hernandez <https://github.com/evilryu>",
+    "contributors": [{
+        "name": "Osman Hernandez",
+        "email": "osman.sist@gmail.com"
+    }],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/evilryu/justodoit"
+    },
+    "bugs": {
+        "url": "https://github.com/evilryu/justodoit/issues"
+    },
+    "keywords": [
+        "torrent",
+        "search torrent",
+        "piratebay"
+    ],
+    "devDependencies": {
+        "grunt": "~0.4.0",
+        "grunt-contrib-coffee": "~0.11.1",
+        "grunt-contrib-requirejs": "~0.4.4",
+        "grunt-contrib-watch": "~0.6.1"
+    },
+    "preferGlobal": true,
+    "private": true,
+    "license": "MIT"
+}
