@@ -1,17 +1,19 @@
 'use strict'
 
-require ['bootstrap', 'can'], (bootstrap, can) ->
+require ['bootstrap', 'can', 'controllers/header'], (bootstrap, can, Header) ->
 
     Router = can.Control.extend
 
         init : (element, options) ->
-            
+            new Header(can.$('.top-menu'))
         'route' : (data) ->
             window.location.hash = '#!venta'
 
         'venta route' : (data) ->
            
         'inventario route' : (data) ->
+
+        'dia route' : (data) ->
             
         'destroyControllers' : ->
             currentControllers = can.$('.main-container').data().controls

@@ -47,5 +47,5 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks('grunt-contrib-requirejs')
 	grunt.loadNpmTasks('grunt-contrib-coffee')
 
-	grunt.registerTask('deploywatch', ['coffee', 'requirejs','watch'])
-	grunt.registerTask('deploy', ['coffee', 'requirejs'])
+	grunt.registerTask('deploywatch', ['coffee','watch'])
+	grunt.registerTask('deploy', ['coffee'])
