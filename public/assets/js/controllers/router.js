@@ -1,15 +1,17 @@
 (function() {
   'use strict';
-  require(['bootstrap'], function(bootstrap) {
+  require(['bootstrap', 'can'], function(bootstrap, can) {
     var Router;
     Router = can.Control.extend({
-      init: function(element, options) {},
-      'route': function(data) {
-        return can.route.attr({
-          page: 'home'
-        });
+      init: function(element, options) {
+        return alert('router');
       },
-      'home route': function(data) {},
+      'route': function(data) {
+        return window.location.hash = '#!home';
+      },
+      'home route': function(data) {
+        return console.log('here');
+      },
       'destroyControllers': function() {
         var controller, currentControllers, _i, _len, _results;
         currentControllers = can.$('.main-container').data().controls;
@@ -27,6 +29,7 @@
       }
     });
     return $(document).ready(function() {
+      new Router($('body'));
       return can.route.ready();
     });
   });

@@ -14,8 +14,7 @@ require.config({
 		'bootstrap': {
 			deps: ['jquery']
 		}
-	},
-	waitSeconds: 7
+	}
 });
 
 requirejs(['controllers/router']);

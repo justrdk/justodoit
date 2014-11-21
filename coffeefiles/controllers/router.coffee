@@ -1,14 +1,16 @@
 'use strict'
 
-require ['bootstrap'], (bootstrap) ->
+require ['bootstrap', 'can'], (bootstrap, can) ->
 
     Router = can.Control.extend
 
         init : (element, options) ->
-
+            alert('router')
         'route' : (data) ->
-            can.route.attr( page : 'home')
+            window.location.hash = '#!home'
+
         'home route' : (data) ->
+            console.log('here');
 
         'destroyControllers' : ->
             currentControllers = can.$('.main-container').data().controls
@@ -18,4 +20,5 @@ require ['bootstrap'], (bootstrap) ->
             if controller? then controller.destroy()
 
     $(document).ready ->
+        new Router($('body'))
         can.route.ready();
