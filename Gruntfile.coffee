@@ -39,7 +39,7 @@ module.exports = (grunt) ->
 		watch:
 			scripts:
 				files:['public/assets/js/main.js', 'coffeefiles/components/*.coffee', 'coffeefiles/controllers/*.coffee', 'coffeefiles/models/*.coffee']
-				tasks: ['coffee', 'requirejs']
+				tasks: ['coffee']
 				options:
 					spawn: false
 

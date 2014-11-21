@@ -5,13 +5,14 @@ require ['bootstrap', 'can'], (bootstrap, can) ->
     Router = can.Control.extend
 
         init : (element, options) ->
-            alert('router')
+            
         'route' : (data) ->
-            window.location.hash = '#!home'
+            window.location.hash = '#!venta'
 
-        'home route' : (data) ->
-            console.log('here');
-
+        'venta route' : (data) ->
+           
+        'inventario route' : (data) ->
+            
         'destroyControllers' : ->
             currentControllers = can.$('.main-container').data().controls
             @destroyController controller for controller in currentControllers

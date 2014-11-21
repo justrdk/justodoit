@@ -3,45 +3,63 @@
     <title>JustdoIt</title>
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel='stylesheet' href='assets/css/bootswatch.css'>
-    <link rel='stylesheet' href='assets/css/animate.css'>
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="assets/css/font-style.css">
-    <link rel="stylesheet" href="assets/css/animate.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <script data-main="assets/js/main" src="assets/libs/requirejs.js"></script>
-  </head>
-    <body>
-      <div id="main-wrapper">
-        <nav class="navbar navbar-default navbar-fixed-top">
-          <div class="container">
-            <div class="navbar-header page-scroll">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-options">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#page-top">Libreria Universal</a>
+      <link rel='stylesheet' href='assets/css/animate.css'>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="assets/css/font-style.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <script data-main="assets/js/main" src="assets/libs/requirejs.js"></script>
+      </head>
+      <body>
+        <div id="main-wrapper">
+          <nav class="navbar navbar-default navbar-fixed-top top-menu">
+            <div class="container">
+              <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-options">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#!venta">Libreria Universal</a>
+              </div>
+              <div class="collapse navbar-collapse" id="navbar-options">
+                <ul class="nav navbar-nav navbar-right">
+                  <li>
+                    <a href='#!venta'>Venta</a>
+                  </li>
+                  <li>
+                    <a href='#!inventario'>Inventario</a>
+                  </li>
+                  <li>
+                    <a href='#!dia'>Detalle del Dia</a>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Parametrizacion <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="javascript://">Crear Producto</a></li>
+                      <li><a href="javascript://">Editar Producto</a></li>
+                      <li class="divider"></li>
+                      <li><a href="javascript://">Crear Usuario</a></li>
+                       <li><a href="javascript://">Editar Usuario</a></li>
+                      <li class="divider"></li>
+                       <li><a href="javascript://">Crear Proveedor</a></li>
+                      <li><a href="javascript://">Editar Proveedor</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a>Iniciar Sesion</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- /.navbar-collapse -->
             </div>
-            <div class="collapse navbar-collapse" id="navbar-options">
-              <ul class="nav navbar-nav navbar-right">
-                <li>
-                  <a>Inventario</a>
-                </li>
-                <li>
-                  <a>Facturar</a>
-                </li>
-                <li>
-                  <a>Iniciar Sesion</a>
-                </li>
-              </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+            <!-- /.container-fluid -->
+          </nav>
+          <div class='main-container'>
+            <!-- main content from router controller here -->
           </div>
-          <!-- /.container-fluid -->
-        </nav>
-        <div class='main-container'></div>
-      </div>
-    </body>
-  </html>
+        </div>
+      </body>
+    </html>

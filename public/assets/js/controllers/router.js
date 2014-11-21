@@ -3,15 +3,12 @@
   require(['bootstrap', 'can'], function(bootstrap, can) {
     var Router;
     Router = can.Control.extend({
-      init: function(element, options) {
-        return alert('router');
-      },
+      init: function(element, options) {},
       'route': function(data) {
-        return window.location.hash = '#!home';
+        return window.location.hash = '#!venta';
       },
-      'home route': function(data) {
-        return console.log('here');
-      },
+      'venta route': function(data) {},
+      'inventario route': function(data) {},
       'destroyControllers': function() {
         var controller, currentControllers, _i, _len, _results;
         currentControllers = can.$('.main-container').data().controls;
