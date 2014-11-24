@@ -15,7 +15,6 @@ require ['bootstrap', 'can', 'controllers/header',
             new Product(can.$('.main-container'), edit:false)
         'editarProducto route' : (data) ->
             @destroyControllers
-            console.log('dafuq')
             new Product(can.$('.main-container'), edit:true)
         'editarProducto/:productoid route' : (data) ->
             @destroyControllers

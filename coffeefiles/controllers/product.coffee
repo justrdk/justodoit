@@ -37,7 +37,6 @@ define ['can'], (can) ->
 
 
 		getProductDetails : (productId)->
-			console.log('hola')
 			tempDetails = {
 					id:"1"
 					code: 'CUNICO123'
