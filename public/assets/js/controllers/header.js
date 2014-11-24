@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  define(['can', 'components/header-component'], function(can, headerComponent) {
+  define(['can', 'components/headerComponents'], function(can, headerComponent) {
     var Header;
     return Header = can.Control.extend({
       init: function(element, options) {

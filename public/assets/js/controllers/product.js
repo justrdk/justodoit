@@ -34,7 +34,6 @@
       },
       getProductDetails: function(productId) {
         var tempDetails;
-        console.log('hola');
         tempDetails = {
           id: "1",
           code: 'CUNICO123',

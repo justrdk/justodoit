@@ -17,7 +17,6 @@
       },
       'editarProducto route': function(data) {
         this.destroyControllers;
-        console.log('dafuq');
         return new Product(can.$('.main-container'), {
           edit: true
         });

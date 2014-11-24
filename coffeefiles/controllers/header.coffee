@@ -1,6 +1,6 @@
 'use strict'
 
-define ['can','components/header-component'], (can, headerComponent) ->
+define ['can','components/headerComponents'], (can, headerComponent) ->
 
 	Header = can.Control.extend
 
