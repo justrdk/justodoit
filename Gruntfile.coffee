@@ -36,17 +36,19 @@ module.exports = (grunt) ->
 						ext: '.js'
 					}
 				]
+		clean: ["public/assets/js/components", "public/assets/js/controllers", "public/assets/js/models"]
 		watch:
 			scripts:
 				files:['public/assets/js/main.js', 'coffeefiles/components/*.coffee', 'coffeefiles/controllers/*.coffee', 'coffeefiles/models/*.coffee']
-				tasks: ['coffee']
+				tasks: ['clean', 'coffee']
 				options:
 					spawn: false
 
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-watch')
 	grunt.loadNpmTasks('grunt-contrib-requirejs')
 	grunt.loadNpmTasks('grunt-contrib-coffee')
 
-	grunt.registerTask('deploywatch', ['coffee','watch'])
-	grunt.registerTask('deploy', ['coffee'])
-	grunt.registerTask('deployprod', ['coffee', 'requirejs'])
+	grunt.registerTask 'deploywatch', ['clean', 'coffee','watch']
+	grunt.registerTask 'deploy', ['clean', 'coffee']
+	grunt.registerTask 'deployprod', ['clean', 'coffee', 'requirejs']

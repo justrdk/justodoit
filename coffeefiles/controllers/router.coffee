@@ -1,21 +1,25 @@
 'use strict'
 
 require ['bootstrap', 'can', 'controllers/header',
-'controllers/createProduct'], (bootstrap, can, Header, Product) ->
+'controllers/product'], (bootstrap, can, Header, Product) ->
 
     Router = can.Control.extend
 
         init : (element, options) ->
             new Header(can.$('.top-menu'))
         'route' : (data) ->
-            window.location.hash = '#!venta'
+            window.location.hash = '#!crearProducto'
         
         'crearProducto route' : (data) ->
-            new Product(can.$('.main-container'))
-        'editarProducto' : (data) ->
-            
-        'editarProducto/:productoid' : (data) ->
-
+            @destroyControllers
+            new Product(can.$('.main-container'), edit:false)
+        'editarProducto route' : (data) ->
+            @destroyControllers
+            console.log('dafuq')
+            new Product(can.$('.main-container'), edit:true)
+        'editarProducto/:productoid route' : (data) ->
+            @destroyControllers
+            new Product(can.$('.main-container'), edit:true)
         'destroyControllers' : ->
             currentControllers = can.$('.main-container').data().controls
             @destroyController controller for controller in currentControllers
