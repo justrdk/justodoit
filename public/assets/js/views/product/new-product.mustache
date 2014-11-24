@@ -1,0 +1,24 @@
+<div class="container col-lg-4 col-lg-offset-4">
+	<div class="param-form">
+		<div class="form-group">
+			<input type="text" class="form-control flat input-hg" placeholder="Codigo Producto" can-value='product.code'>
+		</div>
+		<div class="form-group">
+			<input type="text" class="form-control flat input-hg" placeholder="Nombre Producto" can-value='product.name'>
+		</div>
+		<div class="form-group">
+			<input type="text" class="form-control flat input-hg" placeholder="Cantidad Producto" can-value='product.quantity'>
+		</div>
+		<div class="form-group">
+			<select class="form-control select select-primary select-block">
+				{{#each providers}}
+					<option value="{{id}}">{{name}}</option>
+				{{/each}}
+			</select>
+		</div>
+		<div class='form-group text-center'>
+			<button class="btn btn-info btn-hg">Crear</button>
+			<button class="btn btn-danger btn-hg">Cancel</button>
+		</div>
+	</div>
+</div>

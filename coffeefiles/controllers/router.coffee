@@ -1,6 +1,7 @@
 'use strict'
 
-require ['bootstrap', 'can', 'controllers/header'], (bootstrap, can, Header) ->
+require ['bootstrap', 'can', 'controllers/header',
+'controllers/createProduct'], (bootstrap, can, Header, Product) ->
 
     Router = can.Control.extend
 
@@ -8,13 +9,13 @@ require ['bootstrap', 'can', 'controllers/header'], (bootstrap, can, Header) ->
             new Header(can.$('.top-menu'))
         'route' : (data) ->
             window.location.hash = '#!venta'
-
-        'venta route' : (data) ->
-           
-        'inventario route' : (data) ->
-
-        'dia route' : (data) ->
+        
+        'crearProducto route' : (data) ->
+            new Product(can.$('.main-container'))
+        'editarProducto' : (data) ->
             
+        'editarProducto/:productoid' : (data) ->
+
         'destroyControllers' : ->
             currentControllers = can.$('.main-container').data().controls
             @destroyController controller for controller in currentControllers
@@ -24,4 +25,4 @@ require ['bootstrap', 'can', 'controllers/header'], (bootstrap, can, Header) ->
 
     $(document).ready ->
         new Router($('body'))
-        can.route.ready();
+        can.route.ready()

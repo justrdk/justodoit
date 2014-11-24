@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  require(['bootstrap', 'can', 'controllers/header'], function(bootstrap, can, Header) {
+  require(['bootstrap', 'can', 'controllers/header', 'controllers/createProduct'], function(bootstrap, can, Header, Product) {
     var Router;
     Router = can.Control.extend({
       init: function(element, options) {
@@ -9,9 +9,11 @@
       'route': function(data) {
         return window.location.hash = '#!venta';
       },
-      'venta route': function(data) {},
-      'inventario route': function(data) {},
-      'dia route': function(data) {},
+      'crearProducto route': function(data) {
+        return new Product(can.$('.main-container'));
+      },
+      'editarProducto': function(data) {},
+      'editarProducto/:productoid': function(data) {},
       'destroyControllers': function() {
         var controller, currentControllers, _i, _len, _results;
         currentControllers = can.$('.main-container').data().controls;

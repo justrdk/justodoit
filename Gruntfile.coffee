@@ -49,3 +49,4 @@ module.exports = (grunt) ->
 
 	grunt.registerTask('deploywatch', ['coffee','watch'])
 	grunt.registerTask('deploy', ['coffee'])
+	grunt.registerTask('deployprod', ['coffee', 'requirejs'])
