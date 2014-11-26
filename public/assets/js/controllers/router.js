@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  require(['bootstrap', 'can', 'controllers/header', 'controllers/product'], function(bootstrap, can, Header, Product) {
+  require(['bootstrap', 'can', 'controllers/header', 'controllers/product', 'controllers/provider'], function(bootstrap, can, Header, Product, Provider) {
     var Router;
     Router = can.Control.extend({
       init: function(element, options) {
@@ -24,6 +24,24 @@
       'editarProducto/:productoid route': function(data) {
         this.destroyControllers();
         return new Product(can.$('.main-container'), {
+          edit: true
+        });
+      },
+      'crearProveedor route': function(data) {
+        this.destroyControllers();
+        return new Provider(can.$('.main-container'), {
+          edit: false
+        });
+      },
+      'editarProveedor route': function(data) {
+        this.destroyControllers();
+        return new Provider(can.$('.main-container'), {
+          edit: true
+        });
+      },
+      'editarProveedor/:proveedorid route': function(data) {
+        this.destroyControllers();
+        return new Provider(can.$('.main-container'), {
           edit: true
         });
       },
