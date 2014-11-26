@@ -11,20 +11,22 @@ require ['bootstrap', 'can', 'controllers/header',
             window.location.hash = '#!crearProducto'
         
         'crearProducto route' : (data) ->
-            @destroyControllers
+            @destroyControllers()
             new Product(can.$('.main-container'), edit:false)
         'editarProducto route' : (data) ->
-            @destroyControllers
+            @destroyControllers()
             new Product(can.$('.main-container'), edit:true)
         'editarProducto/:productoid route' : (data) ->
-            @destroyControllers
+            @destroyControllers()
             new Product(can.$('.main-container'), edit:true)
         'destroyControllers' : ->
             currentControllers = can.$('.main-container').data().controls
-            @destroyController controller for controller in currentControllers
+            if currentControllers isnt undefined
+                @destroyController controller for controller in currentControllers
 
         'destroyController' : (controller) ->
-            if controller? then controller.destroy()
+            if controller isnt undefined and controller isnt null
+                controller.destroy()
 
     $(document).ready ->
         new Router($('body'))

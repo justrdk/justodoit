@@ -60,6 +60,7 @@
         return this.options.productProviders.replace(tempProviders);
       },
       destroy: function() {
+        console.log('destroyed');
         return can.Control.prototype.destroy.call(this);
       }
     });

@@ -10,19 +10,19 @@
         return window.location.hash = '#!crearProducto';
       },
       'crearProducto route': function(data) {
-        this.destroyControllers;
+        this.destroyControllers();
         return new Product(can.$('.main-container'), {
           edit: false
         });
       },
       'editarProducto route': function(data) {
-        this.destroyControllers;
+        this.destroyControllers();
         return new Product(can.$('.main-container'), {
           edit: true
         });
       },
       'editarProducto/:productoid route': function(data) {
-        this.destroyControllers;
+        this.destroyControllers();
         return new Product(can.$('.main-container'), {
           edit: true
         });
@@ -30,15 +30,17 @@
       'destroyControllers': function() {
         var controller, currentControllers, _i, _len, _results;
         currentControllers = can.$('.main-container').data().controls;
-        _results = [];
-        for (_i = 0, _len = currentControllers.length; _i < _len; _i++) {
-          controller = currentControllers[_i];
-          _results.push(this.destroyController(controller));
+        if (currentControllers !== void 0) {
+          _results = [];
+          for (_i = 0, _len = currentControllers.length; _i < _len; _i++) {
+            controller = currentControllers[_i];
+            _results.push(this.destroyController(controller));
+          }
+          return _results;
         }
-        return _results;
       },
       'destroyController': function(controller) {
-        if (controller != null) {
+        if (controller !== void 0 && controller !== null) {
           return controller.destroy();
         }
       }

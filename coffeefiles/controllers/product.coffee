@@ -19,7 +19,6 @@ define ['can'], (can) ->
 			if @options.edit isnt undefined and @options.edit is true
 				if can.route.attr('productoid') isnt undefined
 					@getProductDetails can.route.attr('productoid')
-
 				@element.html can.view('views/product/new-product.mustache', {
 					product : @options.product
 					providers : @options.productProviders,
@@ -60,5 +59,7 @@ define ['can'], (can) ->
 				}]
 
 			@options.productProviders.replace tempProviders
+
 		destroy : ->
+			console.log 'destroyed'
 			can.Control.prototype.destroy.call @
