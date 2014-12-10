@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  require(['bootstrap', 'can', 'controllers/header', 'controllers/product', 'controllers/provider'], function(bootstrap, can, Header, Product, Provider) {
+  require(['bootstrap', 'can', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory'], function(bootstrap, can, Header, Product, Provider, Inventory) {
     var Router;
     Router = can.Control.extend({
       init: function(element, options) {
@@ -44,6 +44,9 @@
         return new Provider(can.$('.main-container'), {
           edit: true
         });
+      },
+      'inventario route': function(data) {
+        return new Inventory(can.$('.main-container'));
       },
       'destroyControllers': function() {
         var controller, currentControllers, _i, _len, _results;

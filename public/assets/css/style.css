@@ -16,3 +16,9 @@ body {
 	background-color: #edeff1;
 	border-radius: 6px;
 }
+.inventory{
+	margin-top: 50px;
+}
+.search-container{
+	padding-bottom: 20px;
+}

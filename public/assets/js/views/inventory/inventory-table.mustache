@@ -1,0 +1,25 @@
+<div class="container inventory">
+	<div class="pull-left search-container">
+		<input class="form-control search-inventory" type="text" placeholder="Search">
+	</div>
+	<table class="table table-hover table-bordered">
+		<thead>
+			<tr>
+				<th> Codigo </th>
+				<th> Nombre </th>
+				<th> Cantidad </th>
+				<th> Proveedor </th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each products}}
+			<tr>
+				<td> {{CODE}} </td>
+				<td> {{NAME}} </td>
+				<td> {{QUANTITY}} </td>
+				<td> {{PROVIDER}} </td>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</div>
