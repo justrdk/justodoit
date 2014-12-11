@@ -5,10 +5,10 @@ define ['can'], (can, inventoryComponent) ->
 	Inventory = can.Control.extend
 
 		init: (element, options) ->
-			@options.dummyInventory = new can.List []
+			@options.products = new can.List []
 			@options.searchTimer = null
 			@getInventory()
-			@element.html can.view('views/inventory/inventory.mustache', products: @options.dummyInventory)
+			@element.html can.view('views/inventory/inventory.mustache', products: @options.products)
 
 		'.search-inventory keyup' : (el) ->
 			self = @
@@ -20,9 +20,9 @@ define ['can'], (can, inventoryComponent) ->
 		'filterInventory' : (query) ->
 			results = []
 			if query.length is 0
-				can.$('.inventory-table').html can.view('views/inventory/inventory-table.mustache', products: @options.dummyInventory)
+				can.$('.inventory-table').html can.view('views/inventory/inventory-table.mustache', products: @options.products)
 			else
-				for product in @options.dummyInventory
+				for product in @options.products
 					if product.CODE.toLowerCase().indexOf(query) isnt -1 or product.NAME.toLowerCase().indexOf(query) isnt -1 or 
 					product.PROVIDER.toLowerCase().indexOf(query) isnt -1 then results.push(product) 
 				if results.length > 0
@@ -51,7 +51,7 @@ define ['can'], (can, inventoryComponent) ->
 					PROVIDER: 'Borradores'
 				}]
 
-			@options.dummyInventory.replace(dummyData)
+			@options.products(dummyData)
 
 		destroy: ->
 			can.Control.prototype.destroy.call @

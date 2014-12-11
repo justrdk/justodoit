@@ -4,11 +4,11 @@
     var Inventory;
     return Inventory = can.Control.extend({
       init: function(element, options) {
-        this.options.dummyInventory = new can.List([]);
+        this.options.products = new can.List([]);
         this.options.searchTimer = null;
         this.getInventory();
         return this.element.html(can.view('views/inventory/inventory.mustache', {
-          products: this.options.dummyInventory
+          products: this.options.products
         }));
       },
       '.search-inventory keyup': function(el) {
@@ -24,10 +24,10 @@
         results = [];
         if (query.length === 0) {
           return can.$('.inventory-table').html(can.view('views/inventory/inventory-table.mustache', {
-            products: this.options.dummyInventory
+            products: this.options.products
           }));
         } else {
-          _ref = this.options.dummyInventory;
+          _ref = this.options.products;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             product = _ref[_i];
             if (product.CODE.toLowerCase().indexOf(query) !== -1 || product.NAME.toLowerCase().indexOf(query) !== -1 || product.PROVIDER.toLowerCase().indexOf(query) !== -1) {
@@ -66,7 +66,7 @@
             PROVIDER: 'Borradores'
           }
         ];
-        return this.options.dummyInventory.replace(dummyData);
+        return this.options.products(dummyData);
       },
       destroy: function() {
         return can.Control.prototype.destroy.call(this);
