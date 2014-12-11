@@ -1,14 +1,32 @@
 'use strict'
 
-define ['can', 'components/inventoryComponents'], (can, inventoryComponent) ->
+define ['can'], (can, inventoryComponent) ->
 
 	Inventory = can.Control.extend
 
 		init: (element, options) ->
 			@options.dummyInventory = new can.List []
+			@options.searchTimer = null
 			@getInventory()
-			inventoryComponent = can.mustache "<inventory-table products='{products}'></inventory-table>"
-			@element.html inventoryComponent(products: @options.dummyInventory)
+			@element.html can.view('views/inventory/inventory.mustache', products: @options.dummyInventory)
+
+		'.search-inventory keyup' : (el) ->
+			self = @
+			clearTimeout self.options.searchTimer
+			self.options.searchTimer = setTimeout ->
+				self.filterInventory(el.val())
+			,1500
+
+		'filterInventory' : (query) ->
+			results = []
+			if query.length is 0
+				can.$('.inventory-table').html can.view('views/inventory/inventory-table.mustache', products: @options.dummyInventory)
+			else
+				for product in @options.dummyInventory
+					if product.CODE.toLowerCase().indexOf(query) isnt -1 or product.NAME.toLowerCase().indexOf(query) isnt -1 or 
+					product.PROVIDER.toLowerCase().indexOf(query) isnt -1 then results.push(product) 
+				if results.length > 0
+					can.$('.inventory-table').html can.view('views/inventory/inventory-table.mustache', products: results)
 
 		getInventory : ->
 			dummyData = [{
@@ -17,25 +35,20 @@ define ['can', 'components/inventoryComponents'], (can, inventoryComponent) ->
 					QUANTITY: 25
 					PROVIDER: 'Copan'
 				}, {
-					CODE : 'CU1'
-					NAME : 'Cuaderno 3 Materias Copan'
-					QUANTITY: 25
+					CODE : 'LP2'
+					NAME : 'Lapiz tinta negro BIC'
+					QUANTITY: 15
+					PROVIDER: 'BIC'
+				},{
+					CODE : 'CU2'
+					NAME : 'Cuaderno 2 Materias Copan'
+					QUANTITY: 2
 					PROVIDER: 'Copan'
 				},{
-					CODE : 'CU1'
-					NAME : 'Cuaderno 3 Materias Copan'
-					QUANTITY: 25
-					PROVIDER: 'Copan'
-				},{
-					CODE : 'CU1'
-					NAME : 'Cuaderno 3 Materias Copan'
-					QUANTITY: 25
-					PROVIDER: 'Copan'
-				},{
-					CODE : 'CU1'
-					NAME : 'Cuaderno 3 Materias Copan'
-					QUANTITY: 25
-					PROVIDER: 'Copan'
+					CODE : 'BORR1'
+					NAME : 'Borrador'
+					QUANTITY: 5
+					PROVIDER: 'Borradores'
 				}]
 
 			@options.dummyInventory.replace(dummyData)
