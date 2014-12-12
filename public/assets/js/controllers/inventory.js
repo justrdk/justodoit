@@ -17,7 +17,7 @@
         clearTimeout(self.options.searchTimer);
         return self.options.searchTimer = setTimeout(function() {
           return self.filterInventory(el.val());
-        }, 1500);
+        }, 1200);
       },
       'filterInventory': function(query) {
         var product, results, _i, _len, _ref;
@@ -66,7 +66,7 @@
             PROVIDER: 'Borradores'
           }
         ];
-        return this.options.products(dummyData);
+        return this.options.products.replace(dummyData);
       },
       destroy: function() {
         return can.Control.prototype.destroy.call(this);

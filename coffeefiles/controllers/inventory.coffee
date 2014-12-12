@@ -15,7 +15,7 @@ define ['can'], (can, inventoryComponent) ->
 			clearTimeout self.options.searchTimer
 			self.options.searchTimer = setTimeout ->
 				self.filterInventory(el.val())
-			,1500
+			,1200
 
 		'filterInventory' : (query) ->
 			results = []
@@ -51,7 +51,7 @@ define ['can'], (can, inventoryComponent) ->
 					PROVIDER: 'Borradores'
 				}]
 
-			@options.products(dummyData)
+			@options.products.replace(dummyData)
 
-		destroy: ->
+		destroy : ->
 			can.Control.prototype.destroy.call @
