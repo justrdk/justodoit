@@ -7,6 +7,7 @@
         this.options.product = new can.Map({
           code: '',
           name: '',
+          price: '',
           quantity: '',
           provider: ''
         });

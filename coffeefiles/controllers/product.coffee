@@ -9,6 +9,7 @@ define ['can'], (can) ->
 			@options.product = new can.Map({
 				code : ''
 				name : ''
+				price : ''
 				quantity : ''
 				provider : ''
 			})
@@ -24,7 +25,6 @@ define ['can'], (can) ->
 					providers : @options.productProviders,
 					edit : @options.edit
 				})
-
 			else
 				@element.html can.view('views/param/param-product.mustache', {
 					product : @options.product
@@ -70,7 +70,7 @@ define ['can'], (can) ->
 					name : 'Bic'
 				}]
 
-			@options.productProviders.replace tempProviders
+			@options.productProviders.replace(tempProviders)
 
 		destroy : ->
 			can.Control.prototype.destroy.call @

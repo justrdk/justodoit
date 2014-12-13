@@ -19,7 +19,6 @@ define ['can'], (can) ->
 					provider : @options.provider
 					edit : @options.edit
 				})
-
 			else
 				@element.html can.view('views/param/param-provider.mustache', {
 					provider : @options.provider
