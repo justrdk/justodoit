@@ -1,0 +1,25 @@
+<div class='order-detail col-lg-5'>
+	<h4>Detalle de Orden</h4>
+	<order-detail orderProducts = '{orderProducts}'>
+	<table class="table table-hover inventory-table">
+		<thead>
+			<tr>
+				<th> Nombre </th>
+				<th> Cantidad </th>
+				<th> Precio/Unidad </th>
+				<th> Total </th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each orderProducts}}
+			<tr can-click='selectProduct'>
+				<td> {{NAME}} </td>
+				<td> {{QUANTITY}}<span class='plus-quantity'><i class="fa fa-plus"></i></span><span class='minus-quantity'><i class="fa fa-minus"></i></span></td>
+				<td> {{PRICE}} </td>
+				<td> {{TOTAL}} </td>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+	</order-detail>
+</div>

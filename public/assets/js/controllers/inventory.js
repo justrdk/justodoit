@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  define(['can'], function(can, inventoryComponent) {
+  define(['can'], function(can) {
     var Inventory;
     return Inventory = can.Control.extend({
       init: function(element, options) {
@@ -19,7 +19,7 @@
           return self.filterInventory(el.val());
         }, 1200);
       },
-      'filterInventory': function(query) {
+      filterInventory: function(query) {
         var product, results, _i, _len, _ref;
         results = [];
         if (query.length === 0) {
@@ -48,21 +48,25 @@
             CODE: 'CU1',
             NAME: 'Cuaderno 3 Materias Copan',
             QUANTITY: 25,
+            PRICE: 35,
             PROVIDER: 'Copan'
           }, {
             CODE: 'LP2',
             NAME: 'Lapiz tinta negro BIC',
             QUANTITY: 15,
+            PRICE: 12,
             PROVIDER: 'BIC'
           }, {
             CODE: 'CU2',
             NAME: 'Cuaderno 2 Materias Copan',
             QUANTITY: 2,
+            PRICE: 20,
             PROVIDER: 'Copan'
           }, {
             CODE: 'BORR1',
             NAME: 'Borrador',
             QUANTITY: 5,
+            PRICE: 10,
             PROVIDER: 'Borradores'
           }
         ];

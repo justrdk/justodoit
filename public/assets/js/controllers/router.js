@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  require(['bootstrap', 'can', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory'], function(bootstrap, can, Header, Product, Provider, Inventory) {
+  require(['bootstrap', 'can', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/sellpoint'], function(bootstrap, can, Header, Product, Provider, Inventory, SellPoint) {
     var Router;
     Router = can.Control.extend({
       init: function(element, options) {
@@ -47,6 +47,9 @@
       },
       'inventario route': function(data) {
         return new Inventory(can.$('.main-container'));
+      },
+      'venta route': function(data) {
+        return new SellPoint(can.$('.main-container'));
       },
       'destroyControllers': function() {
         var controller, currentControllers, _i, _len, _results;

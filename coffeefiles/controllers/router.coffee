@@ -1,7 +1,8 @@
 'use strict'
 
 require ['bootstrap', 'can', 'controllers/header',
-'controllers/product', 'controllers/provider', 'controllers/inventory'], (bootstrap, can, Header, Product, Provider, Inventory) ->
+'controllers/product', 'controllers/provider', 'controllers/inventory',
+'controllers/sellpoint'], (bootstrap, can, Header, Product, Provider, Inventory, SellPoint) ->
 
     Router = can.Control.extend
 
@@ -30,6 +31,8 @@ require ['bootstrap', 'can', 'controllers/header',
             new Provider(can.$('.main-container'), edit:true)
         'inventario route' : (data) ->
             new Inventory(can.$('.main-container'))
+        'venta route' : (data) ->
+            new SellPoint(can.$('.main-container'))
         'destroyControllers' : ->
             currentControllers = can.$('.main-container').data().controls
             if currentControllers isnt undefined
