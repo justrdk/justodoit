@@ -1,0 +1,40 @@
+<div class="col-lg-10">
+	<form class="form-horizontal" role="form">
+		<div class="form-group">
+			<label for="subtotal" class="col-sm-2 control-label">Subtotal:</label>
+			<div class="col-sm-10">
+				<p class="form-control-static">{{roundTwoDecimalPlaces subtotal}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="tax" class="col-sm-2 control-label">Impuesto:</label>
+			<div class="col-sm-10">
+				<p class="form-control-static">{{roundTwoDecimalPlaces tax}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="total" class="col-sm-2 control-label">Total:</label>
+			<div class="col-sm-10">
+				<p class="form-control-static">{{roundTwoDecimalPlaces total}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="cash" class="col-sm-2 control-label">Dinero Recibido</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" can-value='cashPaid' placeholder="Dinero Recibido">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="change" class="col-sm-2 control-label">Cambio</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" can-value='cashChange' placeholder="Cambio">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-primary">Ingresar Venta</button>
+				<button type="submit" class="btn btn-danger">Cancelar Venta</button>
+			</div>
+		</div>
+	</form>
+</div>

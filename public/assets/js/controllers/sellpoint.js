@@ -20,23 +20,74 @@
         }, 1200);
       },
       '.sellpoint updateOrderDetail': function(el, ev, product) {
+        if (this.productAlreadyInOrder(product) === false) {
+          this.insertProductInOrder(product);
+        }
+        return this.updateProductQuantityTable(product);
+      },
+      '.sellpoint increaseTableQuantity': function(el, ev, product) {
+        var prod, _i, _len, _ref, _results;
+        _ref = this.options.searchProducts;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          prod = _ref[_i];
+          if (prod.CODE === product.CODE) {
+            prod.attr('QUANTITY', prod.QUANTITY + 1);
+            break;
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      },
+      '.sellpoint decreaseTableQuantity': function(el, ev, product) {
+        var prod, _i, _len, _ref, _results;
+        _ref = this.options.searchProducts;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          prod = _ref[_i];
+          if (prod.CODE === product.CODE) {
+            prod.attr('QUANTITY', prod.QUANTITY - 1);
+            break;
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      },
+      productAlreadyInOrder: function(product) {
         var prod, _i, _len, _ref;
         _ref = this.options.orderProducts;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           prod = _ref[_i];
           if (prod.CODE === product.CODE) {
-            prod.attr('QUANTITY', prod.attr('QUANTITY') + 1);
-            prod.attr('TOTAL', prod.QUANTITY * prod.PRICE);
-            return;
+            this.updateProductQuantityPrice(prod);
+            return true;
           }
         }
-        return this.options.orderProducts.push({
+        return false;
+      },
+      updateProductQuantityPrice: function(product) {
+        can.batch.start();
+        product.attr('QUANTITY', product.attr('QUANTITY') + 1);
+        product.attr('TOTAL', product.QUANTITY * product.PRICE);
+        return can.batch.stop();
+      },
+      insertProductInOrder: function(product) {
+        can.batch.start();
+        this.options.orderProducts.push({
           CODE: product.CODE,
           NAME: product.NAME,
           QUANTITY: 1,
           PRICE: product.PRICE,
           TOTAL: product.PRICE
         });
+        return can.batch.stop();
+      },
+      updateProductQuantityTable: function(product) {
+        if (product.attr('QUANTITY') > 0) {
+          return product.attr('QUANTITY', product.QUANTITY - 1);
+        }
       },
       getProductsByFilter: function(query) {
         var dummyData;
@@ -65,6 +116,12 @@
             QUANTITY: 5,
             PRICE: 10,
             PROVIDER: 'Borradores'
+          }, {
+            CODE: 'MOCH1',
+            NAME: 'Mochila',
+            QUANTITY: 20,
+            PRICE: 550,
+            PROVIDER: 'Jansport'
           }
         ];
         return this.options.searchProducts.replace(dummyData);

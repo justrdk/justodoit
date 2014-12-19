@@ -46,9 +46,11 @@
         });
       },
       'inventario route': function(data) {
+        this.destroyControllers();
         return new Inventory(can.$('.main-container'));
       },
       'venta route': function(data) {
+        this.destroyControllers();
         return new SellPoint(can.$('.main-container'));
       },
       'destroyControllers': function() {

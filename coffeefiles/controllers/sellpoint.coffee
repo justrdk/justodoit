@@ -21,12 +21,37 @@ define ['can', 'components/sellpointComponents'], (can) ->
 			,1200
 
 		'.sellpoint updateOrderDetail' : (el, ev, product) ->
+			if @productAlreadyInOrder(product) is false 
+				@insertProductInOrder(product)
+			@updateProductQuantityTable(product)
+
+		'.sellpoint increaseTableQuantity' : (el, ev, product) ->
+			for prod in @options.searchProducts
+				if prod.CODE is product.CODE
+					prod.attr('QUANTITY', prod.QUANTITY + 1)
+					break
+
+		'.sellpoint decreaseTableQuantity' : (el, ev, product) ->
+			for prod in @options.searchProducts
+				if prod.CODE is product.CODE
+					prod.attr('QUANTITY', prod.QUANTITY - 1)
+					break
+
+		productAlreadyInOrder : (product) ->
 			for prod in @options.orderProducts
 				if prod.CODE is product.CODE
-					prod.attr('QUANTITY', prod.attr('QUANTITY') + 1)
-					prod.attr('TOTAL', prod.QUANTITY * prod.PRICE)
-					return
+					@updateProductQuantityPrice(prod)
+					return true
+			return false
 
+		updateProductQuantityPrice : (product) ->
+			can.batch.start()
+			product.attr('QUANTITY', product.attr('QUANTITY') + 1)
+			product.attr('TOTAL', product.QUANTITY * product.PRICE)
+			can.batch.stop()
+
+		insertProductInOrder : (product) ->
+			can.batch.start()
 			@options.orderProducts.push({
 					CODE: product.CODE
 					NAME: product.NAME
@@ -34,7 +59,12 @@ define ['can', 'components/sellpointComponents'], (can) ->
 					PRICE: product.PRICE
 					TOTAL: product.PRICE
 				})
-						
+			can.batch.stop()
+
+		updateProductQuantityTable : (product) ->
+			if product.attr('QUANTITY') > 0
+				product.attr('QUANTITY', product.QUANTITY - 1)
+
 		getProductsByFilter : (query) ->
 			#TODO: make request to database and match either code or name of product.
 			dummyData = [{
@@ -61,6 +91,12 @@ define ['can', 'components/sellpointComponents'], (can) ->
 					QUANTITY: 5
 					PRICE: 10
 					PROVIDER: 'Borradores'
+				},{
+					CODE : 'MOCH1'
+					NAME : 'Mochila'
+					QUANTITY: 20
+					PRICE: 550
+					PROVIDER: 'Jansport'
 				}]
 
 			@options.searchProducts.replace(dummyData)

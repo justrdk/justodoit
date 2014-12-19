@@ -10,30 +10,40 @@ require ['bootstrap', 'can', 'controllers/header',
             new Header(can.$('.top-menu'))
         'route' : (data) ->
             window.location.hash = '#!crearProducto'
-        
+
         'crearProducto route' : (data) ->
             @destroyControllers()
             new Product(can.$('.main-container'), edit:false)
+
         'editarProducto route' : (data) ->
             @destroyControllers()
             new Product(can.$('.main-container'), edit:true)
+
         'editarProducto/:productoid route' : (data) ->
             @destroyControllers()
             new Product(can.$('.main-container'), edit:true)
+
         'crearProveedor route' : (data) ->
             @destroyControllers()
             new Provider(can.$('.main-container'), edit:false)
+
         'editarProveedor route' : (data) ->
             @destroyControllers()
             new Provider(can.$('.main-container'), edit:true)
+
         'editarProveedor/:proveedorid route' : (data) ->
             @destroyControllers()
             new Provider(can.$('.main-container'), edit:true)
+
         'inventario route' : (data) ->
+            @destroyControllers()
             new Inventory(can.$('.main-container'))
+
         'venta route' : (data) ->
+            @destroyControllers()
             new SellPoint(can.$('.main-container'))
         'destroyControllers' : ->
+
             currentControllers = can.$('.main-container').data().controls
             if currentControllers isnt undefined
                 @destroyController controller for controller in currentControllers

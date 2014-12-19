@@ -17,21 +17,18 @@
           if (can.route.attr('productoid') !== void 0) {
             this.getProductDetails(can.route.attr('productoid'));
           }
-          this.element.html(can.view('views/param/param-product.mustache', {
+          return this.element.html(can.view('views/param/param-product.mustache', {
             product: this.options.product,
             providers: this.options.productProviders,
             edit: this.options.edit
           }));
         } else {
-          this.element.html(can.view('views/param/param-product.mustache', {
+          return this.element.html(can.view('views/param/param-product.mustache', {
             product: this.options.product,
             providers: this.options.productProviders,
             edit: false
           }));
         }
-        return can.$("select").select2({
-          dropdownCssClass: 'dropdown-inverse'
-        });
       },
       '#create-prod click': function(el) {},
       '#delete-prod click': function(el) {},

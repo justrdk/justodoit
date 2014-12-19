@@ -1,17 +1,26 @@
 <div class='order-detail col-lg-7'>
+	{{#orderProducts.length}}
 	<h4>Detalle de Orden</h4>
+	{{/orderProducts}}
 	<order-products orderProducts = '{orderProducts}'>
-	<ul class="list-group">
-		{{#each orderProducts}}
-		<li class="list-group-item active">
-			<span class="badge" can-click='increaseProductQuantity'><i class='fa fa-plus'></i></span>
-			<span class="badge">{{QUANTITY}}</span>
-			<span class="badge" can-click='decreaseProductQuantity'><i class='fa fa-minus'></i></span>
-			{{NAME}}
-			<p class='list-group-item-text'>Precio: Lps.{{PRICE}}</p>
-			<p class='list-group-item-text'>Total: Lps.{{TOTAL}}</p>
-		</li>
-		{{/each}}
-	</ul>
+	{{#orderProducts.length}}
+	<div class='products-list'>
+		<div class="force-overflow">
+			<ul class="list-group">
+				{{#each orderProducts}}
+				<li class="list-group-item">
+					<span class="badge" can-click='increaseProductQuantity'><i class='fa fa-plus'></i></span>
+					<span class="badge">{{QUANTITY}}</span>
+					<span class="badge" can-click='decreaseProductQuantity'><i class='fa fa-minus'></i></span>
+					<h4 class='list-group-item-heading'>{{NAME}}</h4>
+					<p class='list-group-item-text'>Precio: Lps.{{PRICE}}</p>
+					<p class='list-group-item-text'>Total: Lps.{{TOTAL}}</p>
+				</li>
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+	{{>views/sellpoint/order-calculations.mustache}}
+	{{/orderProducts.length}}
 	</order-products>
 </div>
