@@ -4,8 +4,8 @@
     var SellPoint;
     return SellPoint = can.Control.extend({
       init: function(element, options) {
-        this.options.searchProducts = can.compute(new can.List([]));
-        this.options.orderProducts = can.compute(new can.List([]));
+        this.options.searchProducts = new can.List([]);
+        this.options.orderProducts = new can.List([]);
         return this.element.html(can.view('views/sellpoint/sellpoint-layout.mustache', {
           products: this.options.searchProducts,
           orderProducts: this.options.orderProducts
@@ -16,12 +16,12 @@
         self = this;
         clearTimeout(self.options.searchTimer);
         return self.options.searchTimer = setTimeout(function() {
-          return self.queryProducts(el.val());
+          return self.getProductsByFilter(el.val());
         }, 1200);
       },
       '.sellpoint updateOrderDetail': function(el, ev, product) {
         var prod, _i, _len, _ref;
-        _ref = this.options.orderProducts();
+        _ref = this.options.orderProducts;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           prod = _ref[_i];
           if (prod.CODE === product.CODE) {
@@ -30,7 +30,7 @@
             return;
           }
         }
-        return this.options.orderProducts().push({
+        return this.options.orderProducts.push({
           CODE: product.CODE,
           NAME: product.NAME,
           QUANTITY: 1,
@@ -38,7 +38,7 @@
           TOTAL: product.PRICE
         });
       },
-      queryProducts: function(query) {
+      getProductsByFilter: function(query) {
         var dummyData;
         dummyData = [
           {
@@ -67,7 +67,7 @@
             PROVIDER: 'Borradores'
           }
         ];
-        return this.options.searchProducts().replace(dummyData);
+        return this.options.searchProducts.replace(dummyData);
       },
       destroy: function() {
         return can.Control.prototype.destroy.call(this);

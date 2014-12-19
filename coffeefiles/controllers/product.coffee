@@ -32,7 +32,7 @@ define ['can'], (can) ->
 					edit : false
 				})
 
-			can.$("select").select2(dropdownCssClass : 'dropdown-inverse')
+			can.$("select").select2({dropdownCssClass : 'dropdown-inverse'})
 
 		'#create-prod click' : (el) ->
 			#make request to create product

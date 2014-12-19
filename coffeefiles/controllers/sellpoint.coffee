@@ -6,8 +6,8 @@ define ['can', 'components/sellpointComponents'], (can) ->
 
 		init : (element, options) ->
 
-			@options.searchProducts  = can.compute(new can.List([]))
-			@options.orderProducts = can.compute(new can.List([]))
+			@options.searchProducts  = new can.List([])
+			@options.orderProducts = new can.List([])
 			@element.html can.view('views/sellpoint/sellpoint-layout.mustache', {
 					products : @options.searchProducts
 					orderProducts: @options.orderProducts
@@ -17,24 +17,25 @@ define ['can', 'components/sellpointComponents'], (can) ->
 			self = @
 			clearTimeout self.options.searchTimer
 			self.options.searchTimer = setTimeout ->
-				self.queryProducts(el.val())
+				self.getProductsByFilter(el.val())
 			,1200
 
 		'.sellpoint updateOrderDetail' : (el, ev, product) ->
-			for prod in @options.orderProducts()
+			for prod in @options.orderProducts
 				if prod.CODE is product.CODE
 					prod.attr('QUANTITY', prod.attr('QUANTITY') + 1)
 					prod.attr('TOTAL', prod.QUANTITY * prod.PRICE)
 					return
 
-			@options.orderProducts().push({
+			@options.orderProducts.push({
 					CODE: product.CODE
 					NAME: product.NAME
 					QUANTITY: 1
 					PRICE: product.PRICE
 					TOTAL: product.PRICE
-				})		
-		queryProducts : (query) ->
+				})
+						
+		getProductsByFilter : (query) ->
 			#TODO: make request to database and match either code or name of product.
 			dummyData = [{
 					CODE : 'CU1'
@@ -62,7 +63,7 @@ define ['can', 'components/sellpointComponents'], (can) ->
 					PROVIDER: 'Borradores'
 				}]
 
-			@options.searchProducts().replace(dummyData)
+			@options.searchProducts.replace(dummyData)
 
 		destroy : ->
 			can.Control.prototype.destroy.call @

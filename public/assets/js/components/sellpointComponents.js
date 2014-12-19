@@ -10,13 +10,30 @@
       }
     });
     return can.Component.extend({
-      tag: 'order-detail',
+      tag: 'order-products',
       scope: {
-        increaseQuantity: function(product, el) {
-          return console.log('product', product);
+        increaseProductQuantity: function(product, el) {
+          var newQuantity;
+          newQuantity = product.attr('QUANTITY') + 1;
+          product.attr('QUANTITY', newQuantity);
+          return product.attr('TOTAL', newQuantity * product.PRICE);
         },
-        decreaseQuantity: function(product, el) {
-          return console.log('product', product);
+        decreaseProductQuantity: function(product, el) {
+          var newQuantity;
+          if (product.attr('QUANTITY') > 0) {
+            newQuantity = product.attr('QUANTITY') - 1;
+            if (newQuantity === 0) {
+              return this.removeProductFromOrder(product);
+            } else {
+              product.attr('QUANTITY', newQuantity);
+              return product.attr('TOTAL', newQuantity * product.PRICE);
+            }
+          }
+        },
+        removeProductFromOrder: function(product) {
+          var productIndex;
+          productIndex = this.attr('orderproducts').indexOf(product);
+          return this.attr('orderproducts').splice(productIndex, 1);
         }
       }
     });
