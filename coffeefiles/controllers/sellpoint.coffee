@@ -28,13 +28,13 @@ define ['can', 'components/sellpointComponents'], (can) ->
 		'.sellpoint increaseTableQuantity' : (el, ev, product) ->
 			for prod in @options.searchProducts
 				if prod.CODE is product.CODE
-					prod.attr('QUANTITY', prod.QUANTITY + 1)
+					prod.attr('QUANTITY_INVENTORY', prod.QUANTITY_INVENTORY + 1)
 					break
 
 		'.sellpoint decreaseTableQuantity' : (el, ev, product) ->
 			for prod in @options.searchProducts
 				if prod.CODE is product.CODE
-					prod.attr('QUANTITY', prod.QUANTITY - 1)
+					prod.attr('QUANTITY_INVENTORY', prod.QUANTITY_INVENTORY - 1)
 					break
 
 		productAlreadyInOrder : (product) ->
@@ -45,10 +45,12 @@ define ['can', 'components/sellpointComponents'], (can) ->
 			return false
 
 		updateProductQuantityPrice : (product) ->
-			can.batch.start()
-			product.attr('QUANTITY', product.attr('QUANTITY') + 1)
-			product.attr('TOTAL', product.QUANTITY * product.PRICE)
-			can.batch.stop()
+			if product.QUANTITY_INVENTORY > 0
+				can.batch.start()
+				product.attr('QUANTITY', product.QUANTITY + 1)
+				product.attr('QUANTITY_INVENTORY', product.QUANTITY_INVENTORY - 1)
+				product.attr('TOTAL', product.QUANTITY * product.PRICE)
+				can.batch.stop()
 
 		insertProductInOrder : (product) ->
 			can.batch.start()
@@ -58,43 +60,44 @@ define ['can', 'components/sellpointComponents'], (can) ->
 					QUANTITY: 1
 					PRICE: product.PRICE
 					TOTAL: product.PRICE
+					QUANTITY_INVENTORY : product.QUANTITY_INVENTORY - 1
 				})
 			can.batch.stop()
 
 		updateProductQuantityTable : (product) ->
-			if product.attr('QUANTITY') > 0
-				product.attr('QUANTITY', product.QUANTITY - 1)
+			if product.attr('QUANTITY_INVENTORY') > 0
+				product.attr('QUANTITY_INVENTORY', product.QUANTITY_INVENTORY - 1)
 
 		getProductsByFilter : (query) ->
 			#TODO: make request to database and match either code or name of product.
 			dummyData = [{
 					CODE : 'CU1'
 					NAME : 'Cuaderno 3 Materias Copan'
-					QUANTITY: 25
+					QUANTITY_INVENTORY: 25
 					PRICE: 35
 					PROVIDER: 'Copan'
 				}, {
 					CODE : 'LP2'
 					NAME : 'Lapiz tinta negro BIC'
-					QUANTITY: 15
+					QUANTITY_INVENTORY: 15
 					PRICE: 12
 					PROVIDER: 'BIC'
 				},{
 					CODE : 'CU2'
 					NAME : 'Cuaderno 2 Materias Copan'
-					QUANTITY: 2
+					QUANTITY_INVENTORY: 2
 					PRICE: 20
 					PROVIDER: 'Copan'
 				},{
 					CODE : 'BORR1'
 					NAME : 'Borrador'
-					QUANTITY: 5
+					QUANTITY_INVENTORY: 5
 					PRICE: 10
 					PROVIDER: 'Borradores'
 				},{
 					CODE : 'MOCH1'
 					NAME : 'Mochila'
-					QUANTITY: 20
+					QUANTITY_INVENTORY: 20
 					PRICE: 550
 					PROVIDER: 'Jansport'
 				}]

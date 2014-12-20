@@ -32,7 +32,7 @@
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           prod = _ref[_i];
           if (prod.CODE === product.CODE) {
-            prod.attr('QUANTITY', prod.QUANTITY + 1);
+            prod.attr('QUANTITY_INVENTORY', prod.QUANTITY_INVENTORY + 1);
             break;
           } else {
             _results.push(void 0);
@@ -47,7 +47,7 @@
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           prod = _ref[_i];
           if (prod.CODE === product.CODE) {
-            prod.attr('QUANTITY', prod.QUANTITY - 1);
+            prod.attr('QUANTITY_INVENTORY', prod.QUANTITY_INVENTORY - 1);
             break;
           } else {
             _results.push(void 0);
@@ -68,10 +68,13 @@
         return false;
       },
       updateProductQuantityPrice: function(product) {
-        can.batch.start();
-        product.attr('QUANTITY', product.attr('QUANTITY') + 1);
-        product.attr('TOTAL', product.QUANTITY * product.PRICE);
-        return can.batch.stop();
+        if (product.QUANTITY_INVENTORY > 0) {
+          can.batch.start();
+          product.attr('QUANTITY', product.QUANTITY + 1);
+          product.attr('QUANTITY_INVENTORY', product.QUANTITY_INVENTORY - 1);
+          product.attr('TOTAL', product.QUANTITY * product.PRICE);
+          return can.batch.stop();
+        }
       },
       insertProductInOrder: function(product) {
         can.batch.start();
@@ -80,13 +83,14 @@
           NAME: product.NAME,
           QUANTITY: 1,
           PRICE: product.PRICE,
-          TOTAL: product.PRICE
+          TOTAL: product.PRICE,
+          QUANTITY_INVENTORY: product.QUANTITY_INVENTORY - 1
         });
         return can.batch.stop();
       },
       updateProductQuantityTable: function(product) {
-        if (product.attr('QUANTITY') > 0) {
-          return product.attr('QUANTITY', product.QUANTITY - 1);
+        if (product.attr('QUANTITY_INVENTORY') > 0) {
+          return product.attr('QUANTITY_INVENTORY', product.QUANTITY_INVENTORY - 1);
         }
       },
       getProductsByFilter: function(query) {
@@ -95,31 +99,31 @@
           {
             CODE: 'CU1',
             NAME: 'Cuaderno 3 Materias Copan',
-            QUANTITY: 25,
+            QUANTITY_INVENTORY: 25,
             PRICE: 35,
             PROVIDER: 'Copan'
           }, {
             CODE: 'LP2',
             NAME: 'Lapiz tinta negro BIC',
-            QUANTITY: 15,
+            QUANTITY_INVENTORY: 15,
             PRICE: 12,
             PROVIDER: 'BIC'
           }, {
             CODE: 'CU2',
             NAME: 'Cuaderno 2 Materias Copan',
-            QUANTITY: 2,
+            QUANTITY_INVENTORY: 2,
             PRICE: 20,
             PROVIDER: 'Copan'
           }, {
             CODE: 'BORR1',
             NAME: 'Borrador',
-            QUANTITY: 5,
+            QUANTITY_INVENTORY: 5,
             PRICE: 10,
             PROVIDER: 'Borradores'
           }, {
             CODE: 'MOCH1',
             NAME: 'Mochila',
-            QUANTITY: 20,
+            QUANTITY_INVENTORY: 20,
             PRICE: 550,
             PROVIDER: 'Jansport'
           }
