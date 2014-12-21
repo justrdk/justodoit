@@ -15,9 +15,7 @@
         "url": "https://github.com/evilryu/justodoit/issues"
     },
     "keywords": [
-        "torrent",
-        "search torrent",
-        "piratebay"
+        "libuniversal"
     ],
     "devDependencies": {
         "grunt": "~0.4.0",
