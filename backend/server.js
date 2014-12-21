@@ -4,8 +4,10 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var path = require('path');
 var router = express.Router();
+var MongoClient = require('mongodb').MongoClient;
 var port = process.env.PORT || 8080;
 var resolvedPath = path.resolve('/../public/index.html');
+var dbUrl = 'mongodb://localhost:27017/justdoit';
 
 app.use(express.static(__dirname + '/../public'));
 app.use(bodyParser.json());
@@ -23,12 +25,7 @@ app.get('*', function(req, res) {
 app.listen(port);
 console.log("App listening on port " + port);
 
-
-
-var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/justdoit';
-MongoClient.connect(url, function(err, db) {
-
+MongoClient.connect(dbUrl, function(err, db) {
 	router.get('/producto/list', function(req, res){
 		db.collection('producto').find({}).toArray(function(err, docs){
 			res.json(docs);
