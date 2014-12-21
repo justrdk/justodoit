@@ -1,6 +1,6 @@
 'use strict'
 
-define ['can', 'components/sellpointComponents'], (can) ->
+define ['can', 'components/sellpointComponents'], (can, sellpointComponent) ->
 
 	SellPoint = can.Control.extend
 

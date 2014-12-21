@@ -1,6 +1,6 @@
 'use strict'
 
-define ['can'], (can) ->
+define ['can', 'models/productModels'], (can,  ProductModel) ->
 
 	Product = can.Control.extend
 
@@ -34,6 +34,9 @@ define ['can'], (can) ->
 
 		'#create-prod click' : (el) ->
 			#make request to create product
+			product = new ProductModel(@options.product.serialize())
+			product.save()
+
 		'#delete-prod click' : (el) ->
 			#make request to delete product
 		'#update-prod click' : (el) ->

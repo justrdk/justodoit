@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  define(['can'], function(can) {
+  define(['can', 'models/productModels'], function(can, ProductModel) {
     var Product;
     return Product = can.Control.extend({
       init: function(element, options) {
@@ -30,7 +30,11 @@
           }));
         }
       },
-      '#create-prod click': function(el) {},
+      '#create-prod click': function(el) {
+        var product;
+        product = new ProductModel(this.options.product.serialize());
+        return product.save();
+      },
       '#delete-prod click': function(el) {},
       '#update-prod click': function(el) {},
       '#cancel-prod click': function(el) {

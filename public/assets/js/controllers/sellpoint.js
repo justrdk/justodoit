@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  define(['can', 'components/sellpointComponents'], function(can) {
+  define(['can', 'components/sellpointComponents'], function(can, sellpointComponent) {
     var SellPoint;
     return SellPoint = can.Control.extend({
       init: function(element, options) {

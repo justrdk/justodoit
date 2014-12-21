@@ -21,8 +21,7 @@
         increaseProductQuantity: function(product, el) {
           var newQuantity;
           newQuantity = product.attr('QUANTITY') + 1;
-          product.attr('QUANTITY', newQuantity);
-          product.attr('TOTAL', newQuantity * product.PRICE);
+          this.updateQuantityAndTotal(product, newQuantity);
           if (product.QUANTITY_INVENTORY > 0) {
             product.attr('QUANTITY_INVENTORY', product.QUANTITY_INVENTORY - 1);
             can.$('.sellpoint').trigger('decreaseTableQuantity', product);
@@ -37,8 +36,7 @@
             if (newQuantity === 0) {
               this.removeProductFromOrder(product);
             } else {
-              product.attr('QUANTITY', newQuantity);
-              product.attr('TOTAL', newQuantity * product.PRICE);
+              this.updateQuantityAndTotal(product, newQuantity);
             }
           }
           can.$('.sellpoint').trigger('increaseTableQuantity', product);
@@ -48,6 +46,10 @@
           var productIndex;
           productIndex = this.attr('orderproducts').indexOf(product);
           return this.attr('orderproducts').splice(productIndex, 1);
+        },
+        updateQuantityAndTotal: function(product, newQuantity) {
+          product.attr('QUANTITY', newQuantity);
+          return product.attr('TOTAL', newQuantity * product.PRICE);
         },
         calculateSubtotal: function(product) {
           var subtotal, _i, _len, _ref;

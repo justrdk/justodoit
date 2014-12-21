@@ -4,7 +4,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var path = require('path');
 var router = express.Router();
-var MongoClient = require('mongodb').MongoClient;
+
 var port = process.env.PORT || 8080;
 var resolvedPath = path.resolve('/../public/index.html');
 var dbUrl = 'mongodb://localhost:27017/justdoit';
@@ -25,18 +25,30 @@ app.get('*', function(req, res) {
 app.listen(port);
 console.log("App listening on port " + port);
 
+var MongoClient = require('mongodb').MongoClient;
 MongoClient.connect(dbUrl, function(err, db) {
-	router.get('/producto/list', function(req, res){
+	console.log('connected to mongodb');
+
+	router.get('/product/list', function(req, res){
 		db.collection('producto').find({}).toArray(function(err, docs){
 			res.json(docs);
 		})
 	})
 
-	router.post('/producto/create', function(req, res){
-		db.collection('producto').insert([{nombre: req.body.nombre, valor: req.body.valor}], function(err, result){
-		  	console.log("Registros creados: ")
-		  	res.json(result)
-		  	db.close()
+	router.post('/product/create', function(req, res){
+
+		var newProduct = {
+			code : req.body.code,
+			name : req.body.name,
+			price: req.body.price,
+			quantity: req.body.quantity,
+			provider : req.body.provider
+		};
+
+		db.collection('producto').insert([newProduct], function(err, result){
+			//need to return id here
+		  	res.json({success: true});
+		  	db.close();
 		})
 	})
 });
