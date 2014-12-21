@@ -25,7 +25,8 @@
         "grunt-contrib-requirejs": "~0.4.4",
         "grunt-contrib-watch": "~0.6.1",
         "grunt-contrib-clean" : "~0.6.0",
-        "faye" : "~1.0.3"
+        "faye" : "~1.0.3",
+        "mongodb": "~2.0"
     },
     "preferGlobal": true,
     "private": true,
