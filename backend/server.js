@@ -27,3 +27,28 @@ app.get('*', function(req, res) {
 
 app.listen(port);
 console.log("App listening on port " + port);
+
+
+var MongoClient = require('mongodb').MongoClient;
+var url = 'mongodb://localhost:27017/justdoit';
+MongoClient.connect(url, function(err, db) {
+	var collection = db.collection('producto');
+	collection.find({}).toArray(function(err, docs){
+		console.log("Existen " + docs.length + "registros:")
+	  	if(docs.length < 5){
+	  		console.log("Existen menos de 5 registros, agreguemos 2")
+	  		collection.insert([{nombre: "Mario", valor: 10}, {nombre: "Osmin", valor: 20}], function(err, result){
+			  	console.log("Registros agregados: ")
+			  	console.log(result)
+			  	db.close()
+			})
+	  	}else if(docs.length > 5){
+	  		console.log("Existen mas de 5 registros, borremos todo")
+			collection.remove({}, function(err, result){
+				console.log( "Registros borrados: ")
+				console.log(result)
+			  	db.close()
+			})
+	  	}
+	 })
+});
