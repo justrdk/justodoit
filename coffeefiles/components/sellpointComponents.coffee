@@ -20,8 +20,7 @@ define ['can'], (can) ->
 
 			increaseProductQuantity : (product, el) ->
 				newQuantity = product.attr('QUANTITY') + 1
-				product.attr('QUANTITY', newQuantity)
-				product.attr('TOTAL', newQuantity * product.PRICE)
+				@updateQuantityAndTotal(product, newQuantity)
 
 				if product.QUANTITY_INVENTORY > 0
 					product.attr('QUANTITY_INVENTORY', product.QUANTITY_INVENTORY - 1)
@@ -35,14 +34,17 @@ define ['can'], (can) ->
 					if newQuantity is 0
 						@removeProductFromOrder(product)
 					else
-						product.attr('QUANTITY', newQuantity)
-						product.attr('TOTAL', newQuantity * product.PRICE)
+						@updateQuantityAndTotal(product, newQuantity)
 				can.$('.sellpoint').trigger('increaseTableQuantity', product)
 				@calculateSubtotal(product)
 
 			removeProductFromOrder : (product) ->
 				productIndex = @attr('orderproducts').indexOf(product)
 				@attr('orderproducts').splice(productIndex, 1)
+
+			updateQuantityAndTotal : (product, newQuantity) ->
+				product.attr('QUANTITY', newQuantity)
+				product.attr('TOTAL', newQuantity * product.PRICE)
 
 			calculateSubtotal : (product) ->
 				subtotal = 0

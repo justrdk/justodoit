@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var resolvedPath = path.resolve('/../public/index.html');
 
-app.use('/etorrent', router);
+app.use('/libuniversal', router);
 app.get('*', function(req, res) {
 	res.sendFile(resolvedPath);
 });

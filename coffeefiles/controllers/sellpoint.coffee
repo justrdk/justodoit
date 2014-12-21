@@ -54,14 +54,13 @@ define ['can', 'components/sellpointComponents'], (can) ->
 
 		insertProductInOrder : (product) ->
 			can.batch.start()
-			@options.orderProducts.push({
+			@options.orderProducts.push
 					CODE: product.CODE
 					NAME: product.NAME
 					QUANTITY: 1
 					PRICE: product.PRICE
 					TOTAL: product.PRICE
-					QUANTITY_INVENTORY : product.QUANTITY_INVENTORY - 1
-				})
+					QUANTITY_INVENTORY : product.QUANTITY_INVENTORY - 1	
 			can.batch.stop()
 
 		updateProductQuantityTable : (product) ->
