@@ -20,9 +20,9 @@
         cashChange: 0,
         increaseProductQuantity: function(product, el) {
           var newQuantity;
-          newQuantity = product.attr('QUANTITY') + 1;
-          this.updateQuantityAndTotal(product, newQuantity);
           if (product.QUANTITY_INVENTORY > 0) {
+            newQuantity = product.attr('QUANTITY') + 1;
+            this.updateQuantityAndTotal(product, newQuantity);
             product.attr('QUANTITY_INVENTORY', product.QUANTITY_INVENTORY - 1);
             can.$('.sellpoint').trigger('decreaseTableQuantity', product);
             return this.calculateSubtotal(product);

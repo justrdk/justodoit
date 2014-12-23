@@ -6,11 +6,11 @@ define ['can'], (can) ->
 
 		init : (element, options) ->
 
-			@options.provider = new can.Map({
+			@options.provider = new can.Map
 				name : ''
 				address : ''
 				phoneNumber : ''
-			})
+			
 			
 			if @options.edit isnt undefined and @options.edit is true
 				if can.route.attr('proveedorid') isnt undefined

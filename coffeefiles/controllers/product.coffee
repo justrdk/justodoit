@@ -6,14 +6,13 @@ define ['can', 'models/productModels'], (can,  ProductModel) ->
 
 		init : (element, options) ->
 
-			@options.product = new can.Map({
+			@options.product = new can.Map
 				code : ''
 				name : ''
 				price : ''
 				quantity : ''
 				provider : ''
-			})
-				
+			
 			@options.productProviders = new can.List []
 			@getProductProviders()
 			
@@ -33,30 +32,34 @@ define ['can', 'models/productModels'], (can,  ProductModel) ->
 				})
 
 		'#create-prod click' : (el) ->
-			#make request to create product
-			product = new ProductModel(@options.product.serialize())
-			product.save()
+			deferred = ProductModel.create(@options.product.serialize())
+
+			deferred.then (response)->
+				if response.success is true
+					Helpers.showSuccessMessage 'success', 'Producto creado exitosamente',
+				else
+					Helpers.showErrorMessage 'error', 'Error al crear producto, favor intentar de nuevo'
+			, (xhr) ->
+				Helpers.showErrorMessage 'error', 'Error al crear producto, favor intentar de nuevo'
 
 		'#delete-prod click' : (el) ->
 			#make request to delete product
 		'#update-prod click' : (el) ->
 			#make request to update product
 		'#cancel-prod click' : (el) ->
-			#clean map
 			@options.product.attr('code', '')
 			@options.product.attr('name', '')
 			@options.product.attr('quantity', '')
 			@options.product.attr('provider', '')
 
 		getProductDetails : (productId)->
-			tempDetails = {
-					id:"1"
-					code: 'CUNICO123'
-					name: 'Cuaderno Unico Copan, 3 Materias'
-					quantity: 10
-					provider : 1
-				}
-
+			tempDetails = 
+				id:"1"
+				code: 'CUNICO123'
+				name: 'Cuaderno Unico Copan, 3 Materias'
+				quantity: 10
+				provider : 1
+				
 			@options.product.attr('code', tempDetails.code)
 			@options.product.attr('name', tempDetails.name)
 			@options.product.attr('quantity', tempDetails.quantity)
@@ -71,7 +74,7 @@ define ['can', 'models/productModels'], (can,  ProductModel) ->
 					name : 'Bic'
 				}]
 
-			@options.productProviders.replace(tempProviders)
+			@options.productProviders.replace tempProviders
 
 		destroy : ->
 			can.Control.prototype.destroy.call @

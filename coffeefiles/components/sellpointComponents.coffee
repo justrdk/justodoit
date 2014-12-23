@@ -19,28 +19,27 @@ define ['can'], (can) ->
 			cashChange : 0
 
 			increaseProductQuantity : (product, el) ->
-				newQuantity = product.attr('QUANTITY') + 1
-				@updateQuantityAndTotal(product, newQuantity)
-
 				if product.QUANTITY_INVENTORY > 0
+					newQuantity = product.attr('QUANTITY') + 1
+					@updateQuantityAndTotal product, newQuantity
 					product.attr('QUANTITY_INVENTORY', product.QUANTITY_INVENTORY - 1)
 					can.$('.sellpoint').trigger('decreaseTableQuantity', product)
-					@calculateSubtotal(product)
+					@calculateSubtotal product
 
 			decreaseProductQuantity : (product, el) ->
 				if product.attr('QUANTITY') > 0
 					newQuantity = product.attr('QUANTITY') - 1
 					product.attr('QUANTITY_INVENTORY', product.QUANTITY_INVENTORY + 1)
 					if newQuantity is 0
-						@removeProductFromOrder(product)
+						@removeProductFromOrder product
 					else
 						@updateQuantityAndTotal(product, newQuantity)
 				can.$('.sellpoint').trigger('increaseTableQuantity', product)
-				@calculateSubtotal(product)
+				@calculateSubtotal product
 
 			removeProductFromOrder : (product) ->
-				productIndex = @attr('orderproducts').indexOf(product)
-				@attr('orderproducts').splice(productIndex, 1)
+				productIndex = @attr('orderproducts').indexOf product
+				@attr('orderproducts').splice productIndex, 1
 
 			updateQuantityAndTotal : (product, newQuantity) ->
 				product.attr('QUANTITY', newQuantity)
@@ -54,8 +53,8 @@ define ['can'], (can) ->
 
 		helpers:
 			roundTwoDecimalPlaces : (value) ->
-				parseFloat(Math.round(value()*100)/100).toFixed(2)
+				parseFloat(Math.round(value()*100)/100).toFixed 2
 		events:
 			'{orderproducts} change' : (el , ev, attr, how, newVal, oldVal) ->
 				if how isnt 'remove'
-					@scope.calculateSubtotal(newVal[0])
+					@scope.calculateSubtotal newVal[0]

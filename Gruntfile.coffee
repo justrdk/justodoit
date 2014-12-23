@@ -34,12 +34,19 @@ module.exports = (grunt) ->
 						src: ['**/*.coffee']
 						dest: 'public/assets/js/models/'
 						ext: '.js'
+					},{
+						expand: true
+						flatten: true
+						cwd: 'coffeefiles/helpers/'
+						src: ['**/*.coffee']
+						dest: 'public/assets/js/helpers/'
+						ext: '.js'
 					}
 				]
-		clean: ["public/assets/js/components", "public/assets/js/controllers", "public/assets/js/models"]
+		clean: ["public/assets/js/components", "public/assets/js/controllers", "public/assets/js/models", "public/assets/js/helpers"]
 		watch:
 			scripts:
-				files:['public/assets/js/main.js', 'coffeefiles/components/*.coffee', 'coffeefiles/controllers/*.coffee', 'coffeefiles/models/*.coffee']
+				files:['public/assets/js/main.js', 'coffeefiles/components/*.coffee', 'coffeefiles/controllers/*.coffee', 'coffeefiles/models/*.coffee', 'coffeefiles/helpers/*.coffee']
 				tasks: ['clean', 'coffee']
 				options:
 					spawn: false

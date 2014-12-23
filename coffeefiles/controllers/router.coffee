@@ -1,8 +1,8 @@
 'use strict'
 
-require ['bootstrap', 'can', 'controllers/header',
+require ['bootstrap', 'can', 'noty', 'helpers/helpers', 'controllers/header',
 'controllers/product', 'controllers/provider', 'controllers/inventory',
-'controllers/sellpoint'], (bootstrap, can, Header, Product, Provider, Inventory, SellPoint) ->
+'controllers/sellpoint'], (bootstrap, can, noty, Helpers, Header, Product, Provider, Inventory, SellPoint) ->
 
     Router = can.Control.extend
 

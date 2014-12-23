@@ -31,9 +31,17 @@
         }
       },
       '#create-prod click': function(el) {
-        var product;
-        product = new ProductModel(this.options.product.serialize());
-        return product.save();
+        var deferred;
+        deferred = ProductModel.create(this.options.product.serialize());
+        return deferred.then(function(response) {
+          if (response.success === true) {
+            return Helpers.showSuccessMessage('success', 'Producto creado exitosamente');
+          } else {
+            return Helpers.showErrorMessage('error', 'Error al crear producto, favor intentar de nuevo');
+          }
+        }, function(xhr) {
+          return Helpers.showErrorMessage('error', 'Error al crear producto, favor intentar de nuevo');
+        });
       },
       '#delete-prod click': function(el) {},
       '#update-prod click': function(el) {},

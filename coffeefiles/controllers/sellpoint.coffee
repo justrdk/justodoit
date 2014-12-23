@@ -6,8 +6,8 @@ define ['can', 'components/sellpointComponents'], (can, sellpointComponent) ->
 
 		init : (element, options) ->
 
-			@options.searchProducts  = new can.List([])
-			@options.orderProducts = new can.List([])
+			@options.searchProducts  = new can.List []
+			@options.orderProducts = new can.List []
 			@element.html can.view('views/sellpoint/sellpoint-layout.mustache', {
 					products : @options.searchProducts
 					orderProducts: @options.orderProducts
@@ -22,8 +22,8 @@ define ['can', 'components/sellpointComponents'], (can, sellpointComponent) ->
 
 		'.sellpoint updateOrderDetail' : (el, ev, product) ->
 			if @productAlreadyInOrder(product) is false 
-				@insertProductInOrder(product)
-			@updateProductQuantityTable(product)
+				@insertProductInOrder product
+			@updateProductQuantityTable product
 
 		'.sellpoint increaseTableQuantity' : (el, ev, product) ->
 			for prod in @options.searchProducts
@@ -40,7 +40,7 @@ define ['can', 'components/sellpointComponents'], (can, sellpointComponent) ->
 		productAlreadyInOrder : (product) ->
 			for prod in @options.orderProducts
 				if prod.CODE is product.CODE
-					@updateProductQuantityPrice(prod)
+					@updateProductQuantityPrice prod
 					return true
 			return false
 
@@ -101,7 +101,7 @@ define ['can', 'components/sellpointComponents'], (can, sellpointComponent) ->
 					PROVIDER: 'Jansport'
 				}]
 
-			@options.searchProducts.replace(dummyData)
+			@options.searchProducts.replace dummyData
 
 		destroy : ->
 			can.Control.prototype.destroy.call @
