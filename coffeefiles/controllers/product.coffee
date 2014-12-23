@@ -34,7 +34,7 @@ define ['can', 'models/productModels'], (can,  ProductModel) ->
 		'#create-prod click' : (el) ->
 			deferred = ProductModel.create(@options.product.serialize())
 
-			deferred.then (response)->
+			deferred.then (response) ->
 				if response.success is true
 					Helpers.showSuccessMessage 'success', 'Producto creado exitosamente',
 				else

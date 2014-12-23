@@ -33,7 +33,7 @@ MongoClient.connect(dbUrl, function(err, db) {
 		db.collection('producto').find({}).toArray(function(err, docs){
 			res.json(docs);
 		})
-	})
+	});
 
 	router.post('/product/create', function(req, res){
 
@@ -49,6 +49,6 @@ MongoClient.connect(dbUrl, function(err, db) {
 			//need to return id here
 		  	res.json({success: true});
 		  	db.close();
-		})
-	})
+		});
+	});
 });
