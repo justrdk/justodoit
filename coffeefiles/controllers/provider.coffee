@@ -1,6 +1,6 @@
 'use strict'
 
-define ['can'], (can) ->
+define ['can', 'models/providerModels'], (can, ProviderModel) ->
 
 	Provider = can.Control.extend
 
@@ -10,7 +10,7 @@ define ['can'], (can) ->
 				name : ''
 				address : ''
 				phoneNumber : ''
-			
+				contact : ''
 			
 			if @options.edit isnt undefined and @options.edit is true
 				if can.route.attr('proveedorid') isnt undefined
@@ -27,6 +27,16 @@ define ['can'], (can) ->
 
 		'#create-prov click' : (el) ->
 			#make request to create provider
+			deferred = ProviderModel.create(@options.provider.serialize())
+
+			deferred.then (response) ->
+				if response.success is true
+					Helpers.showMessage 'success', 'Proveedor creado exitosamente'
+				else
+					Helpers.showMessage 'error', response.errorMessage
+			, (xhr) ->
+				Helpers.showMessage 'error', 'Error al crear proveedor, favor intentar de nuevo'
+
 		'#delete-prov click' : (el) ->
 			#make request to delete provider
 		'#update-prov click' : (el) ->
@@ -42,11 +52,12 @@ define ['can'], (can) ->
 					name: 'Bic'
 					address: 'Col.Foo, 5ta Bar, Bloque Z'
 					phoneNumber : '3333-3333'
+					contactNumber : 'MR.Q'
 				}
 
-			@options.provider.attr('name', tempDetails.name)
-			@options.provider.attr('address', tempDetails.address)
-			@options.provider.attr('phoneNumber', tempDetails.phoneNumber)
+			@options.provider.attr 'name', tempDetails.name
+			@options.provider.attr 'address', tempDetails.address
+			@options.provider.attr 'phoneNumber', tempDetails.phoneNumber
 
 		destroy : ->
 			can.Control.prototype.destroy.call @

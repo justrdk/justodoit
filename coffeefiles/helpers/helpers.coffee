@@ -1,6 +1,6 @@
 Helpers = {}
 
-Helpers.showSuccessMessage = (type, message) ->
+Helpers.showMessage = (type, message) ->
 	noty
 	    text: message
 	    type: type
