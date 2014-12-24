@@ -3,7 +3,6 @@
 define ['can'], (can) ->
 
 	ProductModel = can.Model.extend
-		id: 'id'
 		findAll: 'GET /libuniversal/product/list'
 		create : (params) ->
 			$.ajax

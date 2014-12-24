@@ -22,6 +22,9 @@ body {
 .search-container {
 	padding-bottom: 20px;
 }
+.param-search{
+	padding-bottom: 80px;
+}
 .order-detail {
 	padding-left: 150px;
 }

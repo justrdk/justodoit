@@ -1,8 +1,8 @@
 'use strict'
 
-require ['bootstrap', 'can', 'noty', 'helpers/helpers', 'controllers/header',
+require ['can', 'helpers/helpers', 'controllers/header',
 'controllers/product', 'controllers/provider', 'controllers/inventory',
-'controllers/sellpoint'], (bootstrap, can, noty, Helpers, Header, Product, Provider, Inventory, SellPoint) ->
+'controllers/sellpoint'], (can, Helpers, Header, Product, Provider, Inventory, SellPoint) ->
 
     Router = can.Control.extend
 
@@ -42,8 +42,8 @@ require ['bootstrap', 'can', 'noty', 'helpers/helpers', 'controllers/header',
         'venta route' : (data) ->
             @destroyControllers()
             new SellPoint(can.$('.main-container'))
-        'destroyControllers' : ->
 
+        'destroyControllers' : ->
             currentControllers = can.$('.main-container').data().controls
             if currentControllers isnt undefined
                 @destroyController controller for controller in currentControllers

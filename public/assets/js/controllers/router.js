@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  require(['bootstrap', 'can', 'noty', 'helpers/helpers', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/sellpoint'], function(bootstrap, can, noty, Helpers, Header, Product, Provider, Inventory, SellPoint) {
+  require(['can', 'helpers/helpers', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/sellpoint'], function(can, Helpers, Header, Product, Provider, Inventory, SellPoint) {
     var Router;
     Router = can.Control.extend({
       init: function(element, options) {

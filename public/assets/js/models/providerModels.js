@@ -3,7 +3,8 @@
   define(['can'], function(can) {
     var ProviderModel;
     return ProviderModel = can.Model.extend({
-      id: 'id',
+      findOne: 'GET /libuniversal/provider/read/{_id}',
+      findAll: 'GET /libuniversal/provider/list',
       create: function(params) {
         return $.ajax({
           url: '/libuniversal/provider/create',
