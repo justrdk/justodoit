@@ -20,6 +20,7 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 			#make request to delete provider
 		'#update-prov click' : (el) ->
 			#make request to update provider
+			@updateProvider()
 		'#cancel-prov click' : (el) ->
 			@cleanMaps()
 
@@ -100,6 +101,17 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
 				Helpers.showMessage 'error', 'Error al crear proveedor, favor intentar de nuevo'
+
+		updateProvider : ->
+			deferred = ProviderModel.update(@options.providerEdit.serialize())
+
+			deferred.then (response) ->
+				if response.success is true
+					Helpers.showMessage 'success', 'Proveedor actualizado exitosamente'
+				else
+					Helpers.showMessage 'error', response.errorMessage
+			, (xhr) ->
+				Helpers.showMessage 'error', 'Error al actualizar proveedor, favor intentar de nuevo'
 
 		getAllProviders : ->
 			self = @

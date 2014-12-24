@@ -16,7 +16,9 @@
         return this.cleanMaps();
       },
       '#delete-prov click': function(el) {},
-      '#update-prov click': function(el) {},
+      '#update-prov click': function(el) {
+        return this.updateProvider();
+      },
       '#cancel-prov click': function(el) {
         return this.cleanMaps();
       },
@@ -110,6 +112,19 @@
           }
         }, function(xhr) {
           return Helpers.showMessage('error', 'Error al crear proveedor, favor intentar de nuevo');
+        });
+      },
+      updateProvider: function() {
+        var deferred;
+        deferred = ProviderModel.update(this.options.providerEdit.serialize());
+        return deferred.then(function(response) {
+          if (response.success === true) {
+            return Helpers.showMessage('success', 'Proveedor actualizado exitosamente');
+          } else {
+            return Helpers.showMessage('error', response.errorMessage);
+          }
+        }, function(xhr) {
+          return Helpers.showMessage('error', 'Error al actualizar proveedor, favor intentar de nuevo');
         });
       },
       getAllProviders: function() {
