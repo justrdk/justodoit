@@ -1,20 +1,34 @@
-<div class="container col-lg-4 col-lg-offset-4">
-	<div class="param-form">
+<div class="container col-lg-8 col-lg-offset-4">
+	<div class="form-horizontal col-lg-12">
 		<div class="form-group">
-			<input type="text" class="form-control input-hg" placeholder="Nombre">
+			<label class="col-sm-2 control-label">Nombre</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control input-lg" placeholder="Nombre" can-value='provider.name'>
+			</div>
 		</div>
 		<div class="form-group">
-			<input type="text" class="form-control input-hg" placeholder="Direccion" can-value='provider.address'>
+			<label class="col-sm-2 control-label">Direccion</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control input-lg" placeholder="Direccion" can-value='provider.address'>
+			</div>
 		</div>
 		<div class="form-group">
-			<input type="text" class="form-control input-hg" placeholder="Numero Telefono" can-value='provider.phoneNumber'>
+			<label class="col-sm-2 control-label">Telefono</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control input-lg" placeholder="Numero Telefono" can-value='provider.phoneNumber'>
+			</div>
 		</div>
 		<div class="form-group">
-			<input type="text" class="form-control input-hg" placeholder="Nombre Contacto" can-value='provider.contact'>
+			<label class="col-sm-2 control-label">Contacto</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control input-lg" placeholder="Nombre Contacto" can-value='provider.contact'>
+			</div>
 		</div>
-		<div class='form-group text-center'>
-			<button class="btn btn-info btn-hg" id='create-prov'>Crear</button>
-			<button class="btn btn-warning btn-hg" id='cancel-prov'>Cancel</button>
+		<div class='form-group'>
+			<div class="col-sm-10 col-sm-offset-2">
+				<button class="btn btn-info btn-hg" id='create-prov'>Crear</button>
+				<button class="btn btn-warning btn-hg" id='cancel-prov'>Cancel</button>
+			</div>
 		</div>
 	</div>
 </div>
