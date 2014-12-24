@@ -9,21 +9,28 @@ define(function(require) {
 			var findJSON = {
 				active: true
 			};
-			if(req.query.hasOwnProperty("filter")){
+			if (req.query.hasOwnProperty("filter")) {
 				findJSON.name = new RegExp(req.query.filter, "i")
 			}
 			mongo.db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
-				res.json(docs);
+				res.json({
+					success: true,
+					data: docs
+				});
 			})
 		},
 		read: function(mongo, req, res) {
+			var providerId = req.params._id;
 			mongo.db.collection(collectionName).find({
-				_id: mongo.objectId(req.query._id),
+				_id: mongo.objectId(providerId),
 				active: true
 			}).toArray(function(err, docs) {
-				if(docs.length){
-					res.json(docs[0])
-				}else{
+				if (docs.length) {
+					res.json({
+						success: true,
+						data: docs[0]
+					})
+				} else {
 					res.json({
 						success: false,
 						errorMessage: "No existe el proveedor que desea leer"
