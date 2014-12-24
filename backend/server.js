@@ -58,31 +58,4 @@ MongoClient.connect(dbUrl, function(err, db) {
 			createEndpoint('post', '/product/update', product.update)
 			createEndpoint('post', '/product/delete', product.delete)
 		});
-
-	// var providers = require('provider')
-
-	// router.get('/product/list', function(req, res) {
-	// 	db.collection('producto').find({}).toArray(function(err, docs) {
-	// 		res.json(docs);
-	// 	})
-	// });
-
-	// router.post('/product/create', function(req, res) {
-
-	// 	var newProduct = {
-	// 		code: req.body.code,
-	// 		name: req.body.name,
-	// 		price: req.body.price,
-	// 		quantity: req.body.quantity,
-	// 		provider: req.body.provider
-	// 	};
-
-	// 	db.collection('producto').insert([newProduct], function(err, result) {
-	// 		//need to return id here
-	// 		res.json({
-	// 			success: true
-	// 		});
-	// 		db.close();
-	// 	});
-	// });
 });
