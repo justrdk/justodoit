@@ -15,9 +15,19 @@
         this.createProvider();
         return this.cleanMaps();
       },
-      '#delete-prov click': function(el) {},
+      '#delete-prov click': function(el) {
+        if (this.options.providerEdit._id) {
+          return this.deleteProvider();
+        } else {
+          return Helpers.showMessage('warning', 'No hay proveedores seleccionados para borrar!');
+        }
+      },
       '#update-prov click': function(el) {
-        return this.updateProvider();
+        if (this.options.providerEdit._id) {
+          return this.updateProvider();
+        } else {
+          return Helpers.showMessage('warning', 'No hay proveedores seleccionados para actualizar!');
+        }
       },
       '#cancel-prov click': function(el) {
         return this.cleanMaps();
@@ -96,10 +106,12 @@
         this.options.provider.attr('name', '');
         this.options.provider.attr('address', '');
         this.options.provider.attr('phoneNumber', '');
+        this.options.provider.attr('contact', '');
         this.options.providerEdit.attr('_id', '');
         this.options.providerEdit.attr('name', '');
         this.options.providerEdit.attr('address', '');
-        return this.options.providerEdit.attr('phoneNumber', '');
+        this.options.providerEdit.attr('phoneNumber', '');
+        return this.options.providerEdit.attr('contact', '');
       },
       createProvider: function() {
         var deferred;
@@ -115,16 +127,35 @@
         });
       },
       updateProvider: function() {
-        var deferred;
+        var deferred, self;
+        self = this;
         deferred = ProviderModel.update(this.options.providerEdit.serialize());
         return deferred.then(function(response) {
           if (response.success === true) {
-            return Helpers.showMessage('success', 'Proveedor actualizado exitosamente');
+            Helpers.showMessage('success', 'Proveedor actualizado exitosamente');
+            return self.cleanMaps();
           } else {
             return Helpers.showMessage('error', response.errorMessage);
           }
         }, function(xhr) {
           return Helpers.showMessage('error', 'Error al actualizar proveedor, favor intentar de nuevo');
+        });
+      },
+      deleteProvider: function() {
+        var deferred, self;
+        self = this;
+        deferred = ProviderModel.destroy({
+          _id: this.options.providerEdit._id
+        });
+        return deferred.then(function(response) {
+          if (response.success === true) {
+            Helpers.showMessage('success', 'Proveedor borrado exitosamente');
+            return self.cleanMaps();
+          } else {
+            return Helpers.showMessage('error', response.errorMessage);
+          }
+        }, function(xhr) {
+          return Helpers.showMessage('error', 'Error al intentar borrar proveedor, favor intentar de nuevo');
         });
       },
       getAllProviders: function() {

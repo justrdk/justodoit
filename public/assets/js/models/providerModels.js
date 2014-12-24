@@ -5,6 +5,15 @@
     return ProviderModel = can.Model.extend({
       findOne: 'GET /libuniversal/provider/read/{_id}',
       findAll: 'GET /libuniversal/provider/list',
+      destroy: function(params) {
+        return $.ajax({
+          url: '/libuniversal/provider/delete',
+          type: 'post',
+          contentType: "application/json",
+          dataType: 'json',
+          data: JSON.stringify(params)
+        });
+      },
       update: function(params) {
         return $.ajax({
           url: '/libuniversal/provider/update',

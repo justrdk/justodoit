@@ -4,6 +4,8 @@ if (typeof define !== 'function') {
 
 define(function(require) {
 	var collectionName = 'provider'
+	var providerId = '';
+
 	var provider = {
 		list: function(mongo, req, res) {
 			var findJSON = {
@@ -20,7 +22,7 @@ define(function(require) {
 			})
 		},
 		read: function(mongo, req, res) {
-			var providerId = req.params._id;
+			providerId = req.params._id;
 			mongo.db.collection(collectionName).find({
 				_id: mongo.objectId(providerId),
 				active: true
@@ -89,8 +91,9 @@ define(function(require) {
 			});
 		},
 		delete: function(mongo, req, res) {
+			providerId = req.body._id
 			mongo.db.collection(collectionName).update({
-				"_id": mongo.objectId(req.body._id)
+				"_id": mongo.objectId(providerId)
 			}, {
 				$set: {
 					active: false

@@ -17,10 +17,16 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 			@cleanMaps()
 			
 		'#delete-prov click' : (el) ->
-			#make request to delete provider
+			if @options.providerEdit._id
+				@deleteProvider()
+			else
+				Helpers.showMessage 'warning', 'No hay proveedores seleccionados para borrar!'
 		'#update-prov click' : (el) ->
-			#make request to update provider
-			@updateProvider()
+			if @options.providerEdit._id
+				@updateProvider()
+			else
+				Helpers.showMessage 'warning', 'No hay proveedores seleccionados para actualizar!'
+
 		'#cancel-prov click' : (el) ->
 			@cleanMaps()
 
@@ -85,11 +91,13 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 			@options.provider.attr 'name', ''
 			@options.provider.attr 'address', ''
 			@options.provider.attr 'phoneNumber', ''
+			@options.provider.attr 'contact', ''
 
 			@options.providerEdit.attr '_id', ''
 			@options.providerEdit.attr 'name', ''
 			@options.providerEdit.attr 'address', ''
 			@options.providerEdit.attr 'phoneNumber', ''
+			@options.providerEdit.attr 'contact', ''
 
 		createProvider : ->
 			deferred = ProviderModel.create(@options.provider.serialize())
@@ -103,16 +111,30 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 				Helpers.showMessage 'error', 'Error al crear proveedor, favor intentar de nuevo'
 
 		updateProvider : ->
+			self = @
 			deferred = ProviderModel.update(@options.providerEdit.serialize())
 
 			deferred.then (response) ->
 				if response.success is true
 					Helpers.showMessage 'success', 'Proveedor actualizado exitosamente'
+					self.cleanMaps()
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
 				Helpers.showMessage 'error', 'Error al actualizar proveedor, favor intentar de nuevo'
 
+		deleteProvider : ->
+			self = @
+			deferred = ProviderModel.destroy(_id:@options.providerEdit._id)
+
+			deferred.then (response) ->
+				if response.success is true
+					Helpers.showMessage 'success', 'Proveedor borrado exitosamente'
+					self.cleanMaps()
+				else
+					Helpers.showMessage 'error', response.errorMessage
+			, (xhr) ->
+				Helpers.showMessage 'error', 'Error al intentar borrar proveedor, favor intentar de nuevo'
 		getAllProviders : ->
 			self = @
 			deferred = ProviderModel.findAll({})
