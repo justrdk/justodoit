@@ -3,8 +3,10 @@ if (typeof define !== 'function') {
 }
 
 define(function(require) {
-	var collectionName = 'product'
-	var provider = {
+	var collectionName = 'product';
+	var productId = '';
+
+	var product = {
 		list: function(mongo, req, res) {
 			var findJSON = {
 				active: true
@@ -18,17 +20,24 @@ define(function(require) {
 				}]
 			}
 			mongo.db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
-				res.json(docs);
+				res.json({
+					success: true,
+					data: docs
+				});
 			})
 		},
 		read: function(mongo, req, res) {
+			productId = req.params._id;
 			mongo.db.collection(collectionName).find({
-				_id: mongo.objectId(req.query._id),
+				_id: mongo.objectId(productId),
 				active: true
 			}).toArray(function(err, docs) {
-				if(docs.length){
-					res.json(docs[0])
-				}else{
+				if (docs.length) {
+					res.json({
+						success: true,
+						data: docs[0]
+					})
+				} else {
 					res.json({
 						success: false,
 						errorMessage: "No existe el producto que desea leer"
@@ -63,7 +72,8 @@ define(function(require) {
 			});
 		},
 		update: function(mongo, req, res) {
-			var fields = ["code", "name", "price", "quantity", "provider", "treshold"];
+			var fields = ["code", "name", "price", "quantity", "provider", "threshold"];
+			productId = req.body._id;
 			var updateJSON = {};
 			for (key in req.body) {
 				if (fields.indexOf(key) !== -1) {
@@ -71,7 +81,7 @@ define(function(require) {
 				}
 			}
 			mongo.db.collection(collectionName).update({
-				"_id": mongo.objectId(req.body._id)
+				"_id": mongo.objectId(productId)
 			}, {
 				$set: updateJSON
 			}, function(err, result) {
@@ -89,8 +99,9 @@ define(function(require) {
 			});
 		},
 		delete: function(mongo, req, res) {
+			productId = req.body._id;
 			mongo.db.collection(collectionName).update({
-				"_id": mongo.objectId(req.body._id)
+				"_id": mongo.objectId(productId)
 			}, {
 				$set: {
 					active: false
@@ -110,5 +121,5 @@ define(function(require) {
 			});
 		}
 	}
-	return provider;
+	return product;
 });

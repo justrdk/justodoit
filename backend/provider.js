@@ -67,13 +67,14 @@ define(function(require) {
 		update: function(mongo, req, res) {
 			var fields = ["name", "address", "phoneNumber", "contact"];
 			var updateJSON = {};
+			providerId = req.body._id;
 			for (key in req.body) {
 				if (fields.indexOf(key) !== -1) {
 					updateJSON[key] = req.body[key];
 				}
 			}
 			mongo.db.collection(collectionName).update({
-				"_id": mongo.objectId(req.body._id)
+				"_id": mongo.objectId(providerId)
 			}, {
 				$set: updateJSON
 			}, function(err, result) {
