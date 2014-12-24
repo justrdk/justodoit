@@ -3,14 +3,19 @@ if (typeof define !== 'function') {
 }
 
 define(function(require) {
-	var collectionName = 'provider'
+	var collectionName = 'product'
 	var provider = {
 		list: function(mongo, req, res) {
 			var findJSON = {
 				active: true
 			};
-			if(req.query.hasOwnProperty("filter")){
-				findJSON.name = new RegExp(req.query.filter, "i")
+			if (req.query.hasOwnProperty("filter")) {
+				var regVal = new RegExp(req.query.filter, "i");
+				findJSON.$or = [{
+					"code": regVal
+				}, {
+					"name": regVal
+				}]
 			}
 			mongo.db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
 				res.json(docs);
@@ -26,25 +31,27 @@ define(function(require) {
 				}else{
 					res.json({
 						success: false,
-						errorMessage: "No existe el proveedor que desea leer"
+						errorMessage: "No existe el producto que desea leer"
 					})
 				}
 			})
 		},
 		create: function(mongo, req, res) {
-			var newProvider = {
+			var newProduct = {
+				code: req.body.code,
 				name: req.body.name,
-				address: req.body.address,
-				phoneNumber: req.body.phoneNumber,
-				contact: req.body.contact,
-				active: true
+				price: req.body.price,
+				quantity: req.body.quantity,
+				treshold: req.body.treshold,
+				active: true,
+				provider: req.body.provider
 			};
 
-			mongo.db.collection(collectionName).save(newProvider, function(err, result) {
+			mongo.db.collection(collectionName).save(newProduct, function(err, result) {
 				if (err) {
 					res.json({
 						success: false,
-						errorMessage: "Hubo un error en la creación del proveedor",
+						errorMessage: "Hubo un error en la creación del producto",
 						metadata: err
 					});
 				} else {
@@ -56,7 +63,7 @@ define(function(require) {
 			});
 		},
 		update: function(mongo, req, res) {
-			var fields = ["name", "address", "phoneNumber", "contact"];
+			var fields = ["code", "name", "price", "quantity", "provider", "treshold"];
 			var updateJSON = {};
 			for (key in req.body) {
 				if (fields.indexOf(key) !== -1) {
@@ -71,7 +78,7 @@ define(function(require) {
 				if (err) {
 					res.json({
 						success: false,
-						errorMessage: "Hubo un error en la actualizaciòn del proveedor",
+						errorMessage: "Hubo un error en la actualizaciòn del producto",
 						metadata: err
 					});
 				} else {
@@ -92,7 +99,7 @@ define(function(require) {
 				if (err) {
 					res.json({
 						success: false,
-						errorMessage: "Hubo un error en la eliminación del proveedor",
+						errorMessage: "Hubo un error en la eliminación del producto",
 						metadata: err
 					});
 				} else {
