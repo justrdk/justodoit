@@ -21,6 +21,21 @@ define(function(require) {
 				res.json(docs);
 			})
 		},
+		read: function(mongo, req, res) {
+			mongo.db.collection(collectionName).find({
+				_id: mongo.objectId(req.query._id),
+				active: true
+			}).toArray(function(err, docs) {
+				if(docs.length){
+					res.json(docs[0])
+				}else{
+					res.json({
+						success: false,
+						errorMessage: "No existe el producto que desea leer"
+					})
+				}
+			})
+		},
 		create: function(mongo, req, res) {
 			var newProduct = {
 				code: req.body.code,
@@ -28,7 +43,8 @@ define(function(require) {
 				price: req.body.price,
 				quantity: req.body.quantity,
 				treshold: req.body.treshold,
-				active: true
+				active: true,
+				provider: req.body.provider
 			};
 
 			mongo.db.collection(collectionName).save(newProduct, function(err, result) {
