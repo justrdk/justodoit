@@ -17,6 +17,7 @@
         return this.cleanMaps();
       },
       initControllerOptions: function() {
+        this.options.providersList = new can.List([]);
         this.options.searchFilter = can.compute('');
         this.options.provider = new can.Map({
           name: '',
@@ -69,18 +70,34 @@
           return Helpers.showMessage('error', 'Error al crear proveedor, favor intentar de nuevo');
         });
       },
+      getAllProviders: function() {
+        var deferred, self;
+        self = this;
+        deferred = ProviderModel.findAll({});
+        deferred.then(function(response) {
+          if (response.success === true) {
+            return self.options.providersList.replace(response);
+          } else {
+            return Helpers.showMessage('error', response.errorMessage);
+          }
+        }, function(xhr) {
+          return Helpers.showMessage('error', 'Error consiguiendo lista de proveedores, favor intentar de nuevo');
+        });
+        return deferred;
+      },
       getProviderDetails: function(providerId) {
-        var deferred;
+        var deferred, self;
+        self = this;
         deferred = ProviderModel.findOne({
           _id: providerId
         });
         return deferred.then(function(response) {
           if (response.success === true) {
-            this.options.providerEdit.attr('_id', response._id);
-            this.options.providerEdit.attr('name', response.name);
-            this.options.providerEdit.attr('address', response.address);
-            this.options.providerEdit.attr('phoneNumber', response.phoneNumber);
-            return this.options.providerEdit.attr('contact', response.contact);
+            self.providerEdit.attr('_id', response._id);
+            self.providerEdit.attr('name', response.name);
+            self.providerEdit.attr('address', response.address);
+            self.providerEdit.attr('phoneNumber', response.phoneNumber);
+            return self.providerEdit.attr('contact', response.contact);
           } else {
             return Helpers.showMessage('error', response.errorMessage);
           }

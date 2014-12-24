@@ -20,6 +20,7 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 			@cleanMaps()
 
 		initControllerOptions : ->
+			@options.providersList = new can.List []
 			@options.searchFilter = can.compute ''
 			@options.provider = new can.Map
 				name : ''
@@ -65,17 +66,32 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
 				Helpers.showMessage 'error', 'Error al crear proveedor, favor intentar de nuevo'
+
+		getAllProviders : ->
+			self = @
+			deferred = ProviderModel.findAll({})
+
+			deferred.then (response) ->
+				if response.success is true
+					self.options.providersList.replace response
+				else
+					Helpers.showMessage 'error', response.errorMessage
+			, (xhr) ->
+				Helpers.showMessage 'error', 'Error consiguiendo lista de proveedores, favor intentar de nuevo'
+
+			deferred
 			
 		getProviderDetails : (providerId)->
+			self = @
 			deferred = ProviderModel.findOne(_id:providerId)	
 
 			deferred.then (response) ->
 				if response.success is true
-					@options.providerEdit.attr '_id', response._id
-					@options.providerEdit.attr 'name', response.name
-					@options.providerEdit.attr 'address', response.address
-					@options.providerEdit.attr 'phoneNumber', response.phoneNumber
-					@options.providerEdit.attr 'contact', response.contact
+					self.providerEdit.attr '_id', response._id
+					self.providerEdit.attr 'name', response.name
+					self.providerEdit.attr 'address', response.address
+					self.providerEdit.attr 'phoneNumber', response.phoneNumber
+					self.providerEdit.attr 'contact', response.contact
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
