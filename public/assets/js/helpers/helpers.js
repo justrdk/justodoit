@@ -3,7 +3,7 @@
 
   Helpers = {};
 
-  Helpers.showSuccessMessage = function(type, message) {
+  Helpers.showMessage = function(type, message) {
     return noty({
       text: message,
       type: type,

@@ -35,12 +35,12 @@
         deferred = ProductModel.create(this.options.product.serialize());
         return deferred.then(function(response) {
           if (response.success === true) {
-            return Helpers.showSuccessMessage('success', 'Producto creado exitosamente');
+            return Helpers.showMessage('success', 'Producto creado exitosamente');
           } else {
-            return Helpers.showErrorMessage('error', 'Error al crear producto, favor intentar de nuevo');
+            return Helpers.showMessage('error', 'Error al crear producto, favor intentar de nuevo');
           }
         }, function(xhr) {
-          return Helpers.showErrorMessage('error', 'Error al crear producto, favor intentar de nuevo');
+          return Helpers.showMessage('error', 'Error al crear producto, favor intentar de nuevo');
         });
       },
       '#delete-prod click': function(el) {},

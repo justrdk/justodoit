@@ -36,11 +36,11 @@ define ['can', 'models/productModels'], (can,  ProductModel) ->
 
 			deferred.then (response) ->
 				if response.success is true
-					Helpers.showSuccessMessage 'success', 'Producto creado exitosamente',
+					Helpers.showMessage 'success', 'Producto creado exitosamente',
 				else
-					Helpers.showErrorMessage 'error', 'Error al crear producto, favor intentar de nuevo'
+					Helpers.showMessage 'error', 'Error al crear producto, favor intentar de nuevo'
 			, (xhr) ->
-				Helpers.showErrorMessage 'error', 'Error al crear producto, favor intentar de nuevo'
+				Helpers.showMessage 'error', 'Error al crear producto, favor intentar de nuevo'
 
 		'#delete-prod click' : (el) ->
 			#make request to delete product
