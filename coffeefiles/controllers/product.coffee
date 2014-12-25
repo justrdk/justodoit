@@ -107,7 +107,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 				displayKey: 'value'
 				source: self.filterProducts()
 
-		filterProducts : () ->
+		filterProducts : ->
 			self = @
 			findMatches = (q, cb) ->
 				matches = []

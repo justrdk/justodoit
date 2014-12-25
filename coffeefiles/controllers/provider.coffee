@@ -92,7 +92,7 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 				displayKey: 'value'
 				source: self.filterProviders()
 
-		filterProviders : (providers) ->
+		filterProviders : ->
 			self = @
 			findMatches = (q, cb) ->
 				matches = []
