@@ -12,18 +12,17 @@
         }
       },
       '#create-prov click': function(el) {
-        this.createProvider();
-        return this.cleanMaps();
+        return this.createProvider();
       },
       '#delete-prov click': function(el) {
-        if (this.options.providerEdit._id) {
+        if (this.providerSelected() === true) {
           return this.deleteProvider();
         } else {
           return Helpers.showMessage('warning', 'No hay proveedores seleccionados para borrar!');
         }
       },
       '#update-prov click': function(el) {
-        if (this.options.providerEdit._id) {
+        if (this.providerSelected() === true) {
           return this.updateProvider();
         } else {
           return Helpers.showMessage('warning', 'No hay proveedores seleccionados para actualizar!');
@@ -54,6 +53,24 @@
           phoneNumber: '',
           contact: ''
         });
+      },
+      cleanMaps: function() {
+        this.options.provider.attr('name', '');
+        this.options.provider.attr('address', '');
+        this.options.provider.attr('phoneNumber', '');
+        this.options.provider.attr('contact', '');
+        this.options.providerEdit.attr('_id', '');
+        this.options.providerEdit.attr('name', '');
+        this.options.providerEdit.attr('address', '');
+        this.options.providerEdit.attr('phoneNumber', '');
+        return this.options.providerEdit.attr('contact', '');
+      },
+      providerSelected: function() {
+        if (this.options.providerEdit._id) {
+          return true;
+        } else {
+          return false;
+        }
       },
       renderCreateTemplate: function() {
         return this.element.html(can.view('views/param/param-provider.mustache', {
@@ -102,23 +119,14 @@
           return cb(matches);
         };
       },
-      cleanMaps: function() {
-        this.options.provider.attr('name', '');
-        this.options.provider.attr('address', '');
-        this.options.provider.attr('phoneNumber', '');
-        this.options.provider.attr('contact', '');
-        this.options.providerEdit.attr('_id', '');
-        this.options.providerEdit.attr('name', '');
-        this.options.providerEdit.attr('address', '');
-        this.options.providerEdit.attr('phoneNumber', '');
-        return this.options.providerEdit.attr('contact', '');
-      },
       createProvider: function() {
-        var deferred;
+        var deferred, self;
+        self = this;
         deferred = ProviderModel.create(this.options.provider.serialize());
         return deferred.then(function(response) {
           if (response.success === true) {
-            return Helpers.showMessage('success', 'Proveedor creado exitosamente');
+            Helpers.showMessage('success', 'Proveedor creado exitosamente');
+            return self.cleanMaps();
           } else {
             return Helpers.showMessage('error', response.errorMessage);
           }

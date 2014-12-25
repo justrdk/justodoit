@@ -14,15 +14,14 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 
 		'#create-prov click' : (el) ->
 			@createProvider()
-			@cleanMaps()
 			
 		'#delete-prov click' : (el) ->
-			if @options.providerEdit._id
+			if @providerSelected() is true
 				@deleteProvider()
 			else
 				Helpers.showMessage 'warning', 'No hay proveedores seleccionados para borrar!'
 		'#update-prov click' : (el) ->
-			if @options.providerEdit._id
+			if @providerSelected() is true
 				@updateProvider()
 			else
 				Helpers.showMessage 'warning', 'No hay proveedores seleccionados para actualizar!'
@@ -51,6 +50,24 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 				address : ''
 				phoneNumber : ''
 				contact : ''
+
+		cleanMaps : ->
+			@options.provider.attr 'name', ''
+			@options.provider.attr 'address', ''
+			@options.provider.attr 'phoneNumber', ''
+			@options.provider.attr 'contact', ''
+
+			@options.providerEdit.attr '_id', ''
+			@options.providerEdit.attr 'name', ''
+			@options.providerEdit.attr 'address', ''
+			@options.providerEdit.attr 'phoneNumber', ''
+			@options.providerEdit.attr 'contact', ''
+
+		providerSelected : ->
+			if @options.providerEdit._id
+				true
+			else
+				false
 
 		renderCreateTemplate : ->
 			@element.html can.view('views/param/param-provider.mustache', 
@@ -87,24 +104,14 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 							_id: provider._id
 				cb(matches)
 
-		cleanMaps : ->
-			@options.provider.attr 'name', ''
-			@options.provider.attr 'address', ''
-			@options.provider.attr 'phoneNumber', ''
-			@options.provider.attr 'contact', ''
-
-			@options.providerEdit.attr '_id', ''
-			@options.providerEdit.attr 'name', ''
-			@options.providerEdit.attr 'address', ''
-			@options.providerEdit.attr 'phoneNumber', ''
-			@options.providerEdit.attr 'contact', ''
-
 		createProvider : ->
+			self = @
 			deferred = ProviderModel.create(@options.provider.serialize())
 
 			deferred.then (response) ->
 				if response.success is true
 					Helpers.showMessage 'success', 'Proveedor creado exitosamente'
+					self.cleanMaps();
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
@@ -135,6 +142,7 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
 				Helpers.showMessage 'error', 'Error al intentar borrar proveedor, favor intentar de nuevo'
+
 		getAllProviders : ->
 			self = @
 			deferred = ProviderModel.findAll({})
