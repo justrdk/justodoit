@@ -51,7 +51,7 @@ define(function(require) {
 				name: req.body.name,
 				price: req.body.price,
 				quantity: req.body.quantity,
-				treshold: req.body.treshold,
+				threshold: req.body.threshold,
 				active: true,
 				provider: req.body.provider
 			};

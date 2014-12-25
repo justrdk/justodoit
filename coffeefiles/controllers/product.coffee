@@ -105,11 +105,13 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 			,
 				name : 'Productos'
 				displayKey: 'value'
-				source: self.filterProducts self.options.productsList
+				source: self.filterProducts()
 
-		filterProducts : (products) ->
+		filterProducts : () ->
+			self = @
 			findMatches = (q, cb) ->
 				matches = []
+				products = self.options.productsList
 				substrRegex = new RegExp(q, 'i');
 
 				products.forEach (product, index) ->
@@ -118,6 +120,19 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 							value: product.name
 							_id: product._id
 				cb(matches)
+
+		updateProductInList : ->
+			self = @
+			idToCompare = self.options.productEdit._id
+			@options.productsList.filter (product) ->
+				if product._id is idToCompare
+					product.attr 'name', self.options.productEdit.name
+
+		removeProductInList : ->
+			for product, index in @options.productsList
+				if product._id is @options.productEdit._id
+					@options.productsList.splice index, 1
+					break
 
 		createProduct : ->
 			self = @
@@ -139,6 +154,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 			deferred.then (response) ->
 				if response.success is true
 					Helpers.showMessage 'success', 'Producto actualizado exitosamente'
+					self.updateProductInList()
 					self.cleanMaps()
 				else
 					Helpers.showMessage 'error', response.errorMessage
@@ -152,6 +168,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 			deferred.then (response) ->
 				if response.success is true
 					Helpers.showMessage 'success', 'Producto borrado exitosamente'
+					self.removeProductInList()
 					self.cleanMaps()
 				else
 					Helpers.showMessage 'error', response.errorMessage
@@ -195,6 +212,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 					self.options.productEdit.attr '_id', response.data._id
 					self.options.productEdit.attr 'code', response.data.code
 					self.options.productEdit.attr 'name', response.data.name
+					self.options.productEdit.attr 'price', response.data.price
 					self.options.productEdit.attr 'quantity', response.data.quantity
 					self.options.productEdit.attr 'provider', response.data.provider
 					self.options.productEdit.attr 'threshold', response.data.threshold

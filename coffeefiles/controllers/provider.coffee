@@ -90,19 +90,34 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 			,
 				name : 'Proveedores'
 				displayKey: 'value'
-				source: self.filterProviders self.options.providersList
+				source: self.filterProviders()
 
 		filterProviders : (providers) ->
+			self = @
 			findMatches = (q, cb) ->
 				matches = []
 				substrRegex = new RegExp(q, 'i');
-
+				providers = self.options.providersList
+				
 				providers.forEach (provider, index) ->
 					if substrRegex.test(provider.name) is true
 						matches.push 
 							value: provider.name
 							_id: provider._id
 				cb(matches)
+
+		updateProviderInList : ->
+			self = @
+			idToCompare = self.options.providerEdit._id
+			@options.providersList.filter (provider) ->
+				if provider._id is idToCompare
+					provider.attr 'name', self.options.providerEdit.name
+
+		removeProviderInList : ->
+			for provider, index in @options.providersList
+				if provider._id is @options.providerEdit._id
+					@options.providersList.splice index, 1
+					break
 
 		createProvider : ->
 			self = @
@@ -124,6 +139,7 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 			deferred.then (response) ->
 				if response.success is true
 					Helpers.showMessage 'success', 'Proveedor actualizado exitosamente'
+					self.updateProviderInList()
 					self.cleanMaps()
 				else
 					Helpers.showMessage 'error', response.errorMessage
@@ -137,6 +153,7 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 			deferred.then (response) ->
 				if response.success is true
 					Helpers.showMessage 'success', 'Proveedor borrado exitosamente'
+					self.removeProviderInList()
 					self.cleanMaps()
 				else
 					Helpers.showMessage 'error', response.errorMessage

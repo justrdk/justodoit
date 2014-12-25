@@ -99,15 +99,17 @@
         }, {
           name: 'Proveedores',
           displayKey: 'value',
-          source: self.filterProviders(self.options.providersList)
+          source: self.filterProviders()
         });
       },
       filterProviders: function(providers) {
-        var findMatches;
+        var findMatches, self;
+        self = this;
         return findMatches = function(q, cb) {
           var matches, substrRegex;
           matches = [];
           substrRegex = new RegExp(q, 'i');
+          providers = self.options.providersList;
           providers.forEach(function(provider, index) {
             if (substrRegex.test(provider.name) === true) {
               return matches.push({
@@ -118,6 +120,31 @@
           });
           return cb(matches);
         };
+      },
+      updateProviderInList: function() {
+        var idToCompare, self;
+        self = this;
+        idToCompare = self.options.providerEdit._id;
+        return this.options.providersList.filter(function(provider) {
+          if (provider._id === idToCompare) {
+            return provider.attr('name', self.options.providerEdit.name);
+          }
+        });
+      },
+      removeProviderInList: function() {
+        var index, provider, _i, _len, _ref, _results;
+        _ref = this.options.providersList;
+        _results = [];
+        for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
+          provider = _ref[index];
+          if (provider._id === this.options.providerEdit._id) {
+            this.options.providersList.splice(index, 1);
+            break;
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
       },
       createProvider: function() {
         var deferred, self;
@@ -141,6 +168,7 @@
         return deferred.then(function(response) {
           if (response.success === true) {
             Helpers.showMessage('success', 'Proveedor actualizado exitosamente');
+            self.updateProviderInList();
             return self.cleanMaps();
           } else {
             return Helpers.showMessage('error', response.errorMessage);
@@ -158,6 +186,7 @@
         return deferred.then(function(response) {
           if (response.success === true) {
             Helpers.showMessage('success', 'Proveedor borrado exitosamente');
+            self.removeProviderInList();
             return self.cleanMaps();
           } else {
             return Helpers.showMessage('error', response.errorMessage);

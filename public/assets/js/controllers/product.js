@@ -114,14 +114,16 @@
         }, {
           name: 'Productos',
           displayKey: 'value',
-          source: self.filterProducts(self.options.productsList)
+          source: self.filterProducts()
         });
       },
-      filterProducts: function(products) {
-        var findMatches;
+      filterProducts: function() {
+        var findMatches, self;
+        self = this;
         return findMatches = function(q, cb) {
-          var matches, substrRegex;
+          var matches, products, substrRegex;
           matches = [];
+          products = self.options.productsList;
           substrRegex = new RegExp(q, 'i');
           products.forEach(function(product, index) {
             if (substrRegex.test(product.code) === true || substrRegex.test(product.name) === true) {
@@ -133,6 +135,31 @@
           });
           return cb(matches);
         };
+      },
+      updateProductInList: function() {
+        var idToCompare, self;
+        self = this;
+        idToCompare = self.options.productEdit._id;
+        return this.options.productsList.filter(function(product) {
+          if (product._id === idToCompare) {
+            return product.attr('name', self.options.productEdit.name);
+          }
+        });
+      },
+      removeProductInList: function() {
+        var index, product, _i, _len, _ref, _results;
+        _ref = this.options.productsList;
+        _results = [];
+        for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
+          product = _ref[index];
+          if (product._id === this.options.productEdit._id) {
+            this.options.productsList.splice(index, 1);
+            break;
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
       },
       createProduct: function() {
         var deferred, self;
@@ -156,6 +183,7 @@
         return deferred.then(function(response) {
           if (response.success === true) {
             Helpers.showMessage('success', 'Producto actualizado exitosamente');
+            self.updateProductInList();
             return self.cleanMaps();
           } else {
             return Helpers.showMessage('error', response.errorMessage);
@@ -173,6 +201,7 @@
         return deferred.then(function(response) {
           if (response.success === true) {
             Helpers.showMessage('success', 'Producto borrado exitosamente');
+            self.removeProductInList();
             return self.cleanMaps();
           } else {
             return Helpers.showMessage('error', response.errorMessage);
@@ -222,6 +251,7 @@
             self.options.productEdit.attr('_id', response.data._id);
             self.options.productEdit.attr('code', response.data.code);
             self.options.productEdit.attr('name', response.data.name);
+            self.options.productEdit.attr('price', response.data.price);
             self.options.productEdit.attr('quantity', response.data.quantity);
             self.options.productEdit.attr('provider', response.data.provider);
             return self.options.productEdit.attr('threshold', response.data.threshold);
