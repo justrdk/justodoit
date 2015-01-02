@@ -53,6 +53,7 @@ MongoClient.connect(dbUrl, function(err, db) {
 			createEndpoint('post', '/provider/delete', provider.delete)
 
 			createEndpoint('get', '/product/list', product.list)
+			createEndpoint('get', '/product/list/:filter', product.list)
 			createEndpoint('get', '/product/read/:_id', product.read)
 			createEndpoint('post', '/product/create', product.create)
 			createEndpoint('post', '/product/update', product.update)

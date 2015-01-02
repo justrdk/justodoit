@@ -15,10 +15,18 @@ define(function(require) {
 				findJSON.name = new RegExp(req.query.filter, "i")
 			}
 			mongo.db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
-				res.json({
-					success: true,
-					data: docs
-				});
+				if (docs.length) {
+					res.json({
+						success: true,
+						data: docs
+					});
+				} else {
+					res.json({
+						success: false,
+						errorMessage: 'No se encontraron proveedores con el filtro ingresado',
+						data: []
+					});
+				}
 			})
 		},
 		read: function(mongo, req, res) {

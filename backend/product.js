@@ -11,8 +11,8 @@ define(function(require) {
 			var findJSON = {
 				active: true
 			};
-			if (req.query.hasOwnProperty("filter")) {
-				var regVal = new RegExp(req.query.filter, "i");
+			if (req.params.hasOwnProperty("filter")) {
+				var regVal = new RegExp(req.params.filter, "i");
 				findJSON.$or = [{
 					"code": regVal
 				}, {
@@ -20,10 +20,18 @@ define(function(require) {
 				}]
 			}
 			mongo.db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
-				res.json({
-					success: true,
-					data: docs
-				});
+				if (docs.length) {
+					res.json({
+						success: true,
+						data: docs
+					});
+				} else {
+					res.json({
+						success: false,
+						errorMessage: 'No se encontraron productos con el filtro ingresado',
+						data: []
+					});
+				}
 			})
 		},
 		read: function(mongo, req, res) {
@@ -36,12 +44,12 @@ define(function(require) {
 					res.json({
 						success: true,
 						data: docs[0]
-					})
+					});
 				} else {
 					res.json({
 						success: false,
 						errorMessage: "No existe el producto que desea leer"
-					})
+					});
 				}
 			})
 		},

@@ -11,4 +11,4 @@ Helpers.showMessage = (type, message) ->
 	        open: 'animated bounceInLeft'
 	        close: 'animated bounceOutLeft'
 
-window.Helpers  = Helpers
+window.Helpers = Helpers

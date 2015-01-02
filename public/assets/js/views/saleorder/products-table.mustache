@@ -1,4 +1,4 @@
-<div class='col-lg-5'>
+<div class='col-lg-4 col-sm-12'>
 	<query-products products = '{products}'>
 	<div class="pull-left search-container">
 		<input class="form-control search-inventory" type="text" placeholder="Buscar producto">
@@ -10,16 +10,16 @@
 				<th> Codigo </th>
 				<th> Nombre </th>
 				<th> Cantidad </th>
-				<th> Proveedor </th>
+				<th> Precio </th>
 			</tr>
 		</thead>
 		<tbody>
 			{{#each products}}
 			<tr can-click='selectProduct'>
-				<td> {{CODE}} </td>
-				<td> {{NAME}} </td>
-				<td> {{QUANTITY_INVENTORY}} </td>
-				<td> {{PROVIDER}} </td>
+				<td> {{code}} </td>
+				<td> {{name}} </td>
+				<td> {{quantity}} </td>
+				<td> Lps. {{price}} </td>
 			</tr>
 			{{/each}}
 		</tbody>
