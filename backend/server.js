@@ -44,8 +44,8 @@ MongoClient.connect(dbUrl, function(err, db) {
 		})
 	}
 
-	requirejs(['provider', 'product'],
-		function(provider, product) {
+	requirejs(['provider', 'product', 'salesOrder'],
+		function(provider, product, salesOrder) {
 			createEndpoint('get', '/provider/list', provider.list)
 			createEndpoint('get', '/provider/read/:_id', provider.read)
 			createEndpoint('post', '/provider/create', provider.create)
@@ -58,5 +58,9 @@ MongoClient.connect(dbUrl, function(err, db) {
 			createEndpoint('post', '/product/create', product.create)
 			createEndpoint('post', '/product/update', product.update)
 			createEndpoint('post', '/product/delete', product.delete)
+
+			createEndpoint('get', '/salesOrder/list', salesOrder.list)
+			createEndpoint('get', '/salesOrder/read/:_id', salesOrder.read)
+			createEndpoint('post', '/salesOrder/create', salesOrder.create)
 		});
 });
