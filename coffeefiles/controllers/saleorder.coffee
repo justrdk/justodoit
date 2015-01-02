@@ -67,6 +67,10 @@ define ['can', 'components/saleorderComponents', 'models/saleorderModels'],
 			, (xhr) ->
 				Helpers.showMessage 'error', 'Error al buscar productos, favor intentar de nuevo'
 
+		cleanOrder: ->
+			while @options.orderProducts.length > 0
+				@options.orderProducts.pop()
+
 		createSaleOrder : ->
 			self = @
 			items = can.List []
