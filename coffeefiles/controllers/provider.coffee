@@ -96,7 +96,7 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 			self = @
 			findMatches = (q, cb) ->
 				matches = []
-				substrRegex = new RegExp(q, 'i');
+				substrRegex = new RegExp(q, 'i')
 				providers = self.options.providersList
 				
 				providers.forEach (provider, index) ->
@@ -126,7 +126,7 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 			deferred.then (response) ->
 				if response.success is true
 					Helpers.showMessage 'success', 'Proveedor creado exitosamente'
-					self.cleanMaps();
+					self.cleanMaps()
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
@@ -174,7 +174,7 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 
 			deferred
 			
-		getProviderDetails : (providerId)->
+		getProviderDetails : (providerId) ->
 			self = @
 			deferred = ProviderModel.findOne(_id:providerId)	
 
