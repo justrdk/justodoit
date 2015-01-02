@@ -102,11 +102,11 @@
           source: self.filterProviders()
         });
       },
-      filterProviders: function(providers) {
+      filterProviders: function() {
         var findMatches, self;
         self = this;
         return findMatches = function(q, cb) {
-          var matches, substrRegex;
+          var matches, providers, substrRegex;
           matches = [];
           substrRegex = new RegExp(q, 'i');
           providers = self.options.providersList;

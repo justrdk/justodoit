@@ -25,7 +25,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 
 		'#update-prod click' : (el) ->
 			if @productSelected() is true
-				@updateProduct();
+				@updateProduct()
 			else
 				Helpers.showMessage 'warning', 'No hay productos seleccionados para actualizar!'
 
@@ -107,12 +107,12 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 				displayKey: 'value'
 				source: self.filterProducts()
 
-		filterProducts : () ->
+		filterProducts : ->
 			self = @
 			findMatches = (q, cb) ->
 				matches = []
 				products = self.options.productsList
-				substrRegex = new RegExp(q, 'i');
+				substrRegex = new RegExp(q, 'i')
 
 				products.forEach (product, index) ->
 					if substrRegex.test(product.code) is true or substrRegex.test(product.name) is true
