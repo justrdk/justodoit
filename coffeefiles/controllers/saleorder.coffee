@@ -73,7 +73,7 @@ define ['can', 'components/saleorderComponents', 'models/saleorderModels'],
 
 		createSaleOrder : ->
 			self = @
-			items = can.List []
+			items = []
 
 			for prod in @options.orderProducts
 				items.push

@@ -68,7 +68,7 @@ define ['can'], (can) ->
 					Helpers.showMessage 'warning', 'Total a pagar no esta cancelado en su totalidad'
 
 			createSaleOrder : (context, el) ->
-				#can.$('.saleorder').trigger('createSaleOrder')
+				can.$('.saleorder').trigger('createSaleOrder')
 
 			cancelSaleOrder : ->
 				while @orderproducts.length > 0

@@ -78,10 +78,18 @@
           return Helpers.showMessage('error', 'Error al buscar productos, favor intentar de nuevo');
         });
       },
+      cleanOrder: function() {
+        var _results;
+        _results = [];
+        while (this.options.orderProducts.length > 0) {
+          _results.push(this.options.orderProducts.pop());
+        }
+        return _results;
+      },
       createSaleOrder: function() {
         var deferred, items, prod, self, _i, _len, _ref;
         self = this;
-        items = can.List([]);
+        items = [];
         _ref = this.options.orderProducts;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           prod = _ref[_i];
