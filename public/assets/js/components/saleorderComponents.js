@@ -78,7 +78,9 @@
             return Helpers.showMessage('warning', 'Total a pagar no esta cancelado en su totalidad');
           }
         },
-        createSaleOrder: function(context, el) {},
+        createSaleOrder: function(context, el) {
+          return can.$('.saleorder').trigger('createSaleOrder');
+        },
         cancelSaleOrder: function() {
           var _results;
           _results = [];

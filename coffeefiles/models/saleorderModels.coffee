@@ -6,7 +6,7 @@ define ['can'], (can) ->
 		findAll : 'GET /libuniversal/product/list/{filter}'
 		create : (params) ->
 			$.ajax
-	            url: '/libuniversal/saleorder/create'
+	            url: '/libuniversal/salesOrder/create'
 	            type: 'post'
 	            contentType: "application/json"
 	            dataType: 'json'

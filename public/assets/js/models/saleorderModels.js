@@ -6,7 +6,7 @@
       findAll: 'GET /libuniversal/product/list/{filter}',
       create: function(params) {
         return $.ajax({
-          url: '/libuniversal/saleorder/create',
+          url: '/libuniversal/salesOrder/create',
           type: 'post',
           contentType: "application/json",
           dataType: 'json',
