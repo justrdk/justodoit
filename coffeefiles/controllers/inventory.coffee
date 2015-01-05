@@ -1,63 +1,56 @@
 'use strict'
 
-define ['can'], (can) ->
+define ['can', 'models/productModels'], (can, ProductModel) ->
 
 	Inventory = can.Control.extend
 
 		init: (element, options) ->
-
+			self = @
 			@options.products = new can.List []
-			@options.searchTimer = null
-			@getInventory()
-			@element.html can.view('views/inventory/inventory.mustache', products: @options.products)
+
+			can.when(@getProducts()).then ->
+				self.element.html can.view('views/inventory/inventory.mustache', 
+					products : self.options.products)
 
 		'.search-inventory keyup' : (el) ->
+			query = el.val().trim()
 			self = @
 			clearTimeout self.options.searchTimer
 			self.options.searchTimer = setTimeout ->
-				self.filterInventory(el.val())
+				if query isnt '' and /\S+/.test(query) is true
+					self.filterProducts(query)
+				else
+					self.showAllProducts()
 			,1200
 
-		filterInventory : (query) ->
-			results = []
-			if query.length is 0
-				can.$('.inventory-table').html can.view('views/inventory/inventory-table.mustache', products: @options.products)
-			else
-				for product in @options.products
-					if product.CODE.toLowerCase().indexOf(query) isnt -1 or product.NAME.toLowerCase().indexOf(query) isnt -1 or 
-					product.PROVIDER.toLowerCase().indexOf(query) isnt -1 
-					then results.push(product) 
-				if results.length > 0
-					can.$('.inventory-table').html can.view('views/inventory/inventory-table.mustache', products: results)
+		showAllProducts : ->
+			can.$('.inventory-table').html can.view('views/inventory/inventory-table.mustache',
+				products : @options.products)
 
-		getInventory : ->
-			dummyData = [{
-					CODE : 'CU1'
-					NAME : 'Cuaderno 3 Materias Copan'
-					QUANTITY: 25
-					PRICE: 35
-					PROVIDER: 'Copan'
-				}, {
-					CODE : 'LP2'
-					NAME : 'Lapiz tinta negro BIC'
-					QUANTITY: 15
-					PRICE: 12
-					PROVIDER: 'BIC'
-				},{
-					CODE : 'CU2'
-					NAME : 'Cuaderno 2 Materias Copan'
-					QUANTITY: 2
-					PRICE: 20
-					PROVIDER: 'Copan'
-				},{
-					CODE : 'BORR1'
-					NAME : 'Borrador'
-					QUANTITY: 5
-					PRICE: 10
-					PROVIDER: 'Borradores'
-				}]
+		filterProducts : (query) ->
+			matches = new can.List []
+			matchRegexp = new RegExp(query, 'i')
 
-			@options.products.replace dummyData
+			for product in @options.products
+				if matchRegexp.test(product.code) is true or matchRegexp.test(product.name) is true
+					matches.push product
+
+			can.$('.inventory-table').html can.view('views/inventory/inventory-table.mustache',
+				products : matches)
+
+		getProducts : ->
+			self = @
+			deferred = ProductModel.findAll({})
+
+			deferred.then (response) ->
+				if response.success is true
+					self.options.products.replace response
+				else
+					Helpers.showMessage 'error', response.errorMessage
+			, (xhr) ->
+				Helpers.showMessage 'error', 'Error al cargar inventario, favor intentar de nuevo'
+
+			deferred
 
 		destroy : ->
 			can.Control.prototype.destroy.call @
