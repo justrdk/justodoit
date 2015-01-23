@@ -1,34 +1,40 @@
 {
-    "name": "justdoit",
-    "version": "0.1.0",
-    "description": "justdoit",
-    "author": "Osman RDK Hernandez <https://github.com/evilryu>",
-    "contributors": [{
-        "name": "Osman Hernandez",
-        "email": "osman.sist@gmail.com"
-    }],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/evilryu/justodoit"
-    },
-    "bugs": {
-        "url": "https://github.com/evilryu/justodoit/issues"
-    },
-    "keywords": [
-        "libuniversal"
-    ],
-    "devDependencies": {
-        "grunt": "~0.4.0",
-        "grunt-contrib-coffee": "~0.11.1",
-        "grunt-contrib-requirejs": "~0.4.4",
-        "grunt-contrib-watch": "~0.6.1",
-        "grunt-contrib-clean" : "~0.6.0",
-        "faye" : "~1.0.3",
-        "mongodb": "~2.0",
-        "amdefine": "~0.1.0",
-        "requirejs": "~2.1.15"
-    },
-    "preferGlobal": true,
-    "private": true,
-    "license": "MIT"
+  "name": "justdoit",
+  "version": "0.1.0",
+  "description": "justdoit",
+  "author": "Osman RDK Hernandez <https://github.com/evilryu>",
+  "contributors": [
+    {
+      "name": "Osman Hernandez",
+      "email": "osman.sist@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evilryu/justodoit"
+  },
+  "bugs": {
+    "url": "https://github.com/evilryu/justodoit/issues"
+  },
+  "keywords": [
+    "libuniversal"
+  ],
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-contrib-coffee": "~0.11.1",
+    "grunt-contrib-requirejs": "~0.4.4",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-clean": "~0.6.0",
+    "faye": "~1.0.3",
+    "mongodb": "~2.0",
+    "amdefine": "~0.1.0",
+    "requirejs": "~2.1.15",
+    "express": "~4.11.1",
+    "body-parser": "~1.10.2",
+    "morgan": "~1.5.1",
+    "path": "~0.11.14"
+  },
+  "preferGlobal": true,
+  "private": true,
+  "license": "MIT"
 }
