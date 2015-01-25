@@ -203,7 +203,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 
 			deferred
 
-		getProductDetails : (productId)->
+		getProductDetails : (productId) ->
 			self = @
 			deferred = ProductModel.findOne(_id:productId)
 
