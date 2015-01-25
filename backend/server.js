@@ -7,7 +7,8 @@ var router = express.Router();
 
 var port = process.env.PORT || 8081;
 var resolvedPath = path.resolve('/../public/index.html');
-var dbUrl = 'mongodb://localhost:27017/justdoit';
+var dbNamespace = 'justdoit';
+var dbUrl = 'mongodb://localhost:27017/' + dbNamespace;
 
 app.use(express.static(__dirname + '/../public'));
 app.use(bodyParser.json());
@@ -37,30 +38,59 @@ MongoClient.connect(dbUrl, function(err, db) {
 		db: db,
 		objectId: ObjectID
 	}
+	var isvExists = false;
 
-	var createEndpoint = function(method, urlPath, endpointFunction){
-		router[method](urlPath, function(req, res){
+	// a default isv collection with value will already be created as soon as server is started in case it doesn't exist.
+	//Default ISV will be set to 15%
+
+	var createDefaultISV = function() {
+		var collection = db.collection('isv');
+		//when using on calculations divide by 100 since its the percentage what is stored on this collection
+		var isv = {
+			value: 15,
+			active : true
+		};
+		collection.insert(isv);
+	};
+
+	var createEndpoint = function(method, urlPath, endpointFunction) {
+		router[method](urlPath, function(req, res) {
 			endpointFunction(namespace, req, res)
 		})
-	}
+	};
 
-	requirejs(['provider', 'product', 'salesOrder'],
-		function(provider, product, salesOrder) {
-			createEndpoint('get', '/provider/list', provider.list)
-			createEndpoint('get', '/provider/read/:_id', provider.read)
-			createEndpoint('post', '/provider/create', provider.create)
-			createEndpoint('post', '/provider/update', provider.update)
-			createEndpoint('post', '/provider/delete', provider.delete)
+	db.collections(function(err, collections) {
+		for (var i = collections.length - 1; i >= 0; i--) {
+			if (collections[i].namespace === dbNamespace + ".isv") {
+				isvExists = true;
+			}
+		};
 
-			createEndpoint('get', '/product/list', product.list)
-			createEndpoint('get', '/product/list/:filter', product.list)
-			createEndpoint('get', '/product/read/:_id', product.read)
-			createEndpoint('post', '/product/create', product.create)
-			createEndpoint('post', '/product/update', product.update)
-			createEndpoint('post', '/product/delete', product.delete)
+		if (!isvExists) {
+			createDefaultISV();
+		}
+	});
 
-			createEndpoint('get', '/salesOrder/list', salesOrder.list)
-			createEndpoint('get', '/salesOrder/read/:_id', salesOrder.read)
-			createEndpoint('post', '/salesOrder/create', salesOrder.create)
+	requirejs(['provider', 'product', 'salesOrder', 'isv'],
+		function(provider, product, salesOrder, isv) {
+			createEndpoint('get', '/provider/list', provider.list);
+			createEndpoint('get', '/provider/read/:_id', provider.read);
+			createEndpoint('post', '/provider/create', provider.create);
+			createEndpoint('post', '/provider/update', provider.update);
+			createEndpoint('post', '/provider/delete', provider.delete);
+
+			createEndpoint('get', '/product/list', product.list);
+			createEndpoint('get', '/product/list/:filter', product.list);
+			createEndpoint('get', '/product/read/:_id', product.read);
+			createEndpoint('post', '/product/create', product.create);
+			createEndpoint('post', '/product/update', product.update);
+			createEndpoint('post', '/product/delete', product.delete);
+
+			createEndpoint('get', '/salesOrder/list', salesOrder.list);
+			createEndpoint('get', '/salesOrder/read/:_id', salesOrder.read);
+			createEndpoint('post', '/salesOrder/create', salesOrder.create);
+
+			createEndpoint('get', '/isv/read', isv.read);
+			createEndpoint('post', '/isv/update', isv.update);
 		});
 });
