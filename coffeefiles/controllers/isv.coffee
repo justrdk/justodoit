@@ -15,6 +15,15 @@ define ['can', 'models/isvModels'], (can, ISVModel) ->
 			else
 				Helpers.showMessage 'error', 'No hay ISV en la base de datos para actualizar.'
 
+		initControllerOptions : ->
+			@options.isvMap = new can.Map
+				_id: ''
+				value : 0
+
+		renderFormView : ->
+			@element.html can.view('views/param/param-isv-edit.mustache',
+				isv : @options.isvMap)
+			
 		getCurrentISV : ->
 			self = @
 			deferred = ISVModel.findOne()
@@ -40,13 +49,5 @@ define ['can', 'models/isvModels'], (can, ISVModel) ->
 			, (xhr) ->
 				Helpers.showMessage 'error', 'Error al actualizar ISV, favor intentar de nuevo.'
 
-		initControllerOptions : ->
-			@options.isvMap = new can.Map
-				_id: ''
-				value : 0
-
-		renderFormView : ->
-			@element.html can.view('views/param/param-isv-edit.mustache',
-				isv : @options.isvMap)
 		destroy : ->
 			can.Control.prototype.destroy.call @

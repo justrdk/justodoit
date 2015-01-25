@@ -15,6 +15,17 @@
           return Helpers.showMessage('error', 'No hay ISV en la base de datos para actualizar.');
         }
       },
+      initControllerOptions: function() {
+        return this.options.isvMap = new can.Map({
+          _id: '',
+          value: 0
+        });
+      },
+      renderFormView: function() {
+        return this.element.html(can.view('views/param/param-isv-edit.mustache', {
+          isv: this.options.isvMap
+        }));
+      },
       getCurrentISV: function() {
         var deferred, self;
         self = this;
@@ -43,17 +54,6 @@
         }, function(xhr) {
           return Helpers.showMessage('error', 'Error al actualizar ISV, favor intentar de nuevo.');
         });
-      },
-      initControllerOptions: function() {
-        return this.options.isvMap = new can.Map({
-          _id: '',
-          value: 0
-        });
-      },
-      renderFormView: function() {
-        return this.element.html(can.view('views/param/param-isv-edit.mustache', {
-          isv: this.options.isvMap
-        }));
       },
       destroy: function() {
         return can.Control.prototype.destroy.call(this);
