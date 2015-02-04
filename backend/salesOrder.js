@@ -55,7 +55,7 @@ define(function(require) {
 				tax: 0,
 				total: 0
 			};
-			mongo.db.collection(soCol).save(newSalesOrder, function(err, salesOrder) {
+			mongo.db.collection(soCol).insert([newSalesOrder],  function(err, result) {
 				if (err) {
 					res.json({
 						success: false,
@@ -63,6 +63,7 @@ define(function(require) {
 						metadata: err
 					});
 				} else {
+					var salesOrder = result.ops[0]
 					//2. Se leen los datos de los productos usados
 					var usedProductsIds = req.body.items.reduce(function(ans, next) {
 						if (ans.indexOf(next.productId) === -1) {
@@ -70,68 +71,79 @@ define(function(require) {
 						}
 						return ans;
 					}, []);
+
 					mongo.db.collection(productCol).find({
 						_id: {
 							$in: usedProductsIds
 						}
 					}).toArray(function(err, usedProducts) {
-						var productMap = usedProducts.reduce(function(ans, next) {
-							ans[next._id] = next;
-							return ans;
-						}, {});
 
-						//3. Se crean los items de orden de venta
-						var salesOrderSubtotal = 0;
-						var newSalesOrderItems = req.body.items.map(function(soItem) {
-							var response = {
-								salesOrderId: salesOrder._id,
-								productId: soItem.productId,
-								quantityToSell: soItem.quantityToSell,
-								subtotal: productMap[soItem.productId].price * soItem.quantityToSell
-							};
-							salesOrderSubtotal += response.subtotal;
-							return response;
-						})
-						mongo.db.collection(soICol).insert(newSalesOrderItems, function(err, salesOrderItems) {
-							if (err) {
-								res.json({
-									success: false,
-									errorMessage: "Hubo un error en la creación de los artículos de la orden de venta",
-									metadata: err
-								});
-							} else {
-								//4. Se actualizan los valores de subtotal, impuesto y total de la orden de venta
-								salesOrder.subtotal = salesOrderSubtotal;
-								salesOrder.tax = salesOrderSubtotal * 0.15;
-								salesOrder.total = salesOrder.subtotal + salesOrder.tax;
-								mongo.db.collection(soCol).save(salesOrder, function(err) {
-									if (err) {
-										res.json({
-											success: false,
-											errorMessage: "Hubo un error en la actualización de la orden de venta",
-											metadata: err
-										});
-									} else {
-										mongo.db.collection(soICol).find({
-											salesOrderId: mongo.objectId(salesOrder._id)
-										}, {
-											"productId": true,
-											"quantityToSell": true,
-											"subtotal": true,
-											"_id": false
-										}).toArray(function(err, allItems) {
-											salesOrder.items = allItems;
+						if (err) {
+							res.json({
+								success: false,
+								errorMessage: "Hubo un error en la lectura de los productos usados",
+								metadata: err
+							});
+						} else {
+							var productMap = usedProducts.reduce(function(ans, next) {
+								ans[next._id] = next;
+								return ans;
+							}, {});
+
+							//3. Se crean los items de orden de venta
+							var salesOrderSubtotal = 0;
+							var newSalesOrderItems = req.body.items.map(function(soItem) {
+								var response = {
+									salesOrderId: salesOrder._id,
+									productId: soItem.productId,
+									quantityToSell: soItem.quantityToSell,
+									subtotal: productMap[soItem.productId].price * soItem.quantityToSell
+								};
+								salesOrderSubtotal += response.subtotal;
+								return response;
+							})
+							mongo.db.collection(soICol).insert(newSalesOrderItems, function(err, salesOrderItems) {
+								if (err) {
+									res.json({
+										success: false,
+										errorMessage: "Hubo un error en la creación de los artículos de la orden de venta",
+										metadata: err
+									});
+								} else {
+									//4. Se actualizan los valores de subtotal, impuesto y total de la orden de venta
+									salesOrder.subtotal = salesOrderSubtotal;
+									salesOrder.tax = salesOrderSubtotal * 0.15;
+									salesOrder.total = salesOrder.subtotal + salesOrder.tax;
+									mongo.db.collection(soCol).save(salesOrder, function(err) {
+										if (err) {
 											res.json({
-												success: true,
-												data: salesOrder
+												success: false,
+												errorMessage: "Hubo un error en la actualización de la orden de venta",
+												metadata: err
 											});
-										})
+										} else {
+											mongo.db.collection(soICol).find({
+												salesOrderId: mongo.objectId(salesOrder._id)
+											}, {
+												"productId": true,
+												"quantityToSell": true,
+												"subtotal": true,
+												"_id": false
+											}).toArray(function(err, allItems) {
+												salesOrder.items = allItems;
+												res.json({
+													success: true,
+													data: salesOrder
+												});
+											})
 
 
-									}
-								})
-							}
-						})
+										}
+									})
+								}
+							})
+
+						}
 					})
 				}
 			});

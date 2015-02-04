@@ -110,8 +110,7 @@
         self = this;
         return can.$('.typeahead').typeahead({
           hint: true,
-          highlight: true
-        }, {
+          highlight: true,
           name: 'Productos',
           displayKey: 'value',
           source: self.filterProducts()
