@@ -55,7 +55,11 @@ MongoClient.connect(dbUrl, function(err, db) {
 
 	var createEndpoint = function(method, urlPath, endpointFunction) {
 		router[method](urlPath, function(req, res) {
-			endpointFunction(namespace, req, res)
+			try{
+				endpointFunction(namespace, req, res)
+			}catch(e){
+				console.log(e);
+			}
 		})
 	};
 
@@ -89,6 +93,7 @@ MongoClient.connect(dbUrl, function(err, db) {
 			createEndpoint('get', '/salesOrder/list', salesOrder.list);
 			createEndpoint('get', '/salesOrder/read/:_id', salesOrder.read);
 			createEndpoint('post', '/salesOrder/create', salesOrder.create);
+			createEndpoint('post', '/salesOrder/findByDate', salesOrder.findByDate);
 
 			createEndpoint('get', '/isv/read', isv.read);
 			createEndpoint('post', '/isv/update', isv.update);

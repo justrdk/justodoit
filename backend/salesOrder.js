@@ -7,7 +7,38 @@ define(function(require) {
 	var soICol = 'salesOrderItem';
 	var productCol = 'product'
 
+
+
 	var salesOrder = {
+		findByDate: function(mongo, req, res){
+			console.log(req.body)
+			if (req.body.hasOwnProperty("startDate")) {
+				var pStartDate = req.body.startDate.substr(0, 10)
+				if (req.body.hasOwnProperty("endDate")) {
+					var pEndDate = req.body.endDate.substr(0, 10)
+				} else {
+					var pEndDate = new Date().toJSON().substr(0, 10)
+				}
+				mongo.db.collection(soCol)
+					.find({
+						date: {
+							$gte: new Date(pStartDate),
+							$lte: new Date(pEndDate)
+						}
+					}).toArray(function(err, docs) {
+						res.json({
+							success: true,
+							data: docs
+						});
+					});
+			} else {
+				res.json({
+					success: false,
+					errorMessage: "No se puede buscar ordenes de ventas sin una fecha inicial",
+					params: req.params.startDate
+				});
+			}
+		},
 		list: function(mongo, req, res) {
 			mongo.db.collection(soCol)
 				.find({})
@@ -50,12 +81,12 @@ define(function(require) {
 		create: function(mongo, req, res) {
 			//1. Primero se crea un saleOrder
 			var newSalesOrder = {
-				date: new Date(),
+				date: new Date(new Date().toJSON().substr(0, 10)),
 				subtotal: 0,
 				tax: 0,
 				total: 0
 			};
-			mongo.db.collection(soCol).insert([newSalesOrder],  function(err, result) {
+			mongo.db.collection(soCol).insert([newSalesOrder], function(err, result) {
 				if (err) {
 					res.json({
 						success: false,
@@ -64,7 +95,7 @@ define(function(require) {
 					});
 				} else {
 					var salesOrder = result.ops[0]
-					//2. Se leen los datos de los productos usados
+						//2. Se leen los datos de los productos usados
 					var usedProductsIds = req.body.items.reduce(function(ans, next) {
 						if (ans.indexOf(next.productId) === -1) {
 							ans.push(mongo.objectId(next.productId))
