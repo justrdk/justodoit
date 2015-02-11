@@ -7,14 +7,36 @@ define(function(require) {
 	var soICol = 'salesOrderItem';
 	var productCol = 'product'
 
+	function assembleSalesOrder(mongo, salesOrders, cb) {
+		var ids = salesOrders.map(function(so) {
+			so.items = [];
+			return mongo.objectId(so._id);
+		});
+		var index = salesOrders.reduce(function(ans, next, idx){
+			ans[next._id] = idx
+			return ans;
+		}, {})
+		mongo.db.collection(soICol).find({
+			salesOrderId: {
+				$in: ids
+			}
+		}).toArray(function(err, docs) {
+			// console.log(arguments)
+			// cb(docs);
+			docs.forEach(function(soi){
+				salesOrders[index[soi.salesOrderId]].items.push(soi)
+			})
+			cb(salesOrders);
+		});
+	}
 
 
 	var salesOrder = {
-		findByDate: function(mongo, req, res){
+		findByDate: function(mongo, req, res) {
 			console.log(req.body)
-			if (req.body.hasOwnProperty("startDate")) {
+			if (req.body.hasOwnProperty("startDate") && req.body.startDate) {
 				var pStartDate = req.body.startDate.substr(0, 10)
-				if (req.body.hasOwnProperty("endDate")) {
+				if (req.body.hasOwnProperty("endDate") && req.body.endDate) {
 					var pEndDate = req.body.endDate.substr(0, 10)
 				} else {
 					var pEndDate = new Date().toJSON().substr(0, 10)
@@ -26,10 +48,13 @@ define(function(require) {
 							$lte: new Date(pEndDate)
 						}
 					}).toArray(function(err, docs) {
-						res.json({
-							success: true,
-							data: docs
-						});
+
+						assembleSalesOrder(mongo, docs, function(saleOrders) {
+							res.json({
+								success: true,
+								data: saleOrders
+							});
+						})
 					});
 			} else {
 				res.json({
