@@ -109,7 +109,6 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 
 		filterProducts : ->
 			self = @
-			console.log 'asdasd'
 			findMatches = (q, cb) ->
 				matches = []
 				products = self.options.productsList
