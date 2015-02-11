@@ -5,11 +5,7 @@
     return SalesDetails = can.Control.extend({
       init: function(element, options) {
         this.initSalesDetailsOptions();
-        return this.element.html(can.view('views/salesdetails/salesdetails.mustache', {
-          products: this.options.products,
-          startDate: this.options.startDate,
-          endDate: this.options.endDate
-        }));
+        return this.renderTemplate();
       },
       '.search-order-details click': function(el) {
         return this.getSalesDetailsByDateRange();
@@ -24,6 +20,17 @@
             return self.filterProducts(query);
           }
         }, 1200);
+      },
+      renderTemplate: function() {
+        return this.element.html(can.view('views/salesdetails/salesdetails.mustache', {
+          products: this.options.products,
+          startDate: this.options.startDate,
+          endDate: this.options.endDate
+        }, {
+          formatDate: function(date) {
+            return moment(date()).format('MM-DD-YYYY');
+          }
+        }));
       },
       initSalesDetailsOptions: function() {
         this.options.products = new can.List([]);

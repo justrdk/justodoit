@@ -1,6 +1,6 @@
 'use strict'
 
-require ['can', 'helpers/helpers', 'controllers/header',
+define ['can', 'helpers/helpers', 'controllers/header',
 'controllers/product', 'controllers/provider', 'controllers/inventory',
 'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails'], 
 (can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails) ->
@@ -9,6 +9,7 @@ require ['can', 'helpers/helpers', 'controllers/header',
 
         init : (element, options) ->
             new Header(can.$('.top-menu'))
+
         'route' : (data) ->
             window.location.hash = '#!crearProducto'
 

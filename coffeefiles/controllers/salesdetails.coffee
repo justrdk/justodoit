@@ -23,8 +23,12 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 		renderTemplate : ->
 			@element.html can.view('views/salesdetails/salesdetails.mustache',
 				products : @options.products
-				startDate : @options.startDate,
-				endDate: @options.endDate)
+				startDate : @options.startDate
+				endDate: @options.endDate
+			,
+				formatDate : (date) ->
+					moment(date()).format 'MM-DD-YYYY' 
+			)
 
 		initSalesDetailsOptions : ->
 			@options.products = new can.List []
