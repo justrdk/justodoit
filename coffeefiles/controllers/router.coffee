@@ -2,8 +2,8 @@
 
 require ['can', 'helpers/helpers', 'controllers/header',
 'controllers/product', 'controllers/provider', 'controllers/inventory',
-'controllers/saleorder', 'controllers/isv'], 
-(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV) ->
+'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails'], 
+(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails) ->
 
     Router = can.Control.extend
 
@@ -47,6 +47,10 @@ require ['can', 'helpers/helpers', 'controllers/header',
         'editarISV route' : (data) ->
             @destroyControllers()
             new ISV(can.$('.main-container'))
+
+        'detallesVenta route' : (data) ->
+            @destroyControllers()
+            new SalesDetails(can.$('.main-container'))
 
         'destroyControllers' : ->
             currentControllers = can.$('.main-container').data().controls

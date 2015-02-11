@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  require(['can', 'helpers/helpers', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/saleorder', 'controllers/isv'], function(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV) {
+  require(['can', 'helpers/helpers', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails'], function(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails) {
     var Router;
     Router = can.Control.extend({
       init: function(element, options) {
@@ -56,6 +56,10 @@
       'editarISV route': function(data) {
         this.destroyControllers();
         return new ISV(can.$('.main-container'));
+      },
+      'detallesVenta route': function(data) {
+        this.destroyControllers();
+        return new SalesDetails(can.$('.main-container'));
       },
       'destroyControllers': function() {
         var controller, currentControllers, _i, _len, _results;
