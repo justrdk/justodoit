@@ -4,7 +4,8 @@ require.config({
 		"can": "../libs/canjs.com-2.1.3/amd-dev/can",
 		"bootstrap": '../libs/bootstrap.min',
 		'noty': '../libs/jquery.noty.packaged.min',
-		'typehead': '../libs/typehead'
+		'typehead': '../libs/typehead',
+		'datepicker': '../libs/datepicker'
 	},
 	shim: {
 		"jquery": {
@@ -21,8 +22,11 @@ require.config({
 		},
 		'typehead' : {
 			deps: ['jquery']
+		},
+		'datepicker' : {
+			deps: ['jquery']
 		}
 	}
 });
 
-requirejs(['bootstrap', 'noty', 'typehead', 'controllers/router']);
+requirejs(['bootstrap', 'noty', 'typehead', 'datepicker', 'controllers/router']);

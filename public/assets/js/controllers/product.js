@@ -110,7 +110,8 @@
         self = this;
         return can.$('.typeahead').typeahead({
           hint: true,
-          highlight: true,
+          highlight: true
+        }, {
           name: 'Productos',
           displayKey: 'value',
           source: self.filterProducts()
@@ -119,6 +120,7 @@
       filterProducts: function() {
         var findMatches, self;
         self = this;
+        console.log('asdasd');
         return findMatches = function(q, cb) {
           var matches, products, substrRegex;
           matches = [];

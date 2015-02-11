@@ -102,12 +102,14 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 			can.$('.typeahead').typeahead
 				hint: true
 				highlight: true
+			,
 				name : 'Productos'
 				displayKey: 'value'
 				source: self.filterProducts()
 
 		filterProducts : ->
 			self = @
+			console.log 'asdasd'
 			findMatches = (q, cb) ->
 				matches = []
 				products = self.options.productsList

@@ -1,0 +1,20 @@
+<thead>
+	<tr>
+		<th> Codigo </th>
+		<th> Nombre </th>
+		<th> Cantidad </th>
+		<th> Precio/Unidad </th>
+		<th> Fecha </th>
+	</tr>
+</thead>
+<tbody>
+	{{#each products}}
+	<tr>
+		<td> {{code}} </td>
+		<td> {{name}} </td>
+		<td> {{quantity}} </td>
+		<td> Lps.{{price}} </td>
+		<td> {{provider}} </td>
+	</tr>
+	{{/each}}
+</tbody>
