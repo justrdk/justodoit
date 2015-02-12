@@ -5,7 +5,8 @@ require.config({
 		"bootstrap": '../libs/bootstrap.min',
 		'noty': '../libs/jquery.noty.packaged.min',
 		'typehead': '../libs/typehead',
-		'datepicker': '../libs/datepicker'
+		'datepicker': '../libs/datepicker',
+		'moment' : '../libs/moment'
 	},
 	shim: {
 		"jquery": {
@@ -29,4 +30,4 @@ require.config({
 	}
 });
 
-requirejs(['bootstrap', 'noty', 'typehead', 'datepicker', 'controllers/router']);
+requirejs(['bootstrap', 'noty', 'typehead', 'datepicker', 'moment', 'controllers/router']);

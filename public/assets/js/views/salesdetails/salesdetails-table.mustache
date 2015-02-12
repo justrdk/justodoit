@@ -3,18 +3,20 @@
 		<th> Codigo </th>
 		<th> Nombre </th>
 		<th> Cantidad </th>
-		<th> Precio/Unidad </th>
-		<th> Fecha </th>
+		<th> Subtotal </th>
+		<th> Fecha Venta</th>
 	</tr>
 </thead>
 <tbody>
 	{{#each products}}
+	{{#each items}}
 	<tr>
-		<td> {{code}} </td>
+		<td>  {{code}} </td>
 		<td> {{name}} </td>
-		<td> {{quantity}} </td>
-		<td> Lps.{{price}} </td>
-		<td> {{provider}} </td>
+		<td> {{quantityToSell}} </td>
+		<td> Lps.{{subtotal}} </td>
+		<td> {{formatDate date}} </td>
 	</tr>
+	{{/each}}
 	{{/each}}
 </tbody>

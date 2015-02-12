@@ -9,6 +9,7 @@ require ['can', 'helpers/helpers', 'controllers/header',
 
         init : (element, options) ->
             new Header(can.$('.top-menu'))
+
         'route' : (data) ->
             window.location.hash = '#!crearProducto'
 

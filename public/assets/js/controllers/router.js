@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  require(['can', 'helpers/helpers', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails'], function(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails) {
+  define(['can', 'helpers/helpers', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails'], function(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails) {
     var Router;
     Router = can.Control.extend({
       init: function(element, options) {
