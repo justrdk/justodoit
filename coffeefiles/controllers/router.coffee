@@ -1,6 +1,6 @@
 'use strict'
 
-define ['can', 'helpers/helpers', 'controllers/header',
+require ['can', 'helpers/helpers', 'controllers/header',
 'controllers/product', 'controllers/provider', 'controllers/inventory',
 'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails'], 
 (can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails) ->
