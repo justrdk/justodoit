@@ -32,18 +32,21 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 					moment(date()).format 'MM-DD-YYYY' 
 			)
 
-		initSalesDetailsOptions : ->
-			@options.products = new can.List []
-			@options.startDate = can.compute('')
-			@options.endDate = can.compute('')
-
-		showAllProducts : ->
+		renderTable : (products) ->
 			can.$('.sales-details-table').html can.view('views/salesdetails/salesdetails-table.mustache',
-					products : @options.products
+					products : products
 				,
 					formatDate : (date) ->
 						moment(date()).format 'MM-DD-YYYY'
 				)
+
+		initSalesDetailsOptions : ->
+			@options.products = new can.List []
+			@options.startDate = can.compute ''
+			@options.endDate = can.compute ''
+
+		showAllProducts : ->
+			@renderTable @options.products
 
 		filterProducts : (query) ->
 			matches = new can.List []
@@ -54,12 +57,7 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 					if matchRegexp.test(items.name) is true
 						matches.push product
 
-			can.$('.sales-details-table').html can.view('views/salesdetails/salesdetails-table.mustache',
-					products : matches
-				,
-					formatDate : (date) ->
-						moment(date()).format 'MM-DD-YYYY'
-				)
+			@renderTable matches
 
 		getSalesDetailsByDateRange : ->
 			self = @

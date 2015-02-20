@@ -34,19 +34,22 @@
           }
         }));
       },
+      renderTable: function(products) {
+        return can.$('.sales-details-table').html(can.view('views/salesdetails/salesdetails-table.mustache', {
+          products: products
+        }, {
+          formatDate: function(date) {
+            return moment(date()).format('MM-DD-YYYY');
+          }
+        }));
+      },
       initSalesDetailsOptions: function() {
         this.options.products = new can.List([]);
         this.options.startDate = can.compute('');
         return this.options.endDate = can.compute('');
       },
       showAllProducts: function() {
-        return can.$('.sales-details-table').html(can.view('views/salesdetails/salesdetails-table.mustache', {
-          products: this.options.products
-        }, {
-          formatDate: function(date) {
-            return moment(date()).format('MM-DD-YYYY');
-          }
-        }));
+        return this.renderTable(this.options.products);
       },
       filterProducts: function(query) {
         var items, matchRegexp, matches, product, _i, _j, _len, _len1, _ref, _ref1;
@@ -63,13 +66,7 @@
             }
           }
         }
-        return can.$('.sales-details-table').html(can.view('views/salesdetails/salesdetails-table.mustache', {
-          products: matches
-        }, {
-          formatDate: function(date) {
-            return moment(date()).format('MM-DD-YYYY');
-          }
-        }));
+        return this.renderTable(matches);
       },
       getSalesDetailsByDateRange: function() {
         var deferred, self;
