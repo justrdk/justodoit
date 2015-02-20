@@ -18,6 +18,8 @@
         return self.options.searchTimer = setTimeout(function() {
           if (query !== '' && /\S+/.test(query) === true) {
             return self.filterProducts(query);
+          } else {
+            return self.showAllProducts();
           }
         }, 1200);
       },
@@ -37,19 +39,36 @@
         this.options.startDate = can.compute('');
         return this.options.endDate = can.compute('');
       },
+      showAllProducts: function() {
+        return can.$('.sales-details-table').html(can.view('views/salesdetails/salesdetails-table.mustache', {
+          products: this.options.products
+        }, {
+          formatDate: function(date) {
+            return moment(date()).format('MM-DD-YYYY');
+          }
+        }));
+      },
       filterProducts: function(query) {
-        var matchRegexp, matches, product, _i, _len, _ref;
+        var items, matchRegexp, matches, product, _i, _j, _len, _len1, _ref, _ref1;
         matches = new can.List([]);
         matchRegexp = new RegExp(query, 'i');
         _ref = this.options.products;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           product = _ref[_i];
-          if (matchRegexp.test(product.code) === true || matchRegexp.test(product.name) === true) {
-            matches.push(product);
+          _ref1 = product.items;
+          for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+            items = _ref1[_j];
+            if (matchRegexp.test(items.name) === true) {
+              matches.push(product);
+            }
           }
         }
         return can.$('.sales-details-table').html(can.view('views/salesdetails/salesdetails-table.mustache', {
           products: matches
+        }, {
+          formatDate: function(date) {
+            return moment(date()).format('MM-DD-YYYY');
+          }
         }));
       },
       getSalesDetailsByDateRange: function() {
