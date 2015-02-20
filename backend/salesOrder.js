@@ -39,7 +39,7 @@ define(function(require) {
 					return ans;
 				}, {})
 				docs.forEach(function(soi){
-					soi.product = prodIdx[soi.productId];
+					soi.name = prodIdx[soi.productId];
 					delete soi.productId;
 					salesOrders[index[soi.salesOrderId]].items.push(soi)
 				})

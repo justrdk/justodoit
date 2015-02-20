@@ -18,6 +18,8 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 			self.options.searchTimer = setTimeout ->
 				if query isnt '' and /\S+/.test(query) is true
 					self.filterProducts(query)
+				else
+					self.showAllProducts()
 			,1200
 
 		renderTemplate : ->
@@ -30,21 +32,32 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 					moment(date()).format 'MM-DD-YYYY' 
 			)
 
+		renderTable : (products) ->
+			can.$('.sales-details-table').html can.view('views/salesdetails/salesdetails-table.mustache',
+					products : products
+				,
+					formatDate : (date) ->
+						moment(date()).format 'MM-DD-YYYY'
+				)
+
 		initSalesDetailsOptions : ->
 			@options.products = new can.List []
-			@options.startDate = can.compute('')
-			@options.endDate = can.compute('')
+			@options.startDate = can.compute ''
+			@options.endDate = can.compute ''
+
+		showAllProducts : ->
+			@renderTable @options.products
 
 		filterProducts : (query) ->
 			matches = new can.List []
 			matchRegexp = new RegExp(query, 'i')
-
+			
 			for product in @options.products
-				if matchRegexp.test(product.code) is true or matchRegexp.test(product.name) is true
-					matches.push product
+				for items in product.items
+					if matchRegexp.test(items.name) is true
+						matches.push product
 
-			can.$('.sales-details-table').html can.view('views/salesdetails/salesdetails-table.mustache',
-				products : matches)
+			@renderTable matches
 
 		getSalesDetailsByDateRange : ->
 			self = @
