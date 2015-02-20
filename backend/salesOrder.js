@@ -23,10 +23,28 @@ define(function(require) {
 		}).toArray(function(err, docs) {
 			// console.log(arguments)
 			// cb(docs);
+			var usedProductsIds = [];
 			docs.forEach(function(soi){
-				salesOrders[index[soi.salesOrderId]].items.push(soi)
+				if(usedProductsIds.indexOf(soi.productId) === -1)
+					usedProductsIds.push(mongo.objectId(soi.productId))
 			})
-			cb(salesOrders);
+
+			mongo.db.collection(productCol).find({
+				_id: {
+					$in: usedProductsIds
+				}
+			}).toArray(function(err, prods){
+				var prodIdx = prods.reduce(function(ans, prod){
+					ans[prod._id] = prod.name
+					return ans;
+				}, {})
+				docs.forEach(function(soi){
+					soi.product = prodIdx[soi.productId];
+					delete soi.productId;
+					salesOrders[index[soi.salesOrderId]].items.push(soi)
+				})
+				cb(salesOrders);
+			})
 		});
 	}
 
