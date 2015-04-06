@@ -124,7 +124,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 		updateProductInList : ->
 			self = @
 			idToCompare = self.options.productEdit._id
-			@options.productsList.filter (product) ->
+			@options.productsList.map (product) ->
 				if product._id is idToCompare
 					product.attr 'name', self.options.productEdit.name
 
