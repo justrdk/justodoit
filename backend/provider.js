@@ -3,7 +3,7 @@ if (typeof define !== 'function') {
 }
 
 define(function(require) {
-	var collectionName = 'provider'
+	var collectionName = 'provider';
 	var providerId = '';
 
 	var provider = {
@@ -12,7 +12,7 @@ define(function(require) {
 				active: true
 			};
 			if (req.query.hasOwnProperty("filter")) {
-				findJSON.name = new RegExp(req.query.filter, "i")
+				findJSON.name = new RegExp(req.query.filter, "i");
 			}
 			mongo.db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
 				if (docs.length) {
@@ -27,7 +27,7 @@ define(function(require) {
 						data: []
 					});
 				}
-			})
+			});
 		},
 		read: function(mongo, req, res) {
 			providerId = req.params._id;
@@ -39,14 +39,14 @@ define(function(require) {
 					res.json({
 						success: true,
 						data: docs[0]
-					})
+					});
 				} else {
 					res.json({
 						success: false,
 						errorMessage: "No existe el proveedor que desea leer"
-					})
+					});
 				}
-			})
+			});
 		},
 		create: function(mongo, req, res) {
 			var newProvider = {
@@ -76,7 +76,7 @@ define(function(require) {
 			var fields = ["name", "address", "phoneNumber", "contact"];
 			var updateJSON = {};
 			providerId = req.body._id;
-			for (key in req.body) {
+			for (var key in req.body) {
 				if (fields.indexOf(key) !== -1) {
 					updateJSON[key] = req.body[key];
 				}
@@ -100,7 +100,7 @@ define(function(require) {
 			});
 		},
 		delete: function(mongo, req, res) {
-			providerId = req.body._id
+			providerId = req.body._id;
 			mongo.db.collection(collectionName).update({
 				"_id": mongo.objectId(providerId)
 			}, {
@@ -121,6 +121,6 @@ define(function(require) {
 				}
 			});
 		}
-	}
+	};
 	return provider;
 });

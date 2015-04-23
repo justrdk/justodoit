@@ -5,59 +5,57 @@ if (typeof define !== 'function') {
 define(function(require) {
 	var soCol = 'salesOrder';
 	var soICol = 'salesOrderItem';
-	var productCol = 'product'
+	var productCol = 'product';
 
 	function assembleSalesOrder(mongo, salesOrders, cb) {
 		var ids = salesOrders.map(function(so) {
 			so.items = [];
 			return mongo.objectId(so._id);
 		});
-		var index = salesOrders.reduce(function(ans, next, idx){
-			ans[next._id] = idx
+		var index = salesOrders.reduce(function(ans, next, idx) {
+			ans[next._id] = idx;
 			return ans;
-		}, {})
+		}, {});
 		mongo.db.collection(soICol).find({
 			salesOrderId: {
 				$in: ids
 			}
 		}).toArray(function(err, docs) {
-			// console.log(arguments)
-			// cb(docs);
 			var usedProductsIds = [];
-			docs.forEach(function(soi){
-				if(usedProductsIds.indexOf(soi.productId) === -1)
-					usedProductsIds.push(mongo.objectId(soi.productId))
-			})
+			docs.forEach(function(soi) {
+				if (usedProductsIds.indexOf(soi.productId) === -1)
+					usedProductsIds.push(mongo.objectId(soi.productId));
+			});
 
 			mongo.db.collection(productCol).find({
 				_id: {
 					$in: usedProductsIds
 				}
-			}).toArray(function(err, prods){
-				var prodIdx = prods.reduce(function(ans, prod){
-					ans[prod._id] = prod.name
+			}).toArray(function(err, prods) {
+				var prodIdx = prods.reduce(function(ans, prod) {
+					ans[prod._id] = prod.name;
 					return ans;
-				}, {})
-				docs.forEach(function(soi){
+				}, {});
+				docs.forEach(function(soi) {
 					soi.name = prodIdx[soi.productId];
 					delete soi.productId;
-					salesOrders[index[soi.salesOrderId]].items.push(soi)
-				})
+					salesOrders[index[soi.salesOrderId]].items.push(soi);
+				});
 				cb(salesOrders);
-			})
+			});
 		});
 	}
 
-
 	var salesOrder = {
 		findByDate: function(mongo, req, res) {
-			console.log(req.body)
+			console.log(req.body);
 			if (req.body.hasOwnProperty("startDate") && req.body.startDate) {
-				var pStartDate = req.body.startDate.substr(0, 10)
+				var pStartDate = req.body.startDate.substr(0, 10);
+				var pEndDate;
 				if (req.body.hasOwnProperty("endDate") && req.body.endDate) {
-					var pEndDate = req.body.endDate.substr(0, 10)
+					pEndDate = req.body.endDate.substr(0, 10);
 				} else {
-					var pEndDate = new Date().toJSON().substr(0, 10)
+					pEndDate = new Date().toJSON().substr(0, 10);
 				}
 				mongo.db.collection(soCol)
 					.find({
@@ -72,7 +70,7 @@ define(function(require) {
 								success: true,
 								data: saleOrders
 							});
-						})
+						});
 					});
 			} else {
 				res.json({
@@ -137,11 +135,11 @@ define(function(require) {
 						metadata: err
 					});
 				} else {
-					var salesOrder = result.ops[0]
-						//2. Se leen los datos de los productos usados
+					var salesOrder = result.ops[0];
+					//2. Se leen los datos de los productos usados
 					var usedProductsIds = req.body.items.reduce(function(ans, next) {
 						if (ans.indexOf(next.productId) === -1) {
-							ans.push(mongo.objectId(next.productId))
+							ans.push(mongo.objectId(next.productId));
 						}
 						return ans;
 					}, []);
@@ -175,7 +173,7 @@ define(function(require) {
 								};
 								salesOrderSubtotal += response.subtotal;
 								return response;
-							})
+							});
 							mongo.db.collection(soICol).insert(newSalesOrderItems, function(err, salesOrderItems) {
 								if (err) {
 									res.json({
@@ -209,19 +207,18 @@ define(function(require) {
 													success: true,
 													data: salesOrder
 												});
-											})
-
+											});
 
 										}
-									})
+									});
 								}
-							})
+							});
 
 						}
-					})
+					});
 				}
 			});
 		},
-	}
+	};
 	return salesOrder;
 });

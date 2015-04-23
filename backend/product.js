@@ -30,8 +30,8 @@ define(function(require) {
 				}
 				mongo.db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
 					docs.forEach(function(product) {
-						product.provider = providerMap[product.provider]
-					})
+						product.provider = providerMap[product.provider];
+					});
 					if (docs.length > 0) {
 						res.json({
 							success: true,
@@ -57,14 +57,14 @@ define(function(require) {
 					res.json({
 						success: true,
 						data: docs[0]
-					})
+					});
 				} else {
 					res.json({
 						success: false,
 						errorMessage: "No existe el producto que desea leer"
-					})
+					});
 				}
-			})
+			});
 		},
 		create: function(mongo, req, res) {
 			var newProduct = {
@@ -96,7 +96,7 @@ define(function(require) {
 			var fields = ["code", "name", "price", "quantity", "provider", "threshold"];
 			productId = req.body._id;
 			var updateJSON = {};
-			for (key in req.body) {
+			for (var key in req.body) {
 				if (fields.indexOf(key) !== -1) {
 					updateJSON[key] = req.body[key];
 				}
@@ -141,6 +141,6 @@ define(function(require) {
 				}
 			});
 		}
-	}
+	};
 	return product;
 });

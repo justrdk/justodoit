@@ -109,7 +109,7 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 		updateProviderInList : ->
 			self = @
 			idToCompare = self.options.providerEdit._id
-			@options.providersList.filter (provider) ->
+			@options.providersList.map (provider) ->
 				if provider._id is idToCompare
 					provider.attr 'name', self.options.providerEdit.name
 

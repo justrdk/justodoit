@@ -24,13 +24,13 @@ define(function(require) {
 						data: []
 					});
 				}
-			})
+			});
 		},
 		update: function(mongo, req, res) {
 			var fields = ["value"];
 			isvId = req.body._id;
 			var updateJSON = {};
-			for (key in req.body) {
+			for (var key in req.body) {
 				if (fields.indexOf(key) !== -1) {
 					updateJSON[key] = req.body[key];
 				}
@@ -53,6 +53,6 @@ define(function(require) {
 				}
 			});
 		}
-	}
+	};
 	return isv;
 });

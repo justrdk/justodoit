@@ -37,7 +37,7 @@ MongoClient.connect(dbUrl, function(err, db) {
 	var namespace = {
 		db: db,
 		objectId: ObjectID
-	}
+	};
 	var isvExists = false;
 
 	// a default isv collection with value will already be created as soon as server is started in case it doesn't exist.
@@ -56,11 +56,11 @@ MongoClient.connect(dbUrl, function(err, db) {
 	var createEndpoint = function(method, urlPath, endpointFunction) {
 		router[method](urlPath, function(req, res) {
 			try{
-				endpointFunction(namespace, req, res)
+				endpointFunction(namespace, req, res);
 			}catch(e){
 				console.log(e);
 			}
-		})
+		});
 	};
 
 	db.collections(function(err, collections) {
@@ -68,7 +68,7 @@ MongoClient.connect(dbUrl, function(err, db) {
 			if (collections[i].namespace === dbNamespace + ".isv") {
 				isvExists = true;
 			}
-		};
+		}
 
 		if (!isvExists) {
 			createDefaultISV();
