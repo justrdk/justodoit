@@ -7,7 +7,9 @@ module.exports = {
 		if (request.auth.isAuthenticated) {
 			cb({
 				success: true,
-				name: request.auth.credentials.username,
+				firstname: request.auth.credentials.firstname,
+				lastname: request.auth.credentials.lastname,
+				username: request.auth.credentials.username,
 				role: request.auth.credentials.role
 			});
 		}

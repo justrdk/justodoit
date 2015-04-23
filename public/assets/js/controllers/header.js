@@ -4,7 +4,9 @@
     var Header;
     return Header = can.Control.extend({
       init: function(element, options) {
-        return this.element.html(can.view('views/shared/header.mustache'));
+        return this.element.html(can.view('views/shared/header.mustache', {
+          user: this.options.user
+        }));
       },
       destroy: function() {
         return can.Control.prototype.destroy.call(this);
