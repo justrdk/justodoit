@@ -1,8 +1,8 @@
 module.exports = {
 	authenticateUser: function(request, cb) {
 		var userCollection = 'user';
-		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db             = request.server.plugins['hapi-mongodb'].db;
+		var ObjectId       = request.server.plugins['hapi-mongodb'].ObjectID;
 
 		if (request.auth.isAuthenticated) {
 			cb({
@@ -13,10 +13,10 @@ module.exports = {
 		}
 
 		if (!request.payload.username || !request.payload.password) {
-			return {
+			cb({
 				success: false,
 				error: 'Missing username or password'
-			};
+			});
 		} else {
 			db.collection(userCollection).findOne({
 				'username': request.payload.username
