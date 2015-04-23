@@ -1,14 +1,14 @@
-var express = require('express');
-var app = express();
-var logger = require('morgan');
+var express    = require('express');
+var app        = express();
+var logger     = require('morgan');
 var bodyParser = require('body-parser');
-var path = require('path');
-var router = express.Router();
+var path       = require('path');
+var router     = express.Router();
 
-var port = process.env.PORT || 8081;
+var port         = process.env.PORT || 8081;
 var resolvedPath = path.resolve('/../public/index.html');
-var dbNamespace = 'justdoit';
-var dbUrl = 'mongodb://localhost:27017/' + dbNamespace;
+var dbNamespace  = 'justdoit';
+var dbUrl        = 'mongodb://localhost:27017/' + dbNamespace;
 
 app.use(express.static(__dirname + '/../public'));
 app.use(bodyParser.json());
@@ -27,7 +27,7 @@ app.listen(port);
 console.log("App listening on port " + port);
 
 var MongoClient = require('mongodb').MongoClient;
-var ObjectID = require('mongodb').ObjectID;
+var ObjectID    = require('mongodb').ObjectID;
 
 MongoClient.connect(dbUrl, function(err, db) {
 	var requirejs = require('requirejs');
