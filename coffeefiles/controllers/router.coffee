@@ -2,66 +2,89 @@
 
 require ['can', 'helpers/helpers', 'controllers/header',
 'controllers/product', 'controllers/provider', 'controllers/inventory',
-'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails'], 
+'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails', 'components/loginComponent', 'models/loginModels'],
 (can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails) ->
 
-    Router = can.Control.extend
+	Router = can.Control.extend
 
-        init : (element, options) ->
-            new Header(can.$('.top-menu'))
+		init : (element, options) ->
+			@options.userMap = new can.Map(
+					user : '')
 
-        'route' : (data) ->
-            window.location.hash = '#!crearProducto'
+			can.route.bind 'change', (ev, attr, how, newVal, oldVal) ->
+				if newVal isnt 'login'
+					self.checkUserAuthentication()
 
-        'crearProducto route' : (data) ->
-            @destroyControllers()
-            new Product(can.$('.main-container'), edit:false)
+			new Header(can.$('.top-menu'), user: @options.userMap)
 
-        'editarProducto route' : (data) ->
-            @destroyControllers()
-            new Product(can.$('.main-container'), edit:true)
+		checkUserAuthentication : ->
+			self = @
+			deferred = LoginModel.findOne()
 
-        'editarProducto/:productoid route' : (data) ->
-            @destroyControllers()
-            new Product(can.$('.main-container'), edit:true)
+			deferred.then (response) ->
+				if response.success is false
+					can.route.attr 'route', 'login'
+				else
+					self.options.userMap.attr 'user', response.name
+			,(xhr) ->
+				Helpers.showMessage 'error', 'Error desconocido, favor intentar de nuevo '
 
-        'crearProveedor route' : (data) ->
-            @destroyControllers()
-            new Provider(can.$('.main-container'), edit:false)
+		'route' : (data) ->
+			can.route.attr 'route', 'login'
 
-        'editarProveedor route' : (data) ->
-            @destroyControllers()
-            new Provider(can.$('.main-container'), edit:true)
+		 'login route' : (data) ->
+            component = can.mustache '<login-form></login-form>'
+            can.$('.main-container').html component()
 
-        'editarProveedor/:proveedorid route' : (data) ->
-            @destroyControllers()
-            new Provider(can.$('.main-container'), edit:true)
+		'crearProducto route' : (data) ->
+			@destroyControllers()
+			new Product(can.$('.main-container'), edit:false)
 
-        'inventario route' : (data) ->
-            @destroyControllers()
-            new Inventory(can.$('.main-container'))
+		'editarProducto route' : (data) ->
+			@destroyControllers()
+			new Product(can.$('.main-container'), edit:true)
 
-        'venta route' : (data) ->
-            @destroyControllers()
-            new SaleOrder(can.$('.main-container'))
+		'editarProducto/:productoid route' : (data) ->
+			@destroyControllers()
+			new Product(can.$('.main-container'), edit:true)
 
-        'editarISV route' : (data) ->
-            @destroyControllers()
-            new ISV(can.$('.main-container'))
+		'crearProveedor route' : (data) ->
+			@destroyControllers()
+			new Provider(can.$('.main-container'), edit:false)
 
-        'detallesVenta route' : (data) ->
-            @destroyControllers()
-            new SalesDetails(can.$('.main-container'))
+		'editarProveedor route' : (data) ->
+			@destroyControllers()
+			new Provider(can.$('.main-container'), edit:true)
 
-        'destroyControllers' : ->
-            currentControllers = can.$('.main-container').data().controls
-            if currentControllers isnt undefined
-                @destroyController controller for controller in currentControllers
+		'editarProveedor/:proveedorid route' : (data) ->
+			@destroyControllers()
+			new Provider(can.$('.main-container'), edit:true)
 
-        'destroyController' : (controller) ->
-            if controller isnt undefined and controller isnt null
-                controller.destroy()
+		'inventario route' : (data) ->
+			@destroyControllers()
+			new Inventory(can.$('.main-container'))
 
-    $(document).ready ->
-        new Router($('body'))
-        can.route.ready()
+		'venta route' : (data) ->
+			@destroyControllers()
+			new SaleOrder(can.$('.main-container'))
+
+		'editarISV route' : (data) ->
+			@destroyControllers()
+			new ISV(can.$('.main-container'))
+
+		'detallesVenta route' : (data) ->
+			@destroyControllers()
+			new SalesDetails(can.$('.main-container'))
+
+		'destroyControllers' : ->
+			currentControllers = can.$('.main-container').data().controls
+			if currentControllers isnt undefined
+				@destroyController controller for controller in currentControllers
+
+		'destroyController' : (controller) ->
+			if controller isnt undefined and controller isnt null
+				controller.destroy()
+
+	$(document).ready ->
+		new Router($('body'))
+		can.route.ready()

@@ -23,4 +23,14 @@ module.exports = [{
 		handler: controllers.login.logoutUser,
 		auth: 'session'
 	}
+}, {
+	method: "GET",
+	path: "/getAuthenticatedUser",
+	handler: getAuthenticatedUser,
+	config: {
+		auth: {
+			mode: "optional",
+			strategy: "session"
+		}
+	}
 }];

@@ -140,7 +140,7 @@
         var idToCompare, self;
         self = this;
         idToCompare = self.options.productEdit._id;
-        return this.options.productsList.filter(function(product) {
+        return this.options.productsList.map(function(product) {
           if (product._id === idToCompare) {
             return product.attr('name', self.options.productEdit.name);
           }

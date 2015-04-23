@@ -125,7 +125,7 @@
         var idToCompare, self;
         self = this;
         idToCompare = self.options.providerEdit._id;
-        return this.options.providersList.filter(function(provider) {
+        return this.options.providersList.map(function(provider) {
           if (provider._id === idToCompare) {
             return provider.attr('name', self.options.providerEdit.name);
           }
