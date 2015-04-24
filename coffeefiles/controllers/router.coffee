@@ -33,8 +33,8 @@ require ['can', 'helpers/helpers', 'controllers/header',
 			can.route.attr 'route', 'login'
 
 		 'login route' : (data) ->
-            component = can.mustache '<login-form></login-form>'
-            can.$('.main-container').html component()
+			component = can.mustache '<login-form></login-form>'
+			can.$('.main-container').html component()
 
 		'crearProducto route' : (data) ->
 			@destroyControllers()
