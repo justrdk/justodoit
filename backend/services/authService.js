@@ -1,13 +1,15 @@
 module.exports = {
 	authenticateUser: function(request, cb) {
 		var userCollection = 'user';
-		var db             = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId       = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db = request.server.plugins['hapi-mongodb'].db;
+		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
 
 		if (request.auth.isAuthenticated) {
 			cb({
 				success: true,
-				name: request.auth.credentials.username,
+				firstname: request.auth.credentials.firstname,
+				lastname: request.auth.credentials.lastname,
+				username: request.auth.credentials.username,
 				role: request.auth.credentials.role
 			});
 		}
@@ -42,5 +44,31 @@ module.exports = {
 				}
 			});
 		}
+	},
+	logOutUser: function(request, cb) {
+		request.auth.session.clear();
+		return {
+			success: true
+		};
+	},
+	getAuthenticatedUser: function(request, cb) {
+		var reply;
+		if (request.auth.credentials && request.auth.credentials.username) {
+			reply = {
+				success: true,
+				firstName: request.auth.credentials.firstname,
+				lastName: request.auth.credentials.lastname,
+				role: request.auth.credentials.role,
+				username: rquest.auth.credentials.username
+
+			};
+		} else {
+			reply = {
+				success: false,
+				message: 'no user authenticated'
+			};
+		}
+
+		cb(reply);
 	}
 };

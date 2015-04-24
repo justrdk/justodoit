@@ -1,13 +1,44 @@
 (function() {
   'use strict';
-  require(['can', 'helpers/helpers', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails'], function(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails) {
+  require(['can', 'helpers/helpers', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails', 'components/loginComponent', 'models/loginModels'], function(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails) {
     var Router;
     Router = can.Control.extend({
       init: function(element, options) {
-        return new Header(can.$('.top-menu'));
+        this.options.userMap = new can.Map({
+          user: ''
+        });
+        can.route.bind('change', function(ev, attr, how, newVal, oldVal) {
+          if (newVal !== 'login') {
+            return self.checkUserAuthentication();
+          }
+        });
+        return new Header(can.$('.top-menu'), {
+          user: this.options.userMap
+        });
+      },
+      checkUserAuthentication: function() {
+        var deferred, self;
+        self = this;
+        deferred = LoginModel.findOne();
+        return deferred.then(function(response) {
+          if (response.success === false) {
+            return can.route.attr('route', 'login');
+          } else {
+            return self.options.userMap.attr('user', response.name);
+          }
+        }, function(xhr) {
+          return Helpers.showMessage('error', 'Error desconocido, favor intentar de nuevo ');
+        });
       },
       'route': function(data) {
-        return window.location.hash = '#!crearProducto';
+        can.route.attr('route', 'login');
+        return {
+          'login route': function(data) {
+            var component;
+            component = can.mustache('<login-form></login-form>');
+            return can.$('.main-container').html(component());
+          }
+        };
       },
       'crearProducto route': function(data) {
         this.destroyControllers();
