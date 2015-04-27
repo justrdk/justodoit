@@ -47,9 +47,9 @@ module.exports = {
 	},
 	logOutUser: function(request, cb) {
 		request.auth.session.clear();
-		return {
+		cb({
 			success: true
-		};
+		});
 	},
 	getAuthenticatedUser: function(request, cb) {
 		var reply;
