@@ -83,4 +83,44 @@ module.exports = [{
 			strategy: "session"
 		}
 	}
+}, {
+	method: "GET",
+	path: "/salesOrderByDate",
+	handler: controllers.salesOrder.findByDate,
+	config: {
+		auth: {
+			mode: "required",
+			strategy: "session"
+		}
+	}
+}, {
+	method: "GET",
+	path: "/getAllSalesOrders",
+	handler: controllers.salesOrder.getAllSalesOrders,
+	config: {
+		auth: {
+			mode: "required",
+			strategy: "session"
+		}
+	}
+}, {
+	method: "GET",
+	path: "/getSalesOrder",
+	handler: controllers.salesOrder.getSalesOrder,
+	config: {
+		auth: {
+			mode: "required",
+			strategy: "session"
+		}
+	}
+}, {
+	method: "GET",
+	path: "/createSalesOrder",
+	handler: controllers.salesOrder.createSalesOrder,
+	config: {
+		auth: {
+			mode: "required",
+			strategy: "session"
+		}
+	}
 }];
