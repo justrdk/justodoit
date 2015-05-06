@@ -123,4 +123,24 @@ module.exports = [{
 			strategy: "session"
 		}
 	}
+},{
+	method: "GET",
+	path: "/getISV",
+	handler: controllers.isv.getISV,
+	config: {
+		auth: {
+			mode: "required",
+			strategy: "session"
+		}
+	}
+},{
+	method: "GET",
+	path: "/updateISV",
+	handler: controllers.isv.updateISV,
+	config: {
+		auth: {
+			mode: "required",
+			strategy: "session"
+		}
+	}
 }];
