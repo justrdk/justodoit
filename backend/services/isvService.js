@@ -29,11 +29,11 @@ module.exports = {
 		var isvId = '';
 
 		var fields = ["value"];
-		isvId = req.payload._id;
+		isvId = request.payload._id;
 		var updateJSON = {};
-		for (var key in req.payload) {
+		for (var key in request.payload) {
 			if (fields.indexOf(key) !== -1) {
-				updateJSON[key] = req.payload[key];
+				updateJSON[key] = request.payload[key];
 			}
 		}
 		db.collection(collectionName).update({

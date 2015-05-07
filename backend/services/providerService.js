@@ -7,8 +7,8 @@ module.exports = {
 		var findJSON = {
 			active: true
 		};
-		if (req.query.hasOwnProperty("filter")) {
-			findJSON.name = new RegExp(req.query.filter, "i");
+		if (request.query.hasOwnProperty("filter")) {
+			findJSON.name = new RegExp(request.query.filter, "i");
 		}
 		db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
 			if (docs.length) {
@@ -30,7 +30,7 @@ module.exports = {
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
 		var collectionName = 'provider';
 		var providerId = '';
-		providerId = req.params._id;
+		providerId = request.params._id;
 
 		db.collection(collectionName).find({
 			_id: new ObjectId(providerId),
@@ -55,10 +55,10 @@ module.exports = {
 		var providerId = '';
 
 		var newProvider = {
-			name: req.payload.name,
-			address: req.payload.address,
-			phoneNumber: req.payload.phoneNumber,
-			contact: req.payload.contact,
+			name: request.payload.name,
+			address: request.payload.address,
+			phoneNumber: request.payload.phoneNumber,
+			contact: request.payload.contact,
 			active: true
 		};
 
@@ -84,11 +84,11 @@ module.exports = {
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
 		var fields = ["name", "address", "phoneNumber", "contact"];
 		var updateJSON = {};
-		providerId = req.payload._id;
+		providerId = request.payload._id;
 
-		for (var key in req.payload) {
+		for (var key in request.payload) {
 			if (fields.indexOf(key) !== -1) {
-				updateJSON[key] = req.payload[key];
+				updateJSON[key] = request.payload[key];
 			}
 		}
 		db.collection(collectionName).update({
@@ -114,7 +114,7 @@ module.exports = {
 		var collectionName = 'provider';
 		var providerId = '';
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
-		providerId = req.payload._id;
+		providerId = request.payload._id;
 
 		db.collection(collectionName).update({
 			"_id": new ObjectId(providerId)

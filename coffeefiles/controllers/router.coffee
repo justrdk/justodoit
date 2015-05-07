@@ -2,12 +2,13 @@
 
 require ['can', 'helpers/helpers', 'controllers/header',
 'controllers/product', 'controllers/provider', 'controllers/inventory',
-'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails', 'components/loginComponent', 'models/loginModels'],
-(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails) ->
+'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails', 'models/loginModels', 'components/loginComponent'],
+(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails, LoginModel) ->
 
 	Router = can.Control.extend
 
 		init : (element, options) ->
+			self = @
 			@options.userMap = new can.Map(
 					user : '')
 

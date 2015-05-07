@@ -1,6 +1,6 @@
 'use strict'
 
-define ['can', 'scripts/loginModel'], (can, LoginModel) ->
+define ['can', 'models/loginModels'], (can, LoginModel) ->
 
 	can.Component.extend
 		tag : 'login-form'
@@ -14,6 +14,6 @@ define ['can', 'scripts/loginModel'], (can, LoginModel) ->
 				deferred = LoginModel.create(@attr('user').serialize())
 				deferred.then (response) ->
 					if response.success is true
-						can.route.attr 'route', 'home'
+						can.route.attr 'route', 'venta'
 				, (xhr) ->
 					Helpers.showMessage 'error', 'Error al tratar de iniciar sesion, favor intentar de nuevo'

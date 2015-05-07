@@ -3,10 +3,10 @@
   define(['can'], function(can) {
     var ISVModel;
     return ISVModel = can.Model.extend({
-      findOne: 'GET /libuniversal/isv/read',
+      findOne: 'GET /getISV',
       update: function(params) {
         return $.ajax({
-          url: '/libuniversal/isv/update',
+          url: '/updateISV',
           type: 'post',
           contentType: "application/json",
           dataType: 'json',

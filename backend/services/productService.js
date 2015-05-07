@@ -15,8 +15,8 @@ module.exports = {
 			var findJSON = {
 				active: true
 			};
-			if (req.params.hasOwnProperty("filter")) {
-				var regVal = new RegExp(req.params.filter, "i");
+			if (request.params.hasOwnProperty("filter")) {
+				var regVal = new RegExp(request.params.filter, "i");
 				findJSON.$or = [{
 					"code": regVal
 					}, {
@@ -45,7 +45,7 @@ module.exports = {
 	getProduct: function(request, cb) {
 		var db             = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId       = request.server.plugins['hapi-mongodb'].ObjectID;
-		var productId      = req.params._id;
+		var productId      = request.params._id;
 		var collectionName = 'product';
 
 		db.collection(collectionName).find({
@@ -69,13 +69,13 @@ module.exports = {
 		var collectionName = 'product';
 		var db             = request.server.plugins['hapi-mongodb'].db;
 		var newProduct 	   = {
-			code: req.payload.code,
-			name: req.payload.name,
-			price: req.payload.price,
-			quantity: req.payload.quantity,
-			threshold: req.payload.threshold,
+			code: request.payload.code,
+			name: request.payload.name,
+			price: request.payload.price,
+			quantity: request.payload.quantity,
+			threshold: request.payload.threshold,
 			active: true,
-			provider: req.payload.provider
+			provider: request.payload.provider
 		};
 
 		db.collection(collectionName).save(newProduct, function(err, result) {
@@ -98,12 +98,12 @@ module.exports = {
 		var db             = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId       = request.server.plugins['hapi-mongodb'].ObjectID;
 		var fields         = ["code", "name", "price", "quantity", "provider", "threshold"];
-		var productId      = req.payload._id;
+		var productId      = request.payload._id;
 		var updateJSON     = {};
 
-		for (var key in req.payload) {
+		for (var key in request.payload) {
 			if (fields.indexOf(key) !== -1) {
-				updateJSON[key] = req.payload[key];
+				updateJSON[key] = request.payload[key];
 			}
 		}
 		db.collection(collectionName).update({
@@ -128,7 +128,7 @@ module.exports = {
 		var collectionName = 'product';
 		var db             = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId       = request.server.plugins['hapi-mongodb'].ObjectID;
-		var productId      = req.body._id;
+		var productId      = request.body._id;
 
 		db.collection(collectionName).update({
 			"_id": new ObjectId(productId)

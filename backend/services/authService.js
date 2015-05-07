@@ -59,7 +59,7 @@ module.exports = {
 				firstName: request.auth.credentials.firstname,
 				lastName: request.auth.credentials.lastname,
 				role: request.auth.credentials.role,
-				username: rquest.auth.credentials.username
+				username: request.auth.credentials.username
 
 			};
 		} else {

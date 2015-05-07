@@ -1,9 +1,11 @@
 (function() {
   'use strict';
-  require(['can', 'helpers/helpers', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails', 'components/loginComponent', 'models/loginModels'], function(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails) {
+  require(['can', 'helpers/helpers', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails', 'models/loginModels', 'components/loginComponent'], function(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails, LoginModel) {
     var Router;
     Router = can.Control.extend({
       init: function(element, options) {
+        var self;
+        self = this;
         this.options.userMap = new can.Map({
           user: ''
         });
@@ -31,14 +33,13 @@
         });
       },
       'route': function(data) {
+        var component;
         can.route.attr('route', 'login');
-        return {
-          'login route': function(data) {
-            var component;
-            component = can.mustache('<login-form></login-form>');
-            return can.$('.main-container').html(component());
-          }
-        };
+        ({
+          'login route': function(data) {}
+        });
+        component = can.mustache('<login-form></login-form>');
+        return can.$('.main-container').html(component());
       },
       'crearProducto route': function(data) {
         this.destroyControllers();

@@ -3,12 +3,12 @@
 define ['can'], (can) ->
 
 	ISVModel = can.Model.extend
-		findOne : 'GET /libuniversal/isv/read'
+		findOne : 'GET /getISV'
 		update : (params) ->
 			$.ajax
-	            url: '/libuniversal/isv/update'
+	            url: '/updateISV'
 	            type: 'post'
 	            contentType: "application/json"
 	            dataType: 'json'
-	            data: JSON.stringify(params) 
+	            data: JSON.stringify(params)
 	,{}
