@@ -5,7 +5,7 @@
     return SalesDetailsModel = can.Model.extend({
       findAll: function(params) {
         return $.ajax({
-          url: '/libuniversal/salesOrder/findByDate',
+          url: '/salesOrderByDate',
           type: 'post',
           contentType: "application/json",
           dataType: 'json',

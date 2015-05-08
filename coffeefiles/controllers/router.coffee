@@ -12,18 +12,16 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 					user : {})
 
 			@watchRouteChanges()
-			@renderHeader()
 
 		watchRouteChanges : ->
 			self = @
 			can.route.bind 'change', (ev, attr, how, newVal, oldVal) ->
 				if newVal isnt 'login'
-					can.$('.top-menu').removeClass 'hidden'
 					self.checkUserAuthentication()
 
 		renderHeader : ->
 			headerComponent = can.mustache '<navbar-element usermap="user"></navbar-element>'
-			can.$('.top-menu').html headerComponent(
+			can.$('#main-wrapper').prepend headerComponent(
 				user: @options.userMap)
 
 
@@ -35,15 +33,17 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 				if response.success is false
 					can.route.attr 'route', 'login'
 				else
+					if can.$('navbar-element').length is 0
+						self.renderHeader()
 					self.options.userMap.attr 'user', response
 			,(xhr) ->
 				Helpers.showMessage 'error', 'Error desconocido, favor intentar de nuevo'
 
 		'route' : (data) ->
-			can.route.attr 'route', 'login'
+			window.location.hash = '#!login'
 
 		'login route' : (data) ->
-			can.$('.top-menu').addClass 'hidden'
+			can.$('navbar-element').remove()
 			component = can.mustache '<login-form></login-form>'
 			can.$('.main-container').html component()
 

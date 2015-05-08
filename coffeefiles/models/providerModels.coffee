@@ -3,27 +3,27 @@
 define ['can'], (can) ->
 
 	ProviderModel = can.Model.extend
-		findOne : 'GET /libuniversal/provider/read/{_id}'
-		findAll : 'GET /libuniversal/provider/list'
+		findOne : 'GET getProvider/{_id}'
+		findAll : 'GET getProviders'
 		destroy : (params) ->
 			$.ajax
-	            url: '/libuniversal/provider/delete'
+	            url: '/deleteProvider'
 	            type: 'post'
 	            contentType: "application/json"
 	            dataType: 'json'
-	            data: JSON.stringify(params) 
+	            data: JSON.stringify(params)
 		update : (params) ->
 			$.ajax
-	            url: '/libuniversal/provider/update'
+	            url: '/updateProvider'
 	            type: 'post'
 	            contentType: "application/json"
 	            dataType: 'json'
-	            data: JSON.stringify(params) 
+	            data: JSON.stringify(params)
 		create : (params) ->
 			$.ajax
-	            url: '/libuniversal/provider/create'
+	            url: '/createProvider'
 	            type: 'post'
 	            contentType: "application/json"
 	            dataType: 'json'
-	            data: JSON.stringify(params) 
+	            data: JSON.stringify(params)
 	,{}
