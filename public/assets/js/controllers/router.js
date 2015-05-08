@@ -1,22 +1,31 @@
 (function() {
   'use strict';
-  require(['can', 'helpers/helpers', 'controllers/header', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails', 'models/loginModels', 'components/loginComponent'], function(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails, LoginModel) {
+  require(['can', 'helpers/helpers', 'controllers/product', 'controllers/provider', 'controllers/inventory', 'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails', 'models/loginModels', 'components/loginComponent', 'components/headerComponent'], function(can, Helpers, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails, LoginModel) {
     var Router;
     Router = can.Control.extend({
       init: function(element, options) {
+        this.options.userMap = new can.Map({
+          user: {}
+        });
+        this.watchRouteChanges();
+        return this.renderHeader();
+      },
+      watchRouteChanges: function() {
         var self;
         self = this;
-        this.options.userMap = new can.Map({
-          user: ''
-        });
-        can.route.bind('change', function(ev, attr, how, newVal, oldVal) {
+        return can.route.bind('change', function(ev, attr, how, newVal, oldVal) {
           if (newVal !== 'login') {
+            can.$('.top-menu').removeClass('hidden');
             return self.checkUserAuthentication();
           }
         });
-        return new Header(can.$('.top-menu'), {
+      },
+      renderHeader: function() {
+        var headerComponent;
+        headerComponent = can.mustache('<navbar-element usermap="user"></navbar-element>');
+        return can.$('.top-menu').html(headerComponent({
           user: this.options.userMap
-        });
+        }));
       },
       checkUserAuthentication: function() {
         var deferred, self;
@@ -26,18 +35,18 @@
           if (response.success === false) {
             return can.route.attr('route', 'login');
           } else {
-            return self.options.userMap.attr('user', response.name);
+            return self.options.userMap.attr('user', response);
           }
         }, function(xhr) {
-          return Helpers.showMessage('error', 'Error desconocido, favor intentar de nuevo ');
+          return Helpers.showMessage('error', 'Error desconocido, favor intentar de nuevo');
         });
       },
       'route': function(data) {
+        return can.route.attr('route', 'login');
+      },
+      'login route': function(data) {
         var component;
-        can.route.attr('route', 'login');
-        ({
-          'login route': function(data) {}
-        });
+        can.$('.top-menu').addClass('hidden');
         component = can.mustache('<login-form></login-form>');
         return can.$('.main-container').html(component());
       },

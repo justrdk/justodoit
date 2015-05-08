@@ -1,22 +1,31 @@
 'use strict'
 
-require ['can', 'helpers/helpers', 'controllers/header',
-'controllers/product', 'controllers/provider', 'controllers/inventory',
-'controllers/saleorder', 'controllers/isv', 'controllers/salesdetails', 'models/loginModels', 'components/loginComponent'],
-(can, Helpers, Header, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails, LoginModel) ->
+require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
+'controllers/inventory','controllers/saleorder', 'controllers/isv', 'controllers/salesdetails',
+'models/loginModels', 'components/loginComponent', 'components/headerComponent'],
+(can, Helpers, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails, LoginModel) ->
 
 	Router = can.Control.extend
 
 		init : (element, options) ->
-			self = @
 			@options.userMap = new can.Map(
-					user : '')
+					user : {})
 
+			@watchRouteChanges()
+			@renderHeader()
+
+		watchRouteChanges : ->
+			self = @
 			can.route.bind 'change', (ev, attr, how, newVal, oldVal) ->
 				if newVal isnt 'login'
+					can.$('.top-menu').removeClass 'hidden'
 					self.checkUserAuthentication()
 
-			new Header(can.$('.top-menu'), user: @options.userMap)
+		renderHeader : ->
+			headerComponent = can.mustache '<navbar-element usermap="user"></navbar-element>'
+			can.$('.top-menu').html headerComponent(
+				user: @options.userMap)
+
 
 		checkUserAuthentication : ->
 			self = @
@@ -26,14 +35,15 @@ require ['can', 'helpers/helpers', 'controllers/header',
 				if response.success is false
 					can.route.attr 'route', 'login'
 				else
-					self.options.userMap.attr 'user', response.name
+					self.options.userMap.attr 'user', response
 			,(xhr) ->
-				Helpers.showMessage 'error', 'Error desconocido, favor intentar de nuevo '
+				Helpers.showMessage 'error', 'Error desconocido, favor intentar de nuevo'
 
 		'route' : (data) ->
 			can.route.attr 'route', 'login'
 
-		 'login route' : (data) ->
+		'login route' : (data) ->
+			can.$('.top-menu').addClass 'hidden'
 			component = can.mustache '<login-form></login-form>'
 			can.$('.main-container').html component()
 
