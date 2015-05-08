@@ -16,8 +16,8 @@
           if (newVal !== 'login') {
             if (can.$('navbar-element').length === 0) {
               self.renderHeader();
-              return self.checkUserAuthentication();
             }
+            return self.checkUserAuthentication();
           }
         });
       },

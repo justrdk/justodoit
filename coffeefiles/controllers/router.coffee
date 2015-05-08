@@ -19,7 +19,7 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 				if newVal isnt 'login'
 					if can.$('navbar-element').length is 0
 						self.renderHeader()
-						self.checkUserAuthentication()
+					self.checkUserAuthentication()
 
 		renderHeader : ->
 			headerComponent = can.mustache '<navbar-element usermap="user"></navbar-element>'
