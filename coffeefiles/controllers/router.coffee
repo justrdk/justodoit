@@ -17,8 +17,6 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 			self = @
 			can.route.bind 'change', (ev, attr, how, newVal, oldVal) ->
 				if newVal isnt 'login'
-					if can.$('navbar-element').length is 0
-						self.renderHeader()
 					self.checkUserAuthentication()
 
 		renderHeader : ->
@@ -35,6 +33,8 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 				if response.success is false
 					can.route.attr 'route', 'login'
 				else
+					if can.$('navbar-element').length is 0
+						self.renderHeader()
 					self.options.userMap.attr 'user', response
 			,(xhr) ->
 				Helpers.showMessage 'error', 'Error desconocido, favor intentar de nuevo'

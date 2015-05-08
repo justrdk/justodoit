@@ -14,9 +14,6 @@
         self = this;
         return can.route.bind('change', function(ev, attr, how, newVal, oldVal) {
           if (newVal !== 'login') {
-            if (can.$('navbar-element').length === 0) {
-              self.renderHeader();
-            }
             return self.checkUserAuthentication();
           }
         });
@@ -36,6 +33,9 @@
           if (response.success === false) {
             return can.route.attr('route', 'login');
           } else {
+            if (can.$('navbar-element').length === 0) {
+              self.renderHeader();
+            }
             return self.options.userMap.attr('user', response);
           }
         }, function(xhr) {
