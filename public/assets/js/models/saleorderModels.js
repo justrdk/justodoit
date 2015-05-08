@@ -3,10 +3,10 @@
   define(['can'], function(can) {
     var SaleOrderModel;
     return SaleOrderModel = can.Model.extend({
-      findAll: 'GET /libuniversal/product/list/{filter}',
+      findAll: 'GET /getSalesOrder',
       create: function(params) {
         return $.ajax({
-          url: '/libuniversal/salesOrder/create',
+          url: '/createSalesOrder',
           type: 'post',
           contentType: "application/json",
           dataType: 'json',

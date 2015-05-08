@@ -7,23 +7,24 @@
         this.options.userMap = new can.Map({
           user: {}
         });
-        this.watchRouteChanges();
-        return this.renderHeader();
+        return this.watchRouteChanges();
       },
       watchRouteChanges: function() {
         var self;
         self = this;
         return can.route.bind('change', function(ev, attr, how, newVal, oldVal) {
           if (newVal !== 'login') {
-            can.$('.top-menu').removeClass('hidden');
-            return self.checkUserAuthentication();
+            if (can.$('navbar-element').length === 0) {
+              self.renderHeader();
+              return self.checkUserAuthentication();
+            }
           }
         });
       },
       renderHeader: function() {
         var headerComponent;
         headerComponent = can.mustache('<navbar-element usermap="user"></navbar-element>');
-        return can.$('.top-menu').html(headerComponent({
+        return can.$('#main-wrapper').prepend(headerComponent({
           user: this.options.userMap
         }));
       },
@@ -42,11 +43,11 @@
         });
       },
       'route': function(data) {
-        return can.route.attr('route', 'login');
+        return window.location.hash = '#!login';
       },
       'login route': function(data) {
         var component;
-        can.$('.top-menu').addClass('hidden');
+        can.$('navbar-element').remove();
         component = can.mustache('<login-form></login-form>');
         return can.$('.main-container').html(component());
       },

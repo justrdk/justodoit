@@ -3,11 +3,11 @@
   define(['can'], function(can) {
     var ProviderModel;
     return ProviderModel = can.Model.extend({
-      findOne: 'GET /libuniversal/provider/read/{_id}',
-      findAll: 'GET /libuniversal/provider/list',
+      findOne: 'GET getProvider/{_id}',
+      findAll: 'GET getProviders',
       destroy: function(params) {
         return $.ajax({
-          url: '/libuniversal/provider/delete',
+          url: '/deleteProvider',
           type: 'post',
           contentType: "application/json",
           dataType: 'json',
@@ -16,7 +16,7 @@
       },
       update: function(params) {
         return $.ajax({
-          url: '/libuniversal/provider/update',
+          url: '/updateProvider',
           type: 'post',
           contentType: "application/json",
           dataType: 'json',
@@ -25,7 +25,7 @@
       },
       create: function(params) {
         return $.ajax({
-          url: '/libuniversal/provider/create',
+          url: '/createProvider',
           type: 'post',
           contentType: "application/json",
           dataType: 'json',

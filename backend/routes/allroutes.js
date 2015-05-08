@@ -64,7 +64,7 @@ module.exports = [{
 		}
 	}
 }, {
-	method: "GET",
+	method: "POST",
 	path: "/createProvider",
 	handler: controllers.provider.createProvider,
 	config: {
@@ -74,7 +74,7 @@ module.exports = [{
 		}
 	}
 }, {
-	method: "GET",
+	method: "POST",
 	path: "/updateProvider",
 	handler: controllers.provider.updateProvider,
 	config: {
@@ -124,7 +124,7 @@ module.exports = [{
 		}
 	}
 }, {
-	method: "GET",
+	method: "POST",
 	path: "/createProduct",
 	handler: controllers.product.createProduct,
 	config: {
@@ -134,7 +134,7 @@ module.exports = [{
 		}
 	}
 }, {
-	method: "GET",
+	method: "POST",
 	path: "/updateProduct",
 	handler: controllers.product.updateProduct,
 	config: {
@@ -184,7 +184,7 @@ module.exports = [{
 		}
 	}
 }, {
-	method: "GET",
+	method: "POST",
 	path: "/createSalesOrder",
 	handler: controllers.salesOrder.createSalesOrder,
 	config: {
@@ -204,7 +204,7 @@ module.exports = [{
 		}
 	}
 }, {
-	method: "GET",
+	method: "POST",
 	path: "/updateISV",
 	handler: controllers.isv.updateISV,
 	config: {
