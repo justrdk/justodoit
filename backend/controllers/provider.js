@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = {
 	getAllProviders : function(request, reply){
 		var providerService = require('../services/providerService');

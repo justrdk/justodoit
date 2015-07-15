@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = {
 	loginUser: function(request, reply) {
 		var authService = require('../services/authService');

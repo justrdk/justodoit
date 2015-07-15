@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = {
 	findByDate: function(request, reply) {
 		var salesOrderService = require('../services/salesOrderService');

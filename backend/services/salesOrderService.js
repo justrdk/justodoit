@@ -1,11 +1,13 @@
+"use strict";
+
 module.exports = {
-	assembleSalesOrder: function(db, objectId, salesOrders, cb) {
+	assembleSalesOrder: function(db, ObjectId, salesOrders, cb) {
 		var soICol = 'salesOrderItem';
 		var productCol = 'product';
 
 		var ids = salesOrders.map(function(so) {
 			so.items = [];
-			return new objectId(so._id);
+			return new ObjectId(so._id);
 		});
 		var index = salesOrders.reduce(function(ans, next, idx) {
 			ans[next._id] = idx;
@@ -20,7 +22,7 @@ module.exports = {
 			var usedProductsIds = [];
 			docs.forEach(function(soi) {
 				if (usedProductsIds.indexOf(soi.productId) === -1) {
-					usedProductsIds.push(new objectId(soi.productId));
+					usedProductsIds.push(new ObjectId(soi.productId));
 				}
 			});
 
@@ -44,10 +46,8 @@ module.exports = {
 	},
 	findByDate: function(request, cb) {
 		var soCol = 'salesOrder';
-		var soICol = 'salesOrderItem';
-		var productCol = 'product';
 		var db = request.server.plugins['hapi-mongodb'].db;
-		var objectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
 		var self = this;
 
 		if (request.payload.hasOwnProperty("startDate") && request.payload.startDate) {
@@ -66,7 +66,7 @@ module.exports = {
 					}
 				}).toArray(function(err, docs) {
 
-					self.assembleSalesOrder(db, objectId, docs, function(saleOrders) {
+					self.assembleSalesOrder(db, ObjectId, docs, function(saleOrders) {
 						cb({
 							success: true,
 							data: saleOrders
@@ -132,6 +132,7 @@ module.exports = {
 		var soICol = 'salesOrderItem';
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var productCol = 'product';
 		//1. Primero se crea un saleOrder
 		var newSalesOrder = {
 			date: new Date(new Date().toJSON().substr(0, 10)),
@@ -151,7 +152,7 @@ module.exports = {
 				//2. Se leen los datos de los productos usados
 				var usedProductsIds = request.payload.items.reduce(function(ans, next) {
 					if (ans.indexOf(next.productId) === -1) {
-						ans.push(new objectId(next.productId));
+						ans.push(new ObjectId(next.productId));
 					}
 					return ans;
 				}, []);
@@ -186,7 +187,7 @@ module.exports = {
 							salesOrderSubtotal += response.subtotal;
 							return response;
 						});
-						db.collection(soICol).insert(newSalesOrderItems, function(err, salesOrderItems) {
+						db.collection(soICol).insert(newSalesOrderItems, function(err) {
 							if (err) {
 								cb({
 									success: false,
@@ -207,7 +208,7 @@ module.exports = {
 										});
 									} else {
 										db.collection(soICol).find({
-											salesOrderId: new objectId(salesOrder._id)
+											salesOrderId: new ObjectId(salesOrder._id)
 										}, {
 											"productId": true,
 											"quantityToSell": true,
@@ -225,7 +226,6 @@ module.exports = {
 								});
 							}
 						});
-
 					}
 				});
 			}

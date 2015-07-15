@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = {
 	getAllProducts : function(request, reply){
 		var productService = require('../services/productService');

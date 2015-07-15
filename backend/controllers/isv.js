@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = {
 	getISV: function(request, reply) {
 		var isvService = require('../services/isvService');
