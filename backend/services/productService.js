@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = {
 	getAllProducts: function(request, cb) {
 		var db             = request.server.plugins['hapi-mongodb'].db;
@@ -110,7 +112,7 @@ module.exports = {
 			"_id": new ObjectId(productId)
 		}, {
 			$set: updateJSON
-		}, function(err, result) {
+		}, function(err) {
 			if (err) {
 				cb({
 					success: false,
@@ -124,7 +126,7 @@ module.exports = {
 			}
 		});
 	},
-	deleteProduct: function(request, reply) {
+	deleteProduct: function(request, cb) {
 		var collectionName = 'product';
 		var db             = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId       = request.server.plugins['hapi-mongodb'].ObjectID;
@@ -136,7 +138,7 @@ module.exports = {
 			$set: {
 				active: false
 			}
-		}, function(err, result) {
+		}, function(err) {
 			if (err) {
 				cb({
 					success: false,

@@ -1,15 +1,20 @@
 (function() {
   'use strict';
-  define(['can', 'components/saleorderComponents', 'models/saleorderModels'], function(can, saleOrderComponent, SaleOrderModel) {
+  define(['can', 'components/saleorderComponents', 'models/saleorderModels', 'models/productModels'], function(can, saleOrderComponent, SaleOrderModel, ProductModel) {
     var SaleOrder;
     return SaleOrder = can.Control.extend({
       init: function(element, options) {
+        var self;
+        self = this;
         this.options.searchProducts = new can.List([]);
         this.options.orderProducts = new can.List([]);
-        return this.element.html(can.view('views/saleorder/saleorder-layout.mustache', {
-          products: this.options.searchProducts,
-          orderProducts: this.options.orderProducts
-        }));
+        this.options.products = new can.List([]);
+        return this.getAllProducts().then(function() {
+          return self.element.html(can.view('views/saleorder/saleorder-layout.mustache', {
+            products: self.options.searchProducts,
+            orderProducts: self.options.orderProducts
+          }));
+        });
       },
       '.search-inventory keyup': function(el) {
         var query, self;
@@ -19,6 +24,8 @@
         return self.options.searchTimer = setTimeout(function() {
           if (query !== '' && /\S+/.test(query) === true) {
             return self.getProductsByFilter(query);
+          } else {
+            return self.options.searchProducts.replace([]);
           }
         }, 1200);
       },
@@ -29,6 +36,21 @@
       },
       '.saleorder createSaleOrder': function(el, ev) {
         return this.createSaleOrder();
+      },
+      getAllProducts: function() {
+        var deferred, self;
+        self = this;
+        deferred = ProductModel.findAll();
+        deferred.then(function(response) {
+          if (response.success) {
+            return self.options.products.replace(response);
+          } else {
+            return Helpers.showMessage('error', response.errorMessage);
+          }
+        }, function(xhr) {
+          return Helpers.showMessage('error', 'Error al crear orden de venta, favor intentar de nuevo');
+        });
+        return deferred;
       },
       productAlreadyInOrder: function(product) {
         var prod, _i, _len, _ref;
@@ -63,19 +85,13 @@
         return can.batch.stop();
       },
       getProductsByFilter: function(query) {
-        var deferred, self;
+        var self, substrRegex;
         self = this;
-        deferred = SaleOrderModel.findAll({
-          filter: query
-        });
-        return deferred.then(function(response) {
-          if (response.success === true) {
-            return self.options.searchProducts.replace(response);
-          } else {
-            return Helpers.showMessage('error', response.errorMessage);
+        substrRegex = new RegExp(query, 'i');
+        return this.options.products.forEach(function(product, index) {
+          if (substrRegex.test(product.code) === true || substrRegex.test(product.name) === true && self.options.searchProducts.indexOf(product) === -1) {
+            return self.options.searchProducts.push(product);
           }
-        }, function(xhr) {
-          return Helpers.showMessage('error', 'Error al buscar productos, favor intentar de nuevo');
         });
       },
       cleanOrder: function() {

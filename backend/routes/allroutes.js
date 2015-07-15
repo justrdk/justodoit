@@ -154,7 +154,7 @@ module.exports = [{
 		}
 	}
 }, {
-	method: "GET",
+	method: "POST",
 	path: "/salesOrderByDate",
 	handler: controllers.salesOrder.findByDate,
 	config: {
