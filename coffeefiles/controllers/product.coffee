@@ -114,11 +114,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 				products = self.options.productsList
 				substrRegex = new RegExp(q, 'i')
 
-				products.forEach (product, index) ->
-					if substrRegex.test(product.code) is true or substrRegex.test(product.name) is true
-						matches.push 
-							value: product.name
-							_id: product._id
+				matches.push {value:name, _id:_id} for {name, _id, code} in products when substrRegex.test(name) is true or substrRegex.test(code)
 				cb(matches)
 
 		updateProductInList : ->

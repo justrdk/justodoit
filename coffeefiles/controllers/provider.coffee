@@ -98,12 +98,8 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 				matches = []
 				substrRegex = new RegExp(q, 'i')
 				providers = self.options.providersList
-				
-				providers.forEach (provider, index) ->
-					if substrRegex.test(provider.name) is true
-						matches.push 
-							value: provider.name
-							_id: provider._id
+
+				matches.push {value:name, _id:_id} for {name, _id} in providers when substrRegex.test(name) is true
 				cb(matches)
 
 		updateProviderInList : ->
