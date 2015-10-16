@@ -114,15 +114,12 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 				products = self.options.productsList
 				substrRegex = new RegExp(q, 'i')
 
-				matches.push {value:name, _id:_id} for {name, _id, code} in products when substrRegex.test(name) is true or substrRegex.test(code)
+				matches.push {value:name, _id:_id} for {name, _id, code} in products when substrRegex.test(name) is true or substrRegex.test(code) is true
 				cb(matches)
 
 		updateProductInList : ->
-			self = @
-			idToCompare = self.options.productEdit._id
-			@options.productsList.map (product) ->
-				if product._id is idToCompare
-					product.attr 'name', self.options.productEdit.name
+			idToCompare = @options.productEdit._id
+			product.attr('name', @options.productEdit.name) for product in @options.productsList when product._id is idToCompare
 
 		removeProductInList : ->
 			for product, index in @options.productsList
