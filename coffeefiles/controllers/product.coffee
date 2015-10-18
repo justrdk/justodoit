@@ -77,10 +77,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 			@options.productEdit.attr 'threshold', 0
 
 		productSelected : ->
-			if @options.productEdit._id
-				true
-			else
-				false
+			if @options.productEdit._id then true else false
 	
 		renderCreateTemplate : ->
 			@element.html can.view('views/param/param-product.mustache', 

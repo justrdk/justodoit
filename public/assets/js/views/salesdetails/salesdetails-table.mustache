@@ -8,13 +8,13 @@
 </thead>
 <tbody>
 	{{#each products}}
-	{{#each items}}
-	<tr>
-		<td> {{name}} </td>
-		<td> {{quantityToSell}} </td>
-		<td> Lps.{{subtotal}} </td>
-		<td> {{formatDate date}} </td>
-	</tr>
-	{{/each}}
+		{{#each items}}
+		<tr>
+			<td> {{name}} </td>
+			<td> {{quantityToSell}} </td>
+			<td> Lps.{{subtotal}} </td>
+			<td> {{formatDate date}} </td>
+		</tr>
+		{{/each}}
 	{{/each}}
 </tbody>

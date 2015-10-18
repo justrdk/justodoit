@@ -14,7 +14,7 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 
 		'#create-prov click' : (el) ->
 			@createProvider()
-			
+
 		'#delete-prov click' : (el) ->
 			if @providerSelected() is true
 				@deleteProvider()
@@ -64,13 +64,10 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 			@options.providerEdit.attr 'contact', ''
 
 		providerSelected : ->
-			if @options.providerEdit._id
-				true
-			else
-				false
+			if @options.providerEdit._id then true else false
 
 		renderCreateTemplate : ->
-			@element.html can.view('views/param/param-provider.mustache', 
+			@element.html can.view('views/param/param-provider.mustache',
 					provider : @options.provider)
 
 		renderEditTemplate : ->
@@ -103,11 +100,7 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 				cb(matches)
 
 		updateProviderInList : ->
-			self = @
-			idToCompare = self.options.providerEdit._id
-			@options.providersList.map (provider) ->
-				if provider._id is idToCompare
-					provider.attr 'name', self.options.providerEdit.name
+			provider.attr('name', @options.providerEdit.name) for provider in @options.providersList when provider._id is @options.providerEdit._id
 
 		removeProviderInList : ->
 			for provider, index in @options.providersList
@@ -169,10 +162,10 @@ define ['can', 'models/providerModels'], (can, ProviderModel) ->
 				Helpers.showMessage 'error', 'Error consiguiendo lista de proveedores, favor intentar de nuevo'
 
 			deferred
-			
+
 		getProviderDetails : (providerId) ->
 			self = @
-			deferred = ProviderModel.findOne(_id:providerId)	
+			deferred = ProviderModel.findOne(_id:providerId)
 
 			deferred.then (response) ->
 				if response.success is true
