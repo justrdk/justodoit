@@ -1,0 +1,21 @@
+<div class="container sales-details">
+	<div class="pull-left search-sales-order-details-container">
+		<form class="form-inline">
+			<div class="form-group">
+				<label for="startDate">Desde: </label>
+				<input type="text" class="form-control" placeholder="mm/dd/yyyy" data-provide="datepicker" data-date-format="mm/dd/yyyy" can-value="startDate">
+			</div>
+			<div class="form-group">
+				<label for="endDate">Hasta: </label>
+				<input type="text" class="form-control" placeholder="mm/dd/yyyy" data-provide="datepicker" data-date-format="mm/dd/yyyy" can-value="endDate">
+			</div>
+			<button type="button" class="btn btn-primary search-order-details">Buscar</button>
+		</form>
+		{{#if products.length}}
+			<input class="form-control search-sales-details" type="text" placeholder="Filtrar entre detalles de venta">
+		{{/if}}
+	</div>
+	<table class="table table-hover sales-details-table">
+		{{>views/salesdetails/salesdetails-table.mustache}}
+	</table>
+</div>

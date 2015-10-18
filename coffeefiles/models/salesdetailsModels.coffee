@@ -2,11 +2,10 @@
 
 define ['can'], (can) ->
 
-	ISVModel = can.Model.extend
-		findOne : 'GET /getISV'
-		update : (params) ->
+	SalesDetailsModel = can.Model.extend
+		findAll : (params) ->
 			$.ajax
-	            url: '/updateISV'
+	            url: '/salesOrderByDate'
 	            type: 'post'
 	            contentType: "application/json"
 	            dataType: 'json'

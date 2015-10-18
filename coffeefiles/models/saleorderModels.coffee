@@ -3,10 +3,10 @@
 define ['can'], (can) ->
 
 	SaleOrderModel = can.Model.extend
-		findAll : 'GET /libuniversal/product/list/{filter}'
+		findAll : 'GET /getSalesOrder'
 		create : (params) ->
 			$.ajax
-	            url: '/libuniversal/salesOrder/create'
+	            url: '/createSalesOrder'
 	            type: 'post'
 	            contentType: "application/json"
 	            dataType: 'json'

@@ -31,10 +31,7 @@ define ['can', 'models/productModels'], (can, ProductModel) ->
 			matches = new can.List []
 			matchRegexp = new RegExp(query, 'i')
 
-			for product in @options.products
-				if matchRegexp.test(product.code) is true or matchRegexp.test(product.name) is true
-					matches.push product
-
+			matches.push(product) for product in @options.products when matchRegexp.test(product.code) is true or matchRegexp.test(product.name) is true
 			can.$('.inventory-table').html can.view('views/inventory/inventory-table.mustache',
 				products : matches)
 

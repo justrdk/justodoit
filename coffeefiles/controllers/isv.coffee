@@ -1,7 +1,7 @@
 'use strict'
 
 define ['can', 'models/isvModels'], (can, ISVModel) ->
-	
+
 	ISV = can.Control.extend
 
 		init : (element, options) ->
@@ -23,7 +23,7 @@ define ['can', 'models/isvModels'], (can, ISVModel) ->
 		renderFormView : ->
 			@element.html can.view('views/param/param-isv-edit.mustache',
 				isv : @options.isvMap)
-			
+
 		getCurrentISV : ->
 			self = @
 			deferred = ISVModel.findOne()

@@ -1,0 +1,20 @@
+<thead>
+	<tr>
+		<th> Nombre </th>
+		<th> Cantidad </th>
+		<th> Subtotal </th>
+		<th> Fecha Venta</th>
+	</tr>
+</thead>
+<tbody>
+	{{#each products}}
+		{{#each items}}
+		<tr>
+			<td> {{name}} </td>
+			<td> {{quantityToSell}} </td>
+			<td> Lps.{{subtotal}} </td>
+			<td> {{formatDate date}} </td>
+		</tr>
+		{{/each}}
+	{{/each}}
+</tbody>

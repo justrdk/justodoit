@@ -77,10 +77,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 			@options.productEdit.attr 'threshold', 0
 
 		productSelected : ->
-			if @options.productEdit._id
-				true
-			else
-				false
+			if @options.productEdit._id then true else false
 	
 		renderCreateTemplate : ->
 			@element.html can.view('views/param/param-product.mustache', 
@@ -102,6 +99,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 			can.$('.typeahead').typeahead
 				hint: true
 				highlight: true
+			,
 				name : 'Productos'
 				displayKey: 'value'
 				source: self.filterProducts()
@@ -113,19 +111,12 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 				products = self.options.productsList
 				substrRegex = new RegExp(q, 'i')
 
-				products.forEach (product, index) ->
-					if substrRegex.test(product.code) is true or substrRegex.test(product.name) is true
-						matches.push 
-							value: product.name
-							_id: product._id
+				matches.push {value:name, _id:_id} for {name, _id, code} in products when substrRegex.test(name) is true or substrRegex.test(code) is true
 				cb(matches)
 
 		updateProductInList : ->
-			self = @
-			idToCompare = self.options.productEdit._id
-			@options.productsList.filter (product) ->
-				if product._id is idToCompare
-					product.attr 'name', self.options.productEdit.name
+			idToCompare = @options.productEdit._id
+			product.attr('name', @options.productEdit.name) for product in @options.productsList when product._id is idToCompare
 
 		removeProductInList : ->
 			for product, index in @options.productsList

@@ -2,5 +2,9 @@
 node_modules/
 .DS_STORE
 npm-debug.log
+public/assets/js/components/
+public/assets/js/controllers/
+public/assets/js/helpers/
+public/assets/js/models/
 public/assets/js/main-optimized.js
 data/
