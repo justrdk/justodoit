@@ -1,12 +1,13 @@
+'use strict';
+
 module.exports = {
 	getISV: function(request, cb) {
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var collectionName = 'isv';
-		var isvId = '';
-
 		var findJSON = {
 			active: true
 		};
+
 		db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
 			if (docs.length) {
 				cb({
@@ -28,7 +29,7 @@ module.exports = {
 		var collectionName = 'isv';
 		var isvId = '';
 
-		var fields = ["value"];
+		var fields = ['value'];
 		isvId = request.payload._id;
 		var updateJSON = {};
 		for (var key in request.payload) {
@@ -37,14 +38,14 @@ module.exports = {
 			}
 		}
 		db.collection(collectionName).update({
-			"_id": new ObjectId(isvId)
+			'_id': new ObjectId(isvId)
 		}, {
 			$set: updateJSON
 		}, function(err, result) {
 			if (err) {
 				cb({
 					success: false,
-					errorMessage: "Hubo un error en la actualizaciòn del ISV",
+					errorMessage: 'Hubo un error en la actualizaciòn del ISV',
 					metadata: err
 				});
 			} else {

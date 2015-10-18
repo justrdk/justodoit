@@ -1,15 +1,17 @@
+'use strict';
+
 module.exports = {
 	getAllProviders: function(request, cb) {
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var collectionName = 'provider';
-		var providerId = '';
-
 		var findJSON = {
 			active: true
 		};
+
 		if (request.query.hasOwnProperty("filter")) {
 			findJSON.name = new RegExp(request.query.filter, "i");
 		}
+
 		db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
 			if (docs.length) {
 				cb({
@@ -52,7 +54,6 @@ module.exports = {
 	createProvider: function(request, cb) {
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var collectionName = 'provider';
-		var providerId = '';
 
 		var newProvider = {
 			name: request.payload.name,

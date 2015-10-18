@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 module.exports = {
 	assembleSalesOrder: function(db, ObjectId, salesOrders, cb) {
@@ -50,10 +50,10 @@ module.exports = {
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
 		var self = this;
 
-		if (request.payload.hasOwnProperty("startDate") && request.payload.startDate) {
+		if (request.payload.hasOwnProperty('startDate') && request.payload.startDate) {
 			var pStartDate = request.payload.startDate.substr(0, 10);
 			var pEndDate;
-			if (request.payload.hasOwnProperty("endDate") && request.payload.endDate) {
+			if (request.payload.hasOwnProperty('endDate') && request.payload.endDate) {
 				pEndDate = request.payload.endDate.substr(0, 10);
 			} else {
 				pEndDate = new Date().toJSON().substr(0, 10);
@@ -76,7 +76,7 @@ module.exports = {
 		} else {
 			cb({
 				success: false,
-				errorMessage: "No se puede buscar ordenes de ventas sin una fecha inicial",
+				errorMessage: 'No se puede buscar ordenes de ventas sin una fecha inicial',
 				params: request.params.startDate
 			});
 		}
@@ -108,10 +108,10 @@ module.exports = {
 				db.collection(soICol).find({
 					salesOrderId: new ObjectId(docs[0]._id)
 				}, {
-					"productId": true,
-					"quantityToSell": true,
-					"subtotal": true,
-					"_id": false
+					'productId': true,
+					'quantityToSell': true,
+					'subtotal': true,
+					'_id': false
 				}).toArray(function(err, allItems) {
 					docs[0].items = allItems;
 					cb({
@@ -122,7 +122,7 @@ module.exports = {
 			} else {
 				cb({
 					success: false,
-					errorMessage: "No existe la orden de venta que desea leer"
+					errorMessage: 'No existe la orden de venta que desea leer'
 				});
 			}
 		});
@@ -144,7 +144,7 @@ module.exports = {
 			if (err) {
 				cb({
 					success: false,
-					errorMessage: "Hubo un error en la creación de la orden de venta",
+					errorMessage: 'Hubo un error en la creación de la orden de venta',
 					metadata: err
 				});
 			} else {
@@ -166,7 +166,7 @@ module.exports = {
 					if (err) {
 						cb({
 							success: false,
-							errorMessage: "Hubo un error en la lectura de los productos usados",
+							errorMessage: 'Hubo un error en la lectura de los productos usados',
 							metadata: err
 						});
 					} else {
@@ -191,7 +191,7 @@ module.exports = {
 							if (err) {
 								cb({
 									success: false,
-									errorMessage: "Hubo un error en la creación de los artículos de la orden de venta",
+									errorMessage: 'Hubo un error en la creación de los artículos de la orden de venta',
 									metadata: err
 								});
 							} else {
@@ -203,17 +203,17 @@ module.exports = {
 									if (err) {
 										cb({
 											success: false,
-											errorMessage: "Hubo un error en la actualización de la orden de venta",
+											errorMessage: 'Hubo un error en la actualización de la orden de venta',
 											metadata: err
 										});
 									} else {
 										db.collection(soICol).find({
 											salesOrderId: new ObjectId(salesOrder._id)
 										}, {
-											"productId": true,
-											"quantityToSell": true,
-											"subtotal": true,
-											"_id": false
+											'productId': true,
+											'quantityToSell': true,
+											'subtotal': true,
+											'_id': false
 										}).toArray(function(err, allItems) {
 											salesOrder.items = allItems;
 											cb({

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 module.exports = {
 	getAllProducts: function(request, cb) {
@@ -17,12 +17,12 @@ module.exports = {
 			var findJSON = {
 				active: true
 			};
-			if (request.params.hasOwnProperty("filter")) {
-				var regVal = new RegExp(request.params.filter, "i");
+			if (request.params.hasOwnProperty('filter')) {
+				var regVal = new RegExp(request.params.filter, 'i');
 				findJSON.$or = [{
-					"code": regVal
+					'code': regVal
 					}, {
-					"name": regVal
+					'name': regVal
 					}];
 			}
 			db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
@@ -62,7 +62,7 @@ module.exports = {
 			} else {
 				cb({
 					success: false,
-					errorMessage: "No existe el producto que desea leer"
+					errorMessage: 'No existe el producto que desea leer'
 				});
 			}
 		});
@@ -84,7 +84,7 @@ module.exports = {
 			if (err) {
 				cb({
 					success: false,
-					errorMessage: "Hubo un error en la creación del producto",
+					errorMessage: 'Hubo un error en la creación del producto',
 					metadata: err
 				});
 			} else {
@@ -99,7 +99,7 @@ module.exports = {
 		var collectionName = 'product';
 		var db             = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId       = request.server.plugins['hapi-mongodb'].ObjectID;
-		var fields         = ["code", "name", "price", "quantity", "provider", "threshold"];
+		var fields         = ['code', 'name', 'price', 'quantity', 'provider', 'threshold'];
 		var productId      = request.payload._id;
 		var updateJSON     = {};
 
@@ -109,14 +109,14 @@ module.exports = {
 			}
 		}
 		db.collection(collectionName).update({
-			"_id": new ObjectId(productId)
+			'_id': new ObjectId(productId)
 		}, {
 			$set: updateJSON
 		}, function(err) {
 			if (err) {
 				cb({
 					success: false,
-					errorMessage: "Hubo un error en la actualizaciòn del producto",
+					errorMessage: 'Hubo un error en la actualizaciòn del producto',
 					metadata: err
 				});
 			} else {
@@ -133,7 +133,7 @@ module.exports = {
 		var productId      = request.body._id;
 
 		db.collection(collectionName).update({
-			"_id": new ObjectId(productId)
+			'_id': new ObjectId(productId)
 		}, {
 			$set: {
 				active: false
@@ -142,7 +142,7 @@ module.exports = {
 			if (err) {
 				cb({
 					success: false,
-					errorMessage: "Hubo un error en la eliminación del producto",
+					errorMessage: 'Hubo un error en la eliminación del producto',
 					metadata: err
 				});
 			} else {

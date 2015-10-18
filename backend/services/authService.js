@@ -1,8 +1,9 @@
+'use strict';
+
 module.exports = {
 	authenticateUser: function(request, cb) {
 		var userCollection = 'user';
 		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
 
 		if (request.auth.isAuthenticated) {
 			cb({
