@@ -90,11 +90,7 @@ define ['can', 'components/saleorderComponents', 'models/saleorderModels', 'mode
 			self = @
 			items = []
 
-			for prod in @options.orderProducts
-				items.push
-					productId: prod._id
-					quantityToSell: prod.quantityToSell
-
+			items.push {productId: prod._id, quantityToSell: prod.quantityToSell} for prod in @options.orderProducts
 			deferred = SaleOrderModel.create(items:items)
 
 			deferred.then (response) ->
