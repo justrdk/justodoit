@@ -1,9 +1,9 @@
 'use strict'
 
-require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
+require ['can', 'helpers/helpers','controllers/product', 'controllers/provider', 'controllers/user',
 'controllers/inventory','controllers/saleorder', 'controllers/isv', 'controllers/salesdetails',
 'models/loginModels', 'components/loginComponent', 'components/headerComponent'],
-(can, Helpers, Product, Provider, Inventory, SaleOrder, ISV, SalesDetails, LoginModel) ->
+(can, Helpers, Product, Provider, User, Inventory, SaleOrder, ISV, SalesDetails, LoginModel) ->
 
 	Router = can.Control.extend
 
@@ -71,6 +71,18 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 			@destroyControllers()
 			new Provider(can.$('.main-container'), edit:true)
 
+		'crearUsuario route' : (data) ->
+			@destroyControllers()
+			new User(can.$('.main-container'), edit:false)
+
+		'editarUsuario route' : (data) ->
+			@destroyControllers()
+			new User(can.$('.main-container'), edit:true)
+
+		'editarUsuario/:userid route' : (data) ->
+			@destroyControllers()
+			new User(can.$('.main-container'), edit:true)
+
 		'inventario route' : (data) ->
 			@destroyControllers()
 			new Inventory(can.$('.main-container'))
@@ -89,11 +101,11 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 
 		'destroyControllers' : ->
 			currentControllers = can.$('.main-container').data().controls
-			if currentControllers isnt undefined
+			if currentControllers?
 				@destroyController controller for controller in currentControllers
 
 		'destroyController' : (controller) ->
-			if controller isnt undefined and controller isnt null
+			if controller?
 				controller.destroy()
 
 	$(document).ready ->

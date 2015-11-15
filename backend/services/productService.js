@@ -2,9 +2,9 @@
 
 module.exports = {
 	getAllProducts: function(request, cb) {
-		var db             = request.server.plugins['hapi-mongodb'].db;
+		var db = request.server.plugins['hapi-mongodb'].db;
 		var collectionName = 'product';
-		var providerCol    = 'provider';
+		var providerCol = 'provider';
 
 		db.collection(providerCol).find({}, {
 			name: true
@@ -21,9 +21,9 @@ module.exports = {
 				var regVal = new RegExp(request.params.filter, 'i');
 				findJSON.$or = [{
 					'code': regVal
-					}, {
+				}, {
 					'name': regVal
-					}];
+				}];
 			}
 			db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
 				docs.forEach(function(product) {
@@ -45,9 +45,9 @@ module.exports = {
 		});
 	},
 	getProduct: function(request, cb) {
-		var db             = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId       = request.server.plugins['hapi-mongodb'].ObjectID;
-		var productId      = request.params._id;
+		var db = request.server.plugins['hapi-mongodb'].db;
+		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var productId = request.params._id;
 		var collectionName = 'product';
 
 		db.collection(collectionName).find({
@@ -69,8 +69,8 @@ module.exports = {
 	},
 	createProduct: function(request, cb) {
 		var collectionName = 'product';
-		var db             = request.server.plugins['hapi-mongodb'].db;
-		var newProduct 	   = {
+		var db = request.server.plugins['hapi-mongodb'].db;
+		var newProduct = {
 			code: request.payload.code,
 			name: request.payload.name,
 			price: request.payload.price,
@@ -97,11 +97,11 @@ module.exports = {
 	},
 	updateProduct: function(request, cb) {
 		var collectionName = 'product';
-		var db             = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId       = request.server.plugins['hapi-mongodb'].ObjectID;
-		var fields         = ['code', 'name', 'price', 'quantity', 'provider', 'threshold'];
-		var productId      = request.payload._id;
-		var updateJSON     = {};
+		var db = request.server.plugins['hapi-mongodb'].db;
+		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var fields = ['code', 'name', 'price', 'quantity', 'provider', 'threshold'];
+		var productId = request.payload._id;
+		var updateJSON = {};
 
 		for (var key in request.payload) {
 			if (fields.indexOf(key) !== -1) {
@@ -128,9 +128,9 @@ module.exports = {
 	},
 	deleteProduct: function(request, cb) {
 		var collectionName = 'product';
-		var db             = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId       = request.server.plugins['hapi-mongodb'].ObjectID;
-		var productId      = request.body._id;
+		var db = request.server.plugins['hapi-mongodb'].db;
+		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var productId = request.body._id;
 
 		db.collection(collectionName).update({
 			'_id': new ObjectId(productId)

@@ -57,8 +57,8 @@ module.exports = {
 		if (request.auth.credentials && request.auth.credentials.username) {
 			reply = {
 				success: true,
-				firstName: request.auth.credentials.firstname,
-				lastName: request.auth.credentials.lastname,
+				firstname: request.auth.credentials.firstname,
+				lastname: request.auth.credentials.lastname,
 				role: request.auth.credentials.role,
 				username: request.auth.credentials.username
 
