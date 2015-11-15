@@ -6,7 +6,7 @@ module.exports = {
 		var db = request.server.plugins['hapi-mongodb'].db;
 
 		if (request.auth.isAuthenticated) {
-			cb({
+			return cb({
 				success: true,
 				firstname: request.auth.credentials.firstname,
 				lastname: request.auth.credentials.lastname,
@@ -16,7 +16,7 @@ module.exports = {
 		}
 
 		if (!request.payload.username || !request.payload.password) {
-			cb({
+			return cb({
 				success: false,
 				error: 'Missing username or password'
 			});
@@ -25,20 +25,20 @@ module.exports = {
 				'username': request.payload.username
 			}, function(err, user) {
 				if (err) {
-					cb({
+					return cb({
 						success: false,
 						error: 'Internal MongoDB error'
 					});
 				}
 
 				if (!user || user.password !== request.payload.password) {
-					cb({
+					return cb({
 						success: false,
 						error: 'Invalid username or password'
 					});
 				} else {
 					request.auth.session.set(user);
-					cb({
+					return cb({
 						success: true,
 						user: user
 					});
