@@ -172,6 +172,8 @@ define ['can', 'models/userModels'], (can, UserModel) ->
 					self.options.userEdit.attr '_id', response.data._id
 					self.options.userEdit.attr 'username', response.data.username
 					self.options.userEdit.attr 'password', response.data.password
+					self.options.userEdit.attr 'firstname', response.data.firstname
+					self.options.userEdit.attr 'lastname', response.data.lastname
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->

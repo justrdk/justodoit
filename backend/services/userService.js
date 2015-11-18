@@ -1,41 +1,43 @@
 'use strict';
 
 module.exports = {
-	getAllProviders: function(request, cb) {
+	getAllUsers: function(request, cb) {
 		var db = request.server.plugins['hapi-mongodb'].db;
-		var collectionName = 'provider';
+		var collectionName = 'user';
 		var findJSON = {
 			active: true
 		};
 
-		if (request.query.hasOwnProperty("filter")) {
-			findJSON.name = new RegExp(request.query.filter, "i");
+		if (request.params.hasOwnProperty('filter')) {
+			var regVal = new RegExp(request.params.filter, 'i');
+			findJSON.$or = [{
+				'username': regVal
+			}];
 		}
 
-		db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
-			if (docs.length) {
+		db.collection(collectionName).find(findJSON).toArray(function(err, users) {
+			if (users.length > 0) {
 				cb({
 					success: true,
-					data: docs
+					data: users
 				});
 			} else {
 				cb({
 					success: false,
-					errorMessage: 'No se encontraron proveedores con el filtro ingresado',
+					errorMessage: 'No se encontraron usuarios con el filtro ingresado',
 					data: []
 				});
 			}
 		});
 	},
-	getProvider: function(request, cb) {
+	getUser: function(request, cb) {
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
-		var collectionName = 'provider';
-		var providerId = '';
-		providerId = request.params._id;
+		var userId = request.params._id;
+		var collectionName = 'user';
 
 		db.collection(collectionName).find({
-			_id: new ObjectId(providerId),
+			_id: new ObjectId(userId),
 			active: true
 		}).toArray(function(err, docs) {
 			if (docs.length) {
@@ -46,28 +48,27 @@ module.exports = {
 			} else {
 				cb({
 					success: false,
-					errorMessage: "No existe el proveedor que desea leer"
+					errorMessage: 'No existe el usuario que desea leer'
 				});
 			}
 		});
 	},
-	createProvider: function(request, cb) {
+	createUser: function(request, cb) {
+		var collectionName = 'user';
 		var db = request.server.plugins['hapi-mongodb'].db;
-		var collectionName = 'provider';
-
-		var newProvider = {
-			name: request.payload.name,
-			address: request.payload.address,
-			phoneNumber: request.payload.phoneNumber,
-			contact: request.payload.contact,
+		var newProduct = {
+			username: request.payload.username,
+			password: request.payload.password,
+			firstname: request.payload.firstname,
+			lastname: request.payload.lastname,
 			active: true
 		};
 
-		db.collection(collectionName).save(newProvider, function(err, result) {
+		db.collection(collectionName).save(newProduct, function(err, result) {
 			if (err) {
 				cb({
 					success: false,
-					errorMessage: "Hubo un error en la creación del proveedor",
+					errorMessage: 'Hubo un error en la creación del usuario',
 					metadata: err
 				});
 			} else {
@@ -78,14 +79,13 @@ module.exports = {
 			}
 		});
 	},
-	updateProvider: function(request, cb) {
+	updateUser: function(request, cb) {
+		var collectionName = 'user';
 		var db = request.server.plugins['hapi-mongodb'].db;
-		var collectionName = 'provider';
-		var providerId = '';
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
-		var fields = ["name", "address", "phoneNumber", "contact"];
+		var fields = ['username', 'password', 'firstname', 'lastname'];
+		var userId = request.payload._id;
 		var updateJSON = {};
-		providerId = request.payload._id;
 
 		for (var key in request.payload) {
 			if (fields.indexOf(key) !== -1) {
@@ -93,14 +93,14 @@ module.exports = {
 			}
 		}
 		db.collection(collectionName).update({
-			"_id": new ObjectId(providerId)
+			'_id': new ObjectId(userId)
 		}, {
 			$set: updateJSON
 		}, function(err) {
 			if (err) {
 				cb({
 					success: false,
-					errorMessage: "Hubo un error en la actualizaciòn del proveedor",
+					errorMessage: 'Hubo un error en la actualizaciòn del usuario',
 					metadata: err
 				});
 			} else {
@@ -110,15 +110,14 @@ module.exports = {
 			}
 		});
 	},
-	deleteProvider: function(request, cb) {
+	deleteUser: function(request, cb) {
+		var collectionName = 'user';
 		var db = request.server.plugins['hapi-mongodb'].db;
-		var collectionName = 'provider';
-		var providerId = '';
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
-		providerId = request.payload._id;
+		var userId = request.body._id;
 
 		db.collection(collectionName).update({
-			"_id": new ObjectId(providerId)
+			'_id': new ObjectId(userId)
 		}, {
 			$set: {
 				active: false
@@ -127,7 +126,7 @@ module.exports = {
 			if (err) {
 				cb({
 					success: false,
-					errorMessage: "Hubo un error en la eliminación del proveedor",
+					errorMessage: 'Hubo un error en la eliminación del usuario',
 					metadata: err
 				});
 			} else {
