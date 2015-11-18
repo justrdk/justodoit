@@ -154,6 +154,66 @@ module.exports = [{
 		}
 	}
 }, {
+	method: "GET",
+	path: "/getUsers",
+	handler: controllers.user.getAllUsers,
+	config: {
+		auth: {
+			mode: "required",
+			strategy: "session"
+		}
+	}
+}, {
+	method: "GET",
+	path: "/getUsers/{filter}",
+	handler: controllers.user.getAllUsers,
+	config: {
+		auth: {
+			mode: "required",
+			strategy: "session"
+		}
+	}
+}, {
+	method: "GET",
+	path: "/getUser/{_id}",
+	handler: controllers.user.getUser,
+	config: {
+		auth: {
+			mode: "required",
+			strategy: "session"
+		}
+	}
+}, {
+	method: "POST",
+	path: "/createUser",
+	handler: controllers.user.createUser,
+	config: {
+		auth: {
+			mode: "required",
+			strategy: "session"
+		}
+	}
+}, {
+	method: "POST",
+	path: "/updateUser",
+	handler: controllers.user.updateUser,
+	config: {
+		auth: {
+			mode: "required",
+			strategy: "session"
+		}
+	}
+}, {
+	method: "GET",
+	path: "/deleteUser",
+	handler: controllers.user.deleteUser,
+	config: {
+		auth: {
+			mode: "required",
+			strategy: "session"
+		}
+	}
+}, {
 	method: "POST",
 	path: "/salesOrderByDate",
 	handler: controllers.salesOrder.findByDate,
