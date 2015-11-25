@@ -1,7 +1,7 @@
 <thead>
 	<tr>
 		<th> Nombre </th>
-		<th> Cantidad </th>
+		<th> Cantidad Vendida</th>
 		<th> Subtotal </th>
 		<th> Fecha Venta</th>
 	</tr>
@@ -16,5 +16,8 @@
 			<td> {{formatDate date}} </td>
 		</tr>
 		{{/each}}
+	<tr>
+		<td colspan="4"><strong>Total Venta: Lps.{{total}}</strong></td>
+	</tr>
 	{{/each}}
 </tbody>
