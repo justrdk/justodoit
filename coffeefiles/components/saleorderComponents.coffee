@@ -20,31 +20,17 @@ define ['can'], (can) ->
 			cashChange : 0
 			timer: 0
 
-			increaseProductQuantity : (product, el) ->
-				if product.quantity > 0
-					newQuantity = product.attr('quantityToSell') + 1
-					@updateProductQuantity product, newQuantity
-					product.attr('quantity', product.quantity - 1)
-					@calculateSubtotal product
-				else
-					Helpers.showMessage 'warning', 'Actual cantidad es el maximo en inventario de producto'
-	
-			decreaseProductQuantity : (product, el) ->
-				if product.attr('quantityToSell') > 0
-					newQuantity = product.attr('quantityToSell') - 1
-					product.attr('quantity', product.quantity + 1)
-					if newQuantity is 0
-						@removeProductFromOrder product
-					else
-						@updateProductQuantity(product, newQuantity)
-				@calculateSubtotal product
-
 			removeProductFromOrder : (product) ->
 				productIndex = @attr('orderproducts').indexOf product
 				@attr('orderproducts').splice productIndex, 1
 
-			updateProductQuantity : (product, newQuantity) ->
-				product.attr('quantityToSell', newQuantity)
+			updateProductQuantity : (product, el) ->
+				if product.quantity < product.quantityToSell
+					Helpers.showMessage 'warning', 'Cantidad a vender es mayor a cantidad en inventario'
+				else if parseInt(product.quantityToSell, 10) is 0
+					@removeProductFromOrder product
+				else
+					product.attr('quantity', product.quantity - product.quantityToSell)
 
 			calculateSubtotal : (product) ->
 				subtotal = 0

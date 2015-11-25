@@ -1,38 +1,42 @@
-"use strict";
+'use strict';
 
 module.exports = {
-	getAllProviders : function(request, reply){
+	getAllProviders: function(request, reply) {
 		var providerService = require('../services/providerService');
 
-		providerService.getAllProviders(request, function(data){
+		providerService.getAllProviders(request, function(data) {
 			reply(data);
 		});
 	},
-	getProvider : function(request, reply){
+
+	getProvider: function(request, reply) {
 		var providerService = require('../services/providerService');
 
-		providerService.getProvider(request, function(data){
+		providerService.getProvider(request, function(data) {
 			reply(data);
 		});
 	},
-	createProvider : function(request, reply){
+
+	createProvider: function(request, reply) {
 		var providerService = require('../services/providerService');
 
-		providerService.createProvider(request, function(data){
+		providerService.createProvider(request, function(data) {
 			reply(data);
 		});
 	},
-	updateProvider : function(request, reply){
+
+	updateProvider: function(request, reply) {
 		var providerService = require('../services/providerService');
 
-		providerService.updateProvider(request, function(data){
+		providerService.updateProvider(request, function(data) {
 			reply(data);
 		});
 	},
-	deleteProvider : function(request, reply){
+
+	deleteProvider: function(request, reply) {
 		var providerService = require('../services/providerService');
 
-		providerService.deleteProvider(request, function(data){
+		providerService.deleteProvider(request, function(data) {
 			reply(data);
 		});
 	}

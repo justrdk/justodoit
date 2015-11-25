@@ -9,6 +9,7 @@ module.exports = {
 			so.items = [];
 			return new ObjectId(so._id);
 		});
+
 		var index = salesOrders.reduce(function(ans, next, idx) {
 			ans[next._id] = idx;
 			return ans;
@@ -35,34 +36,40 @@ module.exports = {
 					ans[prod._id] = prod.name;
 					return ans;
 				}, {});
+
 				docs.forEach(function(soi) {
 					soi.name = prodIdx[soi.productId];
 					delete soi.productId;
 					salesOrders[index[soi.salesOrderId]].items.push(soi);
 				});
+
 				cb(salesOrders);
 			});
 		});
 	},
+
 	findByDate: function(request, cb) {
+		var moment = require('moment');
 		var soCol = 'salesOrder';
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
 		var self = this;
 
 		if (request.payload.hasOwnProperty('startDate') && request.payload.startDate) {
-			var pStartDate = request.payload.startDate.substr(0, 10);
+			var pStartDate = moment(request.payload.startDate, 'DD/MM/YYYY').toDate();
 			var pEndDate;
 			if (request.payload.hasOwnProperty('endDate') && request.payload.endDate) {
-				pEndDate = request.payload.endDate.substr(0, 10);
+				pEndDate = moment(request.payload.endDate, 'DD/MM/YYYY').toDate();
+				pEndDate.setHours(23,59,59);
 			} else {
-				pEndDate = new Date().toJSON().substr(0, 10);
+				pEndDate = new Date();
 			}
+
 			db.collection(soCol)
 				.find({
 					date: {
-						$gte: new Date(pStartDate),
-						$lte: new Date(pEndDate)
+						$gte: pStartDate,
+						$lte: pEndDate
 					}
 				}).toArray(function(err, docs) {
 
@@ -81,6 +88,7 @@ module.exports = {
 			});
 		}
 	},
+
 	getAllSalesOrders: function(request, cb) {
 		var soCol = 'salesOrder';
 		var db = request.server.plugins['hapi-mongodb'].db;
@@ -94,6 +102,7 @@ module.exports = {
 				});
 			});
 	},
+
 	getSalesOrder: function(request, cb) {
 		var soCol = 'salesOrder';
 		var soICol = 'salesOrderItem';
@@ -127,15 +136,17 @@ module.exports = {
 			}
 		});
 	},
+
 	createSalesOrder: function(request, cb) {
 		var soCol = 'salesOrder';
 		var soICol = 'salesOrderItem';
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
 		var productCol = 'product';
+
 		//1. Primero se crea un saleOrder
 		var newSalesOrder = {
-			date: new Date(new Date().toJSON().substr(0, 10)),
+			date: new Date(),
 			subtotal: 0,
 			tax: 0,
 			total: 0
@@ -149,11 +160,13 @@ module.exports = {
 				});
 			} else {
 				var salesOrder = result.ops[0];
+
 				//2. Se leen los datos de los productos usados
 				var usedProductsIds = request.payload.items.reduce(function(ans, next) {
 					if (ans.indexOf(next.productId) === -1) {
 						ans.push(new ObjectId(next.productId));
 					}
+
 					return ans;
 				}, []);
 
@@ -187,6 +200,7 @@ module.exports = {
 							salesOrderSubtotal += response.subtotal;
 							return response;
 						});
+
 						db.collection(soICol).insert(newSalesOrderItems, function(err) {
 							if (err) {
 								cb({

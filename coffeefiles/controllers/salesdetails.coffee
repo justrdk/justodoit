@@ -29,7 +29,7 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 				endDate: @options.endDate
 			,
 				formatDate : (date) ->
-					moment(date()).format 'MM-DD-YYYY' 
+					moment(date()).format 'DD-MM-YYYY' 
 			)
 
 		renderTable : (products) ->
@@ -37,7 +37,7 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 					products : products
 				,
 					formatDate : (date) ->
-						moment(date()).format 'MM-DD-YYYY'
+						moment(date()).format 'DD-MM-YYYY'
 				)
 
 		initSalesDetailsOptions : ->
@@ -53,8 +53,8 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 			matchRegexp = new RegExp(query, 'i')
 			
 			for product in @options.products
-				for items in product.items
-					if matchRegexp.test(items.name) is true
+				for item in product.items
+					if matchRegexp.test(item.name) is true
 						matches.push product
 
 			@renderTable matches

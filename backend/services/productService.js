@@ -25,10 +25,12 @@ module.exports = {
 					'name': regVal
 				}];
 			}
+
 			db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
 				docs.forEach(function(product) {
 					product.provider = providerMap[product.provider];
 				});
+
 				if (docs.length > 0) {
 					cb({
 						success: true,
@@ -44,6 +46,7 @@ module.exports = {
 			});
 		});
 	},
+
 	getProduct: function(request, cb) {
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
@@ -67,6 +70,7 @@ module.exports = {
 			}
 		});
 	},
+
 	createProduct: function(request, cb) {
 		var collectionName = 'product';
 		var db = request.server.plugins['hapi-mongodb'].db;
@@ -95,6 +99,7 @@ module.exports = {
 			}
 		});
 	},
+
 	updateProduct: function(request, cb) {
 		var collectionName = 'product';
 		var db = request.server.plugins['hapi-mongodb'].db;
@@ -108,6 +113,7 @@ module.exports = {
 				updateJSON[key] = request.payload[key];
 			}
 		}
+
 		db.collection(collectionName).update({
 			'_id': new ObjectId(productId)
 		}, {
@@ -126,6 +132,7 @@ module.exports = {
 			}
 		});
 	},
+
 	deleteProduct: function(request, cb) {
 		var collectionName = 'product';
 		var db = request.server.plugins['hapi-mongodb'].db;

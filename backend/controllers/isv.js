@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 module.exports = {
 	getISV: function(request, reply) {
@@ -8,6 +8,7 @@ module.exports = {
 			reply(data);
 		});
 	},
+
 	updateISV: function(request, reply) {
 		var isvService = require('../services/isvService');
 

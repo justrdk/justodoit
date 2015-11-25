@@ -30,6 +30,7 @@ module.exports = {
 			}
 		});
 	},
+
 	getUser: function(request, cb) {
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
@@ -53,6 +54,7 @@ module.exports = {
 			}
 		});
 	},
+
 	createUser: function(request, cb) {
 		var collectionName = 'user';
 		var db = request.server.plugins['hapi-mongodb'].db;
@@ -79,6 +81,7 @@ module.exports = {
 			}
 		});
 	},
+
 	updateUser: function(request, cb) {
 		var collectionName = 'user';
 		var db = request.server.plugins['hapi-mongodb'].db;
@@ -92,6 +95,7 @@ module.exports = {
 				updateJSON[key] = request.payload[key];
 			}
 		}
+
 		db.collection(collectionName).update({
 			'_id': new ObjectId(userId)
 		}, {
@@ -110,6 +114,7 @@ module.exports = {
 			}
 		});
 	},
+
 	deleteUser: function(request, cb) {
 		var collectionName = 'user';
 		var db = request.server.plugins['hapi-mongodb'].db;

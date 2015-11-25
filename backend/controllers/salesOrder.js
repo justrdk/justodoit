@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 module.exports = {
 	findByDate: function(request, reply) {
@@ -8,6 +8,7 @@ module.exports = {
 			reply(data);
 		});
 	},
+
 	getAllSalesOrders: function(request, reply) {
 		var salesOrderService = require('../services/salesOrderService');
 
@@ -15,6 +16,7 @@ module.exports = {
 			reply(data);
 		});
 	},
+
 	getSalesOrder: function(request, reply) {
 		var salesOrderService = require('../services/salesOrderService');
 
@@ -22,6 +24,7 @@ module.exports = {
 			reply(data);
 		});
 	},
+
 	createSalesOrder: function(request, reply) {
 		var salesOrderService = require('../services/salesOrderService');
 
