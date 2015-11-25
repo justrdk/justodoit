@@ -6,7 +6,7 @@ define ['can', 'models/logoutModels'], (can, LogoutModel) ->
 		tag : 'navbar-element'
 		template: can.view 'views/shared/header.mustache'
 		scope :
-			company : 'Foo Bar'
+			company : 'Libreria Universal'
 			logout : ->
 				deferred = LogoutModel.findOne()
 

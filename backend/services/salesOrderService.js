@@ -60,7 +60,7 @@ module.exports = {
 			var pEndDate;
 			if (request.payload.hasOwnProperty('endDate') && request.payload.endDate) {
 				pEndDate = moment(request.payload.endDate, 'DD/MM/YYYY').toDate();
-				pEndDate.setHours(23,59,59);
+				pEndDate.setHours(23, 59, 59);
 			} else {
 				pEndDate = new Date();
 			}

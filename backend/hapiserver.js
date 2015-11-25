@@ -4,10 +4,10 @@ var Hapi = require('hapi');
 var server = new Hapi.Server();
 
 var dbConfig = {
-	"url": 'mongodb://localhost:27017/justdoit',
-	"settings": {
-		"db": {
-			"native_parser": false //native parser is deprecated let's set this to false :)
+	'url': 'mongodb://localhost:27017/justdoit',
+	'settings': {
+		'db': {
+			'native_parser': false //native parser is deprecated let's set this to false :)
 		}
 	}
 };
