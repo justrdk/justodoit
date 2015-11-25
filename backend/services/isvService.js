@@ -23,6 +23,7 @@ module.exports = {
 			}
 		});
 	},
+
 	updateISV: function(request, cb) {
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
@@ -37,6 +38,7 @@ module.exports = {
 				updateJSON[key] = request.payload[key];
 			}
 		}
+
 		db.collection(collectionName).update({
 			'_id': new ObjectId(isvId)
 		}, {

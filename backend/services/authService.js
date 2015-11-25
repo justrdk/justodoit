@@ -46,12 +46,14 @@ module.exports = {
 			});
 		}
 	},
+
 	logOutUser: function(request, cb) {
 		request.auth.session.clear();
 		cb({
 			success: true
 		});
 	},
+
 	getAuthenticatedUser: function(request, cb) {
 		var reply;
 		if (request.auth.credentials && request.auth.credentials.username) {

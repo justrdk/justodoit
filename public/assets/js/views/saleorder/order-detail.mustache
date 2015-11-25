@@ -3,24 +3,26 @@
 	<h4>Detalle de Orden</h4>
 	{{/orderProducts}}
 	<order-products orderProducts = '{orderProducts}'>
-		{{#orderProducts.length}}
-			<div class='products-list col-lg-10'>
-				<div class="force-overflow">
-					<div class="list-group" >
-						{{#each orderProducts}}
-						<a href="javascript://" class='list-group-item'>
-							<span class="fa fa-check"></span>
-							{{name}}
-							<span class="badge" can-click='increaseProductQuantity'><i class='fa fa-plus'></i></span>
-							<span class="badge">{{quantityToSell}}</span>
-							<span class="badge" can-click='decreaseProductQuantity'><i class='fa fa-minus'></i></span>
-							<p class='list-group-item-text'>Precio: Lps.{{price}}</p>
-						</li>
-						{{/each}}
+	{{#orderProducts.length}}
+	<div class='products-list col-lg-10'>
+		<div class="force-overflow">
+			<div class="list-group" >
+				{{#each orderProducts}}
+				<a href="javascript://" class='list-group-item'>
+					<span class="fa fa-check"></span>
+					{{name}}
+					<div class="col-lg-6 pull-right">
+						<div class="input-group input-group-sm">
+							<input type="text" class="form-control" placeholder="Cantidad" can-value="quantityToSell" can-change="updateProductQuantity">
+						</div>
 					</div>
-				</div>
+					<p class='list-group-item-text'>Precio: Lps.{{price}}</p>
+				</li>
+				{{/each}}
 			</div>
-			{{>views/saleorder/order-calculations.mustache}}
-		{{/orderProducts.length}}
+		</div>
+	</div>
+	{{>views/saleorder/order-calculations.mustache}}
+	{{/orderProducts.length}}
 	</order-products>
 </div>

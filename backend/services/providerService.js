@@ -8,8 +8,8 @@ module.exports = {
 			active: true
 		};
 
-		if (request.query.hasOwnProperty("filter")) {
-			findJSON.name = new RegExp(request.query.filter, "i");
+		if (request.query.hasOwnProperty('filter')) {
+			findJSON.name = new RegExp(request.query.filter, 'i');
 		}
 
 		db.collection(collectionName).find(findJSON).toArray(function(err, docs) {
@@ -27,6 +27,7 @@ module.exports = {
 			}
 		});
 	},
+
 	getProvider: function(request, cb) {
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
@@ -46,11 +47,12 @@ module.exports = {
 			} else {
 				cb({
 					success: false,
-					errorMessage: "No existe el proveedor que desea leer"
+					errorMessage: 'No existe el proveedor que desea leer'
 				});
 			}
 		});
 	},
+
 	createProvider: function(request, cb) {
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var collectionName = 'provider';
@@ -67,7 +69,7 @@ module.exports = {
 			if (err) {
 				cb({
 					success: false,
-					errorMessage: "Hubo un error en la creación del proveedor",
+					errorMessage: 'Hubo un error en la creación del proveedor',
 					metadata: err
 				});
 			} else {
@@ -78,12 +80,13 @@ module.exports = {
 			}
 		});
 	},
+
 	updateProvider: function(request, cb) {
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var collectionName = 'provider';
 		var providerId = '';
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
-		var fields = ["name", "address", "phoneNumber", "contact"];
+		var fields = ['name', 'address', 'phoneNumber', 'contact'];
 		var updateJSON = {};
 		providerId = request.payload._id;
 
@@ -92,15 +95,16 @@ module.exports = {
 				updateJSON[key] = request.payload[key];
 			}
 		}
+
 		db.collection(collectionName).update({
-			"_id": new ObjectId(providerId)
+			'_id': new ObjectId(providerId)
 		}, {
 			$set: updateJSON
 		}, function(err) {
 			if (err) {
 				cb({
 					success: false,
-					errorMessage: "Hubo un error en la actualizaciòn del proveedor",
+					errorMessage: 'Hubo un error en la actualizaciòn del proveedor',
 					metadata: err
 				});
 			} else {
@@ -110,6 +114,7 @@ module.exports = {
 			}
 		});
 	},
+
 	deleteProvider: function(request, cb) {
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var collectionName = 'provider';
@@ -118,7 +123,7 @@ module.exports = {
 		providerId = request.payload._id;
 
 		db.collection(collectionName).update({
-			"_id": new ObjectId(providerId)
+			'_id': new ObjectId(providerId)
 		}, {
 			$set: {
 				active: false
@@ -127,7 +132,7 @@ module.exports = {
 			if (err) {
 				cb({
 					success: false,
-					errorMessage: "Hubo un error en la eliminación del proveedor",
+					errorMessage: 'Hubo un error en la eliminación del proveedor',
 					metadata: err
 				});
 			} else {

@@ -41,6 +41,7 @@
     "hapi": "^8.4.0",
     "hapi-auth-cookie": "^2.1.0",
     "hapi-mongodb": "^3.0.0",
+    "moment": "^2.10.6",
     "require-directory": "^2.1.0"
   }
 }

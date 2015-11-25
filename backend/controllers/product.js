@@ -1,38 +1,42 @@
-"use strict";
+'use strict';
 
 module.exports = {
-	getAllProducts : function(request, reply){
+	getAllProducts: function(request, reply) {
 		var productService = require('../services/productService');
 
-		productService.getAllProducts(request, function(data){
+		productService.getAllProducts(request, function(data) {
 			reply(data);
 		});
 	},
-	getProduct : function(request, reply){
+
+	getProduct: function(request, reply) {
 		var productService = require('../services/productService');
 
-		productService.getProduct(request, function(data){
+		productService.getProduct(request, function(data) {
 			reply(data);
 		});
 	},
-	createProduct : function(request, reply){
+
+	createProduct: function(request, reply) {
 		var productService = require('../services/productService');
 
-		productService.createProduct(request, function(data){
+		productService.createProduct(request, function(data) {
 			reply(data);
 		});
 	},
-	updateProduct : function(request, reply){
+
+	updateProduct: function(request, reply) {
 		var productService = require('../services/productService');
 
-		productService.updateProduct(request, function(data){
+		productService.updateProduct(request, function(data) {
 			reply(data);
 		});
 	},
-	deleteProduct : function(request, reply){
+
+	deleteProduct: function(request, reply) {
 		var productService = require('../services/productService');
 
-		productService.deleteProduct(request, function(data){
+		productService.deleteProduct(request, function(data) {
 			reply(data);
 		});
 	}
