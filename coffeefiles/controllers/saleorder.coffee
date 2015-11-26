@@ -80,7 +80,9 @@ define ['can', 'components/saleorderComponents', 'models/saleorderModels', 'mode
 
 			@options.products.forEach (product, index) ->
 				if substrRegex.test(product.code) is true or substrRegex.test(product.name) is true and self.options.searchProducts.indexOf(product) is -1
-					self.options.searchProducts.push product
+					dups = self.options.searchProducts.filter (prod) ->
+							prod._id is product._id
+					if dups.length is 0 then self.options.searchProducts.push product
 
 		cleanOrder: ->
 			while @options.orderProducts.length > 0
