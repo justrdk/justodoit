@@ -27,16 +27,20 @@ define ['can'], (can) ->
 			updateProductQuantity : (product, el) ->
 				if product.quantity < product.quantityToSell
 					Helpers.showMessage 'warning', 'Cantidad a vender es mayor a cantidad en inventario'
+					@attr('validSale', false)
 				else if parseInt(product.quantityToSell, 10) is 0
 					@removeProductFromOrder product
-				else
-					product.attr('quantity', product.quantity - product.quantityToSell)
 
 			calculateSubtotal : (product) ->
 				subtotal = 0
 				for product in @attr('orderproducts')
 					subtotal += product.price * product.quantityToSell
 				@attr('subtotal', subtotal)
+
+			validProductQuantity: ->
+				valid = true
+				valid = false for prod in @attr('orderproducts') when prod.quantity < prod.quantityToSell
+				@attr('validSale', valid)
 
 			calculateTax : ->
 				@attr('tax', @subtotal * @taxPercentage)
@@ -47,13 +51,14 @@ define ['can'], (can) ->
 			calculateChange : ->
 				if @cashPaid >= @total
 					@attr('cashChange', @cashPaid - @total)
-					@attr('validSale', true)
+					@validProductQuantity()
 				else
 					@attr('validSale', false)
 					@attr('cashChange', @cashPaid - @total)
 					Helpers.showMessage 'warning', 'Total a pagar no esta cancelado en su totalidad'
 
 			createSaleOrder : (context, el) ->
+				product.attr('quantity', product.quantity - product.quantityToSell) for product in @attr('orderproducts')
 				can.$('.saleorder').trigger('createSaleOrder')
 
 			cancelSaleOrder : ->

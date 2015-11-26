@@ -58,10 +58,7 @@ define ['can', 'components/saleorderComponents', 'models/saleorderModels', 'mode
 
 		updateProductQuantityPrice : (product) ->
 			if product.quantity > 0
-				can.batch.start()
 				product.attr('quantityToSell', product.quantityToSell + 1)
-				product.attr('quantity', product.quantity - 1)
-				can.batch.stop()
 
 		insertProductInOrder : (product) ->
 			can.batch.start()
@@ -71,7 +68,7 @@ define ['can', 'components/saleorderComponents', 'models/saleorderModels', 'mode
 					name: product.name
 					quantityToSell: 1
 					price: product.price
-					quantity : product.quantity - 1
+					quantity : product.quantity
 			can.batch.stop()
 
 		getProductsByFilter : (query) ->
@@ -85,14 +82,19 @@ define ['can', 'components/saleorderComponents', 'models/saleorderModels', 'mode
 					if dups.length is 0 then self.options.searchProducts.push product
 
 		cleanOrder: ->
-			while @options.orderProducts.length > 0
-				@options.orderProducts.pop()
+			for prod in @options.products
+				for orderProd in @options.orderProducts
+					if prod._id is orderProd._id
+						prod.attr('quantity', orderProd.quantity)
+
+			@options.orderProducts.replace []
+			$('order-products').scope().attr('validSale', false)
 
 		createSaleOrder : ->
 			self = @
 			items = []
 
-			items.push {productId: prod._id, quantityToSell: prod.quantityToSell} for prod in @options.orderProducts
+			items.push {productId: prod._id, quantityToSell: prod.quantityToSell, quantityInventory: prod.quantity} for prod in @options.orderProducts
 			deferred = SaleOrderModel.create(items:items)
 
 			deferred.then (response) ->

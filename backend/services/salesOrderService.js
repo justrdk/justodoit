@@ -229,13 +229,31 @@ module.exports = {
 											'subtotal': true,
 											'_id': false
 										}).toArray(function(err, allItems) {
-											salesOrder.items = allItems;
-											cb({
-												success: true,
-												data: salesOrder
+											//update products quantity
+											request.payload.items.forEach(function(prod) {
+												db.collection(productCol).update({
+													'_id': new ObjectId(prod.productId)
+												}, {
+													'$set': {
+														quantity: prod.quantityInventory
+													}
+												}, function(err) {
+													if (err) {
+														cb({
+															success: false,
+															errorMessage: 'Hubo un error actualizando cantidad de producto en inventario',
+															metadata: err
+														});
+													} else {
+														salesOrder.items = allItems;
+														cb({
+															success: true,
+															data: salesOrder
+														});
+													}
+												});
 											});
 										});
-
 									}
 								});
 							}
