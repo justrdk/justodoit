@@ -39,9 +39,7 @@ define ['can'], (can) ->
 
 			validProductQuantity: ->
 				valid = true
-				@attr('orderproducts').forEach (prod) ->
-					if prod.quantity < prod.quantityToSell
-						valid = false
+				valid = false for prod in @attr('orderproducts') when prod.quantity < prod.quantityToSell
 				@attr('validSale', valid)
 
 			calculateTax : ->
