@@ -20,7 +20,7 @@ module.exports = {
 
 			return cb({
 				success: false,
-				errorMessage: 'No se encontraron productos con el filtro ingresado',
+				errorMessage: 'No se encontraron roles',
 				data: []
 			});
 		});
