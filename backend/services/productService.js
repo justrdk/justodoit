@@ -137,7 +137,7 @@ module.exports = {
 		var collectionName = 'product';
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
-		var productId = request.body._id;
+		var productId = request.payload._id;
 
 		db.collection(collectionName).update({
 			'_id': new ObjectId(productId)

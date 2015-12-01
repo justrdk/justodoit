@@ -84,7 +84,7 @@ module.exports = [{
 		}
 	}
 }, {
-	method: 'GET',
+	method: 'POST',
 	path: '/deleteProvider',
 	handler: controllers.provider.deleteProvider,
 	config: {
@@ -144,7 +144,7 @@ module.exports = [{
 		}
 	}
 }, {
-	method: 'GET',
+	method: 'POST',
 	path: '/deleteProduct',
 	handler: controllers.product.deleteProduct,
 	config: {
@@ -204,7 +204,7 @@ module.exports = [{
 		}
 	}
 }, {
-	method: 'GET',
+	method: 'POST',
 	path: '/deleteUser',
 	handler: controllers.user.deleteUser,
 	config: {
@@ -267,6 +267,16 @@ module.exports = [{
 	method: 'POST',
 	path: '/updateISV',
 	handler: controllers.isv.updateISV,
+	config: {
+		auth: {
+			mode: 'required',
+			strategy: 'session'
+		}
+	}
+}, {
+	method: 'GET',
+	path: '/getRoles',
+	handler: controllers.role.getRoles,
 	config: {
 		auth: {
 			mode: 'required',
