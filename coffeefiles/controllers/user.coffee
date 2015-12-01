@@ -1,16 +1,18 @@
 'use strict'
 
-define ['can', 'models/userModels'], (can, UserModel) ->
+define ['can', 'models/userModels', 'models/roleModels'], (can, UserModel, RoleModel) ->
 
 	User = can.Control.extend
 
 		init : (element, options) ->
-
+			self = @
 			@initControllerOptions()
-			if @options.edit isnt undefined and @options.edit is true
-				@renderEditTemplate()
-			else
-				@renderCreateTemplate()
+
+			can.when(@getRoles()).then (response) ->
+				if self.options.edit isnt undefined and self.options.edit is true
+					self.renderEditTemplate()
+				else
+					self.renderCreateTemplate()
 
 		'#create-user click' : (el) ->
 			@createUser()
@@ -38,11 +40,13 @@ define ['can', 'models/userModels'], (can, UserModel) ->
 
 		initControllerOptions : ->
 			@options.usersList = new can.List []
+			@options.roles = new can.List []
 			@options.user = new can.Map
 				username : ''
 				password : ''
 				firstname : ''
 				lastname : ''
+				roleId : ''
 
 			@options.userEdit = new can.Map
 				_id : ''
@@ -50,6 +54,7 @@ define ['can', 'models/userModels'], (can, UserModel) ->
 				password : ''
 				firstname : ''
 				lastname : ''
+				roleId: ''
 
 		cleanMaps : ->
 			@options.user.attr 'username', ''
@@ -68,15 +73,17 @@ define ['can', 'models/userModels'], (can, UserModel) ->
 
 		renderCreateTemplate : ->
 			@element.html can.view('views/param/param-user.mustache',
-					user : @options.user)
+					user : @options.user
+					roles: @options.roles)
 
 		renderEditTemplate : ->
 			self = @
 			can.when(@getAllUsers()).then ->
 				if can.route.attr('userid') isnt undefined
-					self.userDetails can.route.attr('userid')
+					self.getUserDetails can.route.attr('userid')
 				self.element.html can.view('views/param/param-user-edit.mustache',
-					user : self.options.userEdit)
+					user : self.options.userEdit
+					roles: self.options.roles)
 				self.initSearchAutoComplete()
 
 		initSearchAutoComplete : ->
@@ -174,10 +181,23 @@ define ['can', 'models/userModels'], (can, UserModel) ->
 					self.options.userEdit.attr 'password', response.data.password
 					self.options.userEdit.attr 'firstname', response.data.firstname
 					self.options.userEdit.attr 'lastname', response.data.lastname
+					self.options.userEdit.attr 'roleId', response.data.roleId
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
 				Helpers.showMessage 'error', 'Error al traer detalles de usuario, favor intentar de nuevo'
+
+		getRoles : ->
+			self = @
+			deferred = RoleModel.findAll({})
+
+			deferred.then (response) ->
+				if response.success is true
+					self.options.roles.replace response
+				else
+					Helpers.showMessage 'error', response.errorMessage
+			, (xhr) ->
+				Helpers.showMessage 'error', 'Error al traer los roles, favor intentar de nuevo'
 
 		destroy : ->
 			can.$('typeahead').typeahead 'destroy'

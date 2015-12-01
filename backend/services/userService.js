@@ -63,7 +63,8 @@ module.exports = {
 			password: request.payload.password,
 			firstname: request.payload.firstname,
 			lastname: request.payload.lastname,
-			active: true
+			active: true,
+			roleId: request.payload.roleId
 		};
 
 		db.collection(collectionName).save(newProduct, function(err, result) {
@@ -86,7 +87,7 @@ module.exports = {
 		var collectionName = 'user';
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
-		var fields = ['username', 'password', 'firstname', 'lastname'];
+		var fields = ['username', 'password', 'firstname', 'lastname', 'roleId'];
 		var userId = request.payload._id;
 		var updateJSON = {};
 
@@ -119,7 +120,7 @@ module.exports = {
 		var collectionName = 'user';
 		var db = request.server.plugins['hapi-mongodb'].db;
 		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
-		var userId = request.body._id;
+		var userId = request.payload._id;
 
 		db.collection(collectionName).update({
 			'_id': new ObjectId(userId)
