@@ -2,7 +2,7 @@
 
 module.exports = {
 	getRoles: function(request, cb) {
-		var db = request.server.plugins['hapi-mongodb'].db;
+		var db = request.mongo.db;
 		var roleCol = 'role';
 
 		db.collection(roleCol).find({

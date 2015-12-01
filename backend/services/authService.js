@@ -3,7 +3,7 @@
 module.exports = {
 	authenticateUser: function(request, cb) {
 		var userCollection = 'user';
-		var db = request.server.plugins['hapi-mongodb'].db;
+		var db = request.mongo.db;
 
 		if (request.auth.isAuthenticated) {
 			return cb({

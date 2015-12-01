@@ -51,8 +51,8 @@ module.exports = {
 	findByDate: function(request, cb) {
 		var moment = require('moment');
 		var soCol = 'salesOrder';
-		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db = request.mongo.db;
+		var ObjectId = request.mongo.ObjectID;
 		var self = this;
 
 		if (request.payload.hasOwnProperty('startDate') && request.payload.startDate) {
@@ -91,7 +91,7 @@ module.exports = {
 
 	getAllSalesOrders: function(request, cb) {
 		var soCol = 'salesOrder';
-		var db = request.server.plugins['hapi-mongodb'].db;
+		var db = request.mongo.db;
 
 		db.collection(soCol)
 			.find({})
@@ -106,8 +106,8 @@ module.exports = {
 	getSalesOrder: function(request, cb) {
 		var soCol = 'salesOrder';
 		var soICol = 'salesOrderItem';
-		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db = request.mongo.db;
+		var ObjectId = request.mongo.ObjectID;
 		var salesOrderId = request.params._id;
 
 		db.collection(soCol).find({
@@ -140,8 +140,8 @@ module.exports = {
 	createSalesOrder: function(request, cb) {
 		var soCol = 'salesOrder';
 		var soICol = 'salesOrderItem';
-		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db = request.mongo.db;
+		var ObjectId = request.mongo.ObjectID;
 		var productCol = 'product';
 
 		//1. Primero se crea un saleOrder
