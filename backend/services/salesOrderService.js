@@ -143,6 +143,7 @@ module.exports = {
 		var db = request.mongo.db;
 		var ObjectId = request.mongo.ObjectID;
 		var productCol = 'product';
+		var BlueBird = require('bluebird');
 
 		//1. Primero se crea un saleOrder
 		var newSalesOrder = {
@@ -211,8 +212,8 @@ module.exports = {
 							} else {
 								//4. Se actualizan los valores de subtotal, impuesto y total de la orden de venta
 								salesOrder.subtotal = salesOrderSubtotal;
-								salesOrder.tax = salesOrderSubtotal * 0.15;
-								salesOrder.total = salesOrder.subtotal + salesOrder.tax;
+								//salesOrder.tax = salesOrderSubtotal * 0.15;
+								salesOrder.total = salesOrderSubtotal;
 								db.collection(soCol).save(salesOrder, function(err) {
 									if (err) {
 										cb({
@@ -229,29 +230,39 @@ module.exports = {
 											'subtotal': true,
 											'_id': false
 										}).toArray(function(err, allItems) {
-											//update products quantity
+											var promises = [];
+
 											request.payload.items.forEach(function(prod) {
-												db.collection(productCol).update({
-													'_id': new ObjectId(prod.productId)
-												}, {
-													'$set': {
-														quantity: prod.quantityInventory
-													}
-												}, function(err) {
-													if (err) {
-														cb({
-															success: false,
-															errorMessage: 'Hubo un error actualizando cantidad de producto en inventario',
-															metadata: err
-														});
-													} else {
-														salesOrder.items = allItems;
-														cb({
-															success: true,
-															data: salesOrder
-														});
-													}
+												//update products quantity
+												promises.push(new BlueBird(function(resolve) {
+													db.collection(productCol).update({
+														'_id': new ObjectId(prod.productId)
+													}, {
+														'$set': {
+															quantity: prod.quantityInventory
+														}
+													}, function(err) {
+														if (err) {
+															reject({
+																success: false,
+																errorMessage: 'Hubo un error actualizando cantidad de producto en inventario',
+																metadata: err
+															});
+														} else {
+															resolve({});
+														}
+													});
+												}));
+											});
+
+											BlueBird.all(promises).then(function() {
+												salesOrder.items = allItems;
+												cb({
+													success: true,
+													data: salesOrder
 												});
+											}, function(error) {
+												cb(error);
 											});
 										});
 									}

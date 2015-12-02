@@ -7,7 +7,7 @@ var dbConfig = {
 	'url': 'mongodb://localhost:27017/justdoit',
 	'settings': {
 		'db': {
-			'native_parser': false //native parser is deprecated let's set this to false :)
+			'native_parser': false
 		}
 	},
 	decorate: true
@@ -35,12 +35,14 @@ var setUniqueIndexes = function(db) {
 	db.collection(userCollection).createIndex({
 		username: 1
 	}, {
-		unique: true
+		unique: true,
+		sparse: true
 	});
 	db.collection(productCollection).createIndex({
 		code: 1
 	}, {
-		unique: true
+		unique: true,
+		sparse: true
 	});
 };
 

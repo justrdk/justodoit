@@ -38,6 +38,7 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.0.6",
     "hapi": "^11.1.2",
     "hapi-auth-cookie": "^2.1.0",
     "hapi-mongodb": "^4.1.0",

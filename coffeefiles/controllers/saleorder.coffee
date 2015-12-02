@@ -52,7 +52,7 @@ define ['can', 'components/saleorderComponents', 'models/saleorderModels', 'mode
 		productAlreadyInOrder : (product) ->
 			for prod in @options.orderProducts
 				if prod.code is product.code
-					@updateProductQuantityPrice prod
+					#@updateProductQuantityPrice prod
 					return true
 			return false
 
