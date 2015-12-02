@@ -11,7 +11,7 @@ module.exports = {
 				firstname: request.auth.credentials.firstname,
 				lastname: request.auth.credentials.lastname,
 				username: request.auth.credentials.username,
-				role: request.auth.credentials.role
+				roleId: request.auth.credentials.roleId
 			});
 		}
 
@@ -37,6 +37,7 @@ module.exports = {
 						error: 'Invalid username or password'
 					});
 				} else {
+					user.scope = '' + user.roleId;
 					request.auth.session.set(user);
 					return cb({
 						success: true,
@@ -61,7 +62,7 @@ module.exports = {
 				success: true,
 				firstname: request.auth.credentials.firstname,
 				lastname: request.auth.credentials.lastname,
-				role: request.auth.credentials.role,
+				roleId: request.auth.credentials.roleId,
 				username: request.auth.credentials.username
 
 			};
