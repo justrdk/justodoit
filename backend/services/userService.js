@@ -2,7 +2,7 @@
 
 module.exports = {
 	getAllUsers: function(request, cb) {
-		var db = request.server.plugins['hapi-mongodb'].db;
+		var db = request.mongo.db;
 		var collectionName = 'user';
 		var findJSON = {
 			active: true
@@ -32,8 +32,8 @@ module.exports = {
 	},
 
 	getUser: function(request, cb) {
-		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db = request.mongo.db;
+		var ObjectId = request.mongo.ObjectID;
 		var userId = request.params._id;
 		var collectionName = 'user';
 
@@ -57,7 +57,7 @@ module.exports = {
 
 	createUser: function(request, cb) {
 		var collectionName = 'user';
-		var db = request.server.plugins['hapi-mongodb'].db;
+		var db = request.mongo.db;
 		var newProduct = {
 			username: request.payload.username,
 			password: request.payload.password,
@@ -85,8 +85,8 @@ module.exports = {
 
 	updateUser: function(request, cb) {
 		var collectionName = 'user';
-		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db = request.mongo.db;
+		var ObjectId = request.mongo.ObjectID;
 		var fields = ['username', 'password', 'firstname', 'lastname', 'roleId'];
 		var userId = request.payload._id;
 		var updateJSON = {};
@@ -118,8 +118,8 @@ module.exports = {
 
 	deleteUser: function(request, cb) {
 		var collectionName = 'user';
-		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db = request.mongo.db;
+		var ObjectId = request.mongo.ObjectID;
 		var userId = request.payload._id;
 
 		db.collection(collectionName).update({

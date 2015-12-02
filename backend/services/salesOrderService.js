@@ -51,8 +51,8 @@ module.exports = {
 	findByDate: function(request, cb) {
 		var moment = require('moment');
 		var soCol = 'salesOrder';
-		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db = request.mongo.db;
+		var ObjectId = request.mongo.ObjectID;
 		var self = this;
 
 		if (request.payload.hasOwnProperty('startDate') && request.payload.startDate) {
@@ -91,7 +91,7 @@ module.exports = {
 
 	getAllSalesOrders: function(request, cb) {
 		var soCol = 'salesOrder';
-		var db = request.server.plugins['hapi-mongodb'].db;
+		var db = request.mongo.db;
 
 		db.collection(soCol)
 			.find({})
@@ -106,8 +106,8 @@ module.exports = {
 	getSalesOrder: function(request, cb) {
 		var soCol = 'salesOrder';
 		var soICol = 'salesOrderItem';
-		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db = request.mongo.db;
+		var ObjectId = request.mongo.ObjectID;
 		var salesOrderId = request.params._id;
 
 		db.collection(soCol).find({
@@ -140,9 +140,10 @@ module.exports = {
 	createSalesOrder: function(request, cb) {
 		var soCol = 'salesOrder';
 		var soICol = 'salesOrderItem';
-		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db = request.mongo.db;
+		var ObjectId = request.mongo.ObjectID;
 		var productCol = 'product';
+		var BlueBird = require('bluebird');
 
 		//1. Primero se crea un saleOrder
 		var newSalesOrder = {
@@ -211,8 +212,9 @@ module.exports = {
 							} else {
 								//4. Se actualizan los valores de subtotal, impuesto y total de la orden de venta
 								salesOrder.subtotal = salesOrderSubtotal;
-								salesOrder.tax = salesOrderSubtotal * 0.15;
-								salesOrder.total = salesOrder.subtotal + salesOrder.tax;
+
+								//salesOrder.tax = salesOrderSubtotal * 0.15;
+								salesOrder.total = salesOrderSubtotal;
 								db.collection(soCol).save(salesOrder, function(err) {
 									if (err) {
 										cb({
@@ -229,29 +231,40 @@ module.exports = {
 											'subtotal': true,
 											'_id': false
 										}).toArray(function(err, allItems) {
-											//update products quantity
+											var promises = [];
+
 											request.payload.items.forEach(function(prod) {
-												db.collection(productCol).update({
-													'_id': new ObjectId(prod.productId)
-												}, {
-													'$set': {
-														quantity: prod.quantityInventory
-													}
-												}, function(err) {
-													if (err) {
-														cb({
-															success: false,
-															errorMessage: 'Hubo un error actualizando cantidad de producto en inventario',
-															metadata: err
-														});
-													} else {
-														salesOrder.items = allItems;
-														cb({
-															success: true,
-															data: salesOrder
-														});
-													}
+												//update products quantity
+												promises.push(new BlueBird(function(resolve, reject) {
+													db.collection(productCol).update({
+														'_id': new ObjectId(prod.productId)
+													}, {
+														'$set': {
+															quantity: prod.quantityInventory
+														}
+													}, function(err) {
+														if (err) {
+															reject({
+																success: false,
+																errorMessage: 'Hubo un error actualizando cantidad de producto en inventario',
+																metadata: err
+															});
+														} else {
+															resolve({});
+														}
+													});
+												}));
+											});
+
+											BlueBird.all(promises).then(function() {
+												salesOrder.items = allItems;
+												cb({
+													success: true,
+													data: salesOrder
 												});
+											}, function(error) {
+
+												cb(error);
 											});
 										});
 									}

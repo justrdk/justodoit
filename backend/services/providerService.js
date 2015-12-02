@@ -2,7 +2,7 @@
 
 module.exports = {
 	getAllProviders: function(request, cb) {
-		var db = request.server.plugins['hapi-mongodb'].db;
+		var db = request.mongo.db;
 		var collectionName = 'provider';
 		var findJSON = {
 			active: true
@@ -29,8 +29,8 @@ module.exports = {
 	},
 
 	getProvider: function(request, cb) {
-		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db = request.mongo.db;
+		var ObjectId = request.mongo.ObjectID;
 		var collectionName = 'provider';
 		var providerId = '';
 		providerId = request.params._id;
@@ -54,7 +54,7 @@ module.exports = {
 	},
 
 	createProvider: function(request, cb) {
-		var db = request.server.plugins['hapi-mongodb'].db;
+		var db = request.mongo.db;
 		var collectionName = 'provider';
 
 		var newProvider = {
@@ -82,10 +82,10 @@ module.exports = {
 	},
 
 	updateProvider: function(request, cb) {
-		var db = request.server.plugins['hapi-mongodb'].db;
+		var db = request.mongo.db;
 		var collectionName = 'provider';
 		var providerId = '';
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var ObjectId = request.mongo.ObjectID;
 		var fields = ['name', 'address', 'phoneNumber', 'contact'];
 		var updateJSON = {};
 		providerId = request.payload._id;
@@ -116,10 +116,10 @@ module.exports = {
 	},
 
 	deleteProvider: function(request, cb) {
-		var db = request.server.plugins['hapi-mongodb'].db;
+		var db = request.mongo.db;
 		var collectionName = 'provider';
 		var providerId = '';
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var ObjectId = request.mongo.ObjectID;
 		providerId = request.payload._id;
 
 		db.collection(collectionName).update({

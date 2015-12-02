@@ -2,7 +2,7 @@
 
 module.exports = {
 	getRoles: function(request, cb) {
-		var db = request.server.plugins['hapi-mongodb'].db;
+		var db = request.mongo.db;
 		var roleCol = 'role';
 
 		db.collection(roleCol).find({
@@ -20,7 +20,7 @@ module.exports = {
 
 			return cb({
 				success: false,
-				errorMessage: 'No se encontraron productos con el filtro ingresado',
+				errorMessage: 'No se encontraron roles',
 				data: []
 			});
 		});

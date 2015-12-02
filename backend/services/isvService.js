@@ -2,7 +2,7 @@
 
 module.exports = {
 	getISV: function(request, cb) {
-		var db = request.server.plugins['hapi-mongodb'].db;
+		var db = request.mongo.db;
 		var collectionName = 'isv';
 		var findJSON = {
 			active: true
@@ -25,8 +25,8 @@ module.exports = {
 	},
 
 	updateISV: function(request, cb) {
-		var db = request.server.plugins['hapi-mongodb'].db;
-		var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
+		var db = request.mongo.db;
+		var ObjectId = request.mongo.ObjectID;
 		var collectionName = 'isv';
 		var isvId = '';
 
@@ -43,7 +43,7 @@ module.exports = {
 			'_id': new ObjectId(isvId)
 		}, {
 			$set: updateJSON
-		}, function(err, result) {
+		}, function(err) {
 			if (err) {
 				cb({
 					success: false,
