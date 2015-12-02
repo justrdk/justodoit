@@ -212,6 +212,7 @@ module.exports = {
 							} else {
 								//4. Se actualizan los valores de subtotal, impuesto y total de la orden de venta
 								salesOrder.subtotal = salesOrderSubtotal;
+
 								//salesOrder.tax = salesOrderSubtotal * 0.15;
 								salesOrder.total = salesOrderSubtotal;
 								db.collection(soCol).save(salesOrder, function(err) {
@@ -234,7 +235,7 @@ module.exports = {
 
 											request.payload.items.forEach(function(prod) {
 												//update products quantity
-												promises.push(new BlueBird(function(resolve) {
+												promises.push(new BlueBird(function(resolve, reject) {
 													db.collection(productCol).update({
 														'_id': new ObjectId(prod.productId)
 													}, {
@@ -262,6 +263,7 @@ module.exports = {
 													data: salesOrder
 												});
 											}, function(error) {
+
 												cb(error);
 											});
 										});
