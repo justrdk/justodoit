@@ -126,7 +126,10 @@ define ['can', 'models/userModels', 'models/roleModels'], (can, UserModel, RoleM
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
-				Helpers.showMessage 'error', 'Error al crear usuario, favor intentar de nuevo'
+				if xhr.status is 403
+					Helpers.showMessage 'error', 'Su usuario no tiene privilegios para acceder a esta informacion'
+				else
+					Helpers.showMessage 'error', 'Error al crear usuario, favor intentar de nuevo'
 
 		updateUser : ->
 			self = @
@@ -140,7 +143,10 @@ define ['can', 'models/userModels', 'models/roleModels'], (can, UserModel, RoleM
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
-				Helpers.showMessage 'error', 'Error al actualizar usuario, favor intentar de nuevo'
+				if xhr.status is 403
+					Helpers.showMessage 'error', 'Su usuario no tiene privilegios para acceder a esta informacion'
+				else
+					Helpers.showMessage 'error', 'Error al actualizar usuario, favor intentar de nuevo'
 
 		deleteUser : ->
 			self = @
@@ -154,7 +160,10 @@ define ['can', 'models/userModels', 'models/roleModels'], (can, UserModel, RoleM
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
-				Helpers.showMessage 'error', 'Error al intentar borrar usuario, favor intentar de nuevo'
+				if xhr.status is 403
+					Helpers.showMessage 'error', 'Su usuario no tiene privilegios para acceder a esta informacion'
+				else
+					Helpers.showMessage 'error', 'Error al intentar borrar usuario, favor intentar de nuevo'
 
 		getAllUsers : ->
 			self = @
@@ -166,7 +175,10 @@ define ['can', 'models/userModels', 'models/roleModels'], (can, UserModel, RoleM
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
-				Helpers.showMessage 'error', 'Error consiguiendo lista de usuarios, favor intentar de nuevo'
+				if xhr.status is 403
+					Helpers.showMessage 'error', 'Su usuario no tiene privilegios para acceder a esta informacion'
+				else
+					Helpers.showMessage 'error', 'Error consiguiendo lista de usuarios, favor intentar de nuevo'
 
 			deferred
 
@@ -197,7 +209,10 @@ define ['can', 'models/userModels', 'models/roleModels'], (can, UserModel, RoleM
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
-				Helpers.showMessage 'error', 'Error al traer los roles, favor intentar de nuevo'
+				if xhr.status is 403
+					Helpers.showMessage 'error', 'Su usuario no tiene privilegios para acceder a esta informacion'
+				else
+					Helpers.showMessage 'error', 'Error al traer los roles, favor intentar de nuevo'
 
 		destroy : ->
 			can.$('typeahead').typeahead 'destroy'

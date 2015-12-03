@@ -1,5 +1,6 @@
 var requireDir = require('require-directory');
 var controllers = requireDir(module, '../controllers/');
+var roles = require('./rolesEnum');
 
 module.exports = [{
 	method: 'POST',
@@ -40,7 +41,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -50,7 +52,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -60,7 +63,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -70,7 +74,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -80,7 +85,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -90,7 +96,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -100,7 +107,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin, roles.cashier]
 		}
 	}
 }, {
@@ -110,7 +118,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -120,7 +129,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -130,7 +140,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -140,7 +151,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -150,7 +162,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -160,7 +173,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -170,7 +184,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -180,7 +195,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -190,7 +206,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -200,7 +217,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -210,7 +228,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -220,7 +239,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -230,7 +250,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -240,7 +261,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -250,7 +272,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin, roles.cashier]
 		}
 	}
 }, {
@@ -270,7 +293,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {
@@ -280,7 +304,8 @@ module.exports = [{
 	config: {
 		auth: {
 			mode: 'required',
-			strategy: 'session'
+			strategy: 'session',
+			scope: [roles.admin]
 		}
 	}
 }, {

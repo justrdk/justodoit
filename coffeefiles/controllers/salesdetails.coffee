@@ -71,7 +71,10 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
-				Helpers.showMessage 'error', 'Error consiguiendo detalles de venta, favor intentar de nuevo'
+				if xhr.status is 403
+					Helpers.showMessage 'error', 'Su usuario no tiene privilegios para acceder a esta informacion'
+				else
+					Helpers.showMessage 'error', 'Error consiguiendo detalles de venta, favor intentar de nuevo'
 
 		destroy : ->
 			can.Control.prototype.destroy.call @

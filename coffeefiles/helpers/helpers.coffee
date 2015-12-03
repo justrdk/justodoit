@@ -4,7 +4,7 @@ Helpers.showMessage = (type, message) ->
 	noty
 	    text: message
 	    type: type
-	    layout: 'bottomLeft'
+	    layout: 'bottomRight'
 	    timeout: 2500
 	    theme: 'relax'
 	    animation: 

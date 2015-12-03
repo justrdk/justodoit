@@ -17,7 +17,7 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 			self = @
 			can.route.bind 'change', (ev, attr, how, newVal, oldVal) ->
 				if newVal isnt 'login'
-					self.checkUserAuthentication()
+					self.checkUserAuthentication newVal
 
 		renderHeader : ->
 			headerComponent = can.mustache '<navbar-element usermap="user"></navbar-element>'
@@ -25,17 +25,23 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 				user: @options.userMap)
 
 
-		checkUserAuthentication : ->
+		checkUserAuthentication : (routeValue) ->
 			self = @
 			deferred = LoginModel.findOne()
+			adminRoutes = ['crearProducto', 'editarProducto', 'crearProveedor', 'editarProveedor', 'crearUsuario', 'editarUsuario', 'inventario', 'editarISV', 'detallesVenta']
 
 			deferred.then (response) ->
 				if response.success is false
 					can.route.attr 'route', 'login'
 				else
-					if can.$('navbar-element').length is 0
+					if response.roleId is 2 and routeValue in adminRoutes
+						can.route.attr 'route', 'login'
+						#logout user as well
+					
+					else if can.$('navbar-element').length is 0
+						self.options.userMap.attr 'user', response
 						self.renderHeader()
-					self.options.userMap.attr 'user', response
+					
 			,(xhr) ->
 				Helpers.showMessage 'error', 'Error desconocido, favor intentar de nuevo'
 
