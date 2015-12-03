@@ -72,7 +72,6 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
 				if xhr.status is 403
-					can.route.attr 'route', 'login'
 					Helpers.showMessage 'error', 'Su usuario no tiene privilegios para acceder a esta informacion'
 				else
 					Helpers.showMessage 'error', 'Error consiguiendo detalles de venta, favor intentar de nuevo'

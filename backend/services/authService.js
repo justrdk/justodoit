@@ -5,16 +5,6 @@ module.exports = {
 		var userCollection = 'user';
 		var db = request.mongo.db;
 
-		if (request.auth.isAuthenticated) {
-			return cb({
-				success: true,
-				firstname: request.auth.credentials.firstname,
-				lastname: request.auth.credentials.lastname,
-				username: request.auth.credentials.username,
-				roleId: request.auth.credentials.roleId
-			});
-		}
-
 		if (!request.payload.username || !request.payload.password) {
 			return cb({
 				success: false,
@@ -63,8 +53,8 @@ module.exports = {
 				firstname: request.auth.credentials.firstname,
 				lastname: request.auth.credentials.lastname,
 				roleId: request.auth.credentials.roleId,
-				username: request.auth.credentials.username
-
+				username: request.auth.credentials.username,
+				isAdmin: request.auth.credentials.roleId === 1 ? true : false
 			};
 		} else {
 			reply = {

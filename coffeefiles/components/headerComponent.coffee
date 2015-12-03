@@ -12,6 +12,6 @@ define ['can', 'models/logoutModels'], (can, LogoutModel) ->
 
 				deferred.then (response) ->
 					if response.success is true
-						can.route.attr 'route', 'login'
+						window.location.hash = '#!login'
 				, (xhr) ->
 					console.log 'error on request'

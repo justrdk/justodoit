@@ -45,7 +45,10 @@ define ['can', 'models/productModels'], (can, ProductModel) ->
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
-				Helpers.showMessage 'error', 'Error al cargar inventario, favor intentar de nuevo'
+				if xhr.status is 403
+					Helpers.showMessage 'error', 'Su usuario no tiene privilegios para acceder a esta informacion'
+				else
+					Helpers.showMessage 'error', 'Error al cargar inventario, favor intentar de nuevo'
 
 			deferred
 
