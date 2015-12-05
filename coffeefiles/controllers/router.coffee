@@ -2,8 +2,8 @@
 
 require ['can', 'helpers/helpers','controllers/product', 'controllers/provider', 'controllers/user',
 'controllers/inventory','controllers/saleorder', 'controllers/isv', 'controllers/salesdetails',
-'models/loginModels', 'components/loginComponent', 'components/headerComponent'],
-(can, Helpers, Product, Provider, User, Inventory, SaleOrder, ISV, SalesDetails, LoginModel) ->
+'models/loginModels', 'models/logoutModels', 'components/loginComponent', 'components/headerComponent'],
+(can, Helpers, Product, Provider, User, Inventory, SaleOrder, ISV, SalesDetails, LoginModel, LogoutModel) ->
 
 	Router = can.Control.extend
 
@@ -16,27 +16,27 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 		watchRouteChanges : ->
 			self = @
 			can.route.bind 'change', (ev, attr, how, newVal, oldVal) ->
-				if newVal isnt 'login'
-					self.checkUserAuthentication newVal
+				if can.route.attr('route') isnt 'login' and can.route.attr('route') isnt undefined
+					self.checkUserAuthentication  can.route.attr 'route'
 
 		renderHeader : ->
 			headerComponent = can.mustache '<navbar-element usermap="user"></navbar-element>'
 			can.$('#main-wrapper').prepend headerComponent(
 				user: @options.userMap)
 
-
 		checkUserAuthentication : (routeValue) ->
 			self = @
 			deferred = LoginModel.findOne()
-			adminRoutes = ['crearProducto', 'editarProducto', 'crearProveedor', 'editarProveedor', 'crearUsuario', 'editarUsuario', 'inventario', 'editarISV', 'detallesVenta']
+			adminRoutes = ['crearProducto', 'editarProducto', 'crearProveedor', 'editarProveedor', 'crearUsuario', 'editarUsuario', 'editarISV', 'detallesVenta']
 
 			deferred.then (response) ->
 				if response.success is false
 					can.route.attr 'route', 'login'
 				else
 					if response.roleId is 2 and routeValue in adminRoutes
-						can.route.attr 'route', 'login'
-						#logout user as well
+						LogoutModel.findOne().then (response) ->
+							if response.success is true
+								can.route.attr({route: 'login'}, true)
 					
 					else if can.$('navbar-element').length is 0
 						self.options.userMap.attr 'user', response
@@ -46,7 +46,8 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 				Helpers.showMessage 'error', 'Error desconocido, favor intentar de nuevo'
 
 		'route' : (data) ->
-			window.location.hash = '#!login'
+			LogoutModel.findOne()
+			can.route.attr({route: 'login'}, true)
 
 		'login route' : (data) ->
 			can.$('navbar-element').remove()
