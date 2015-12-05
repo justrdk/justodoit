@@ -27,7 +27,7 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 		checkUserAuthentication : (routeValue) ->
 			self = @
 			deferred = LoginModel.findOne()
-			adminRoutes = ['crearProducto', 'editarProducto', 'crearProveedor', 'editarProveedor', 'crearUsuario', 'editarUsuario', 'inventario', 'editarISV', 'detallesVenta']
+			adminRoutes = ['crearProducto', 'editarProducto', 'crearProveedor', 'editarProveedor', 'crearUsuario', 'editarUsuario', 'editarISV', 'detallesVenta']
 
 			deferred.then (response) ->
 				if response.success is false
