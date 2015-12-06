@@ -7,10 +7,17 @@ define ['can', 'models/productModels'], (can, ProductModel) ->
 		init: (element, options) ->
 			self = @
 			@options.products = new can.List []
+			@options.dataRender = new can.List []
 
 			can.when(@getProducts()).then ->
+				self.calculatePages self.options.products
+				self.options.dataRender = self.options.products.slice 0,10
+
 				self.element.html can.view('views/inventory/inventory.mustache', 
-					products : self.options.products)
+					products : self.options.dataRender
+					pages: self.options.pages)
+
+				can.$('li.inventory-page:first').addClass 'active'
 
 		'.search-inventory keyup' : (el) ->
 			query = el.val().trim()
@@ -23,17 +30,46 @@ define ['can', 'models/productModels'], (can, ProductModel) ->
 					self.showAllProducts()
 			,1200
 
+		'li.inventory-page click' : (ev) ->
+			index = can.$('li.inventory-page').index ev.context
+			can.$('li.inventory-page').removeClass 'active'
+			can.$(ev.context).addClass 'active'
+			startIndex = index * 10
+			lastIndex = startIndex + 10
+			@options.dataRender.replace @options.products.slice(startIndex, lastIndex)
+
+		calculatePages : (data) -> 
+			@options.amountPages = Math.ceil data.length / 10
+			@options.pages = new can.List []
+			@options.pages.push(i) for i in [1..@options.amountPages]
+			
 		showAllProducts : ->
+			@calculatePages @options.products
+			@options.dataRender.replace @options.products.slice 0,10
+
 			can.$('.inventory-table').html can.view('views/inventory/inventory-table.mustache',
-				products : @options.products)
+				products : @options.dataRender)
+
+			can.$('.pagination-container').html can.view('views/inventory/pagination.mustache',
+				pages : @options.pages)
+
+			can.$('li.inventory-page:first').addClass 'active'
 
 		filterProducts : (query) ->
 			matches = new can.List []
 			matchRegexp = new RegExp(query, 'i')
 
 			matches.push(product) for product in @options.products when matchRegexp.test(product.code) is true or matchRegexp.test(product.name) is true
+			@options.dataRender.replace matches
+			@calculatePages @options.dataRender
+
 			can.$('.inventory-table').html can.view('views/inventory/inventory-table.mustache',
-				products : matches)
+				products : @options.dataRender.slice(0,10))
+
+			can.$('.pagination-container').html can.view('views/inventory/pagination.mustache',
+				pages : @options.pages)
+
+			can.$('li.inventory-page:first').addClass 'active'
 
 		getProducts : ->
 			self = @
