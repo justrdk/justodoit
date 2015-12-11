@@ -5,10 +5,13 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 	SalesDetails = can.Control.extend
 
 		init : (element, options) ->
+			self = @
 			@initSalesDetailsOptions()
 			@renderTemplate()
+			@getSalesDetailsByDateRange()
 
 		'.search-order-details click' : (el) ->
+			@cleanArrays()
 			@getSalesDetailsByDateRange()
 
 		'.search-sales-details keyup' : (el) ->
@@ -29,12 +32,27 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 				index = can.$('li.inventory-page').index ev.context
 				can.$('li.inventory-page').removeClass 'active'
 				can.$(ev.context).addClass 'active'
-				startIndex = index * 2
-				lastIndex = startIndex + 2
+				startIndex = index * 10
+				lastIndex = startIndex + 10
 				@options.dataRender.replace @options.candidates.slice(startIndex, lastIndex)
 
+		cleanArrays: ->
+			@options.products.replace new can.List []
+			@options.dataRender.replace new can.List []
+			@options.candidates.replace new can.List []
+			@options.pages.replace new can.List []
+
+		initSalesDetailsOptions : ->
+			@options.products = new can.List []
+			@options.dataRender = new can.List []
+			@options.pages = new can.List []
+			@options.candidates = new can.List []
+			@options.startDate = can.compute moment(new Date()).format('DD/MM/YYYY')
+			@options.endDate = can.compute ''
+			@options.amountPages = 0
+
 		calculatePages : (data) -> 
-			@options.amountPages = Math.ceil data.length / 2
+			@options.amountPages = Math.ceil data.length / 10
 			temp = new can.List []
 			temp.push(i) for i in [1..@options.amountPages]
 			@options.pages.replace temp
@@ -50,9 +68,9 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 					moment(date()).format 'DD-MM-YYYY' 
 			)
 
-		renderTable : (products) ->
+		renderTable : ->
 			can.$('.sales-details-table').html can.view('views/salesdetails/salesdetails-table.mustache',
-					products : products
+					products : @options.dataRender
 				,
 					formatDate : (date) ->
 						moment(date()).format 'DD-MM-YYYY'
@@ -63,22 +81,12 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 
 			can.$('li.inventory-page:first').addClass 'active'
 
-		initSalesDetailsOptions : ->
-			@options.products = new can.List []
-			@options.dataRender = new can.List []
-			@options.pages = new can.List []
-			@options.candidates = new can.List []
-			@options.startDate = can.compute ''
-			@options.endDate = can.compute ''
-			@options.amountPages = 0
-
 		showAllProducts : ->
 			@calculatePages @options.products
 			@options.candidates.replace @options.products
-			@options.dataRender.replace @options.products.slice(0,2)
-			@renderTable @options.dataRender
+			@options.dataRender.replace @options.products.slice(0,10)
+			@renderTable()
 		
-
 		filterProducts : (query) ->
 			matches = new can.List []
 			matchRegexp = new RegExp(query, 'i')
@@ -91,8 +99,8 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 
 			@options.candidates.replace matches
 			@calculatePages @options.candidates
-			@options.dataRender.replace @options.candidates.slice(0,2)
-			@renderTable @options.dataRender
+			@options.dataRender.replace @options.candidates.slice(0,10)
+			@renderTable()
 
 		getSalesDetailsByDateRange : ->
 			self = @
@@ -105,7 +113,7 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 					self.options.products.replace response
 					self.options.candidates.replace response
 					self.calculatePages self.options.products
-					self.options.dataRender.replace self.options.products.slice(0,2)
+					self.options.dataRender.replace self.options.products.slice(0,10)
 					can.$('li.inventory-page:first').addClass 'active'
 				else
 					Helpers.showMessage 'error', response.errorMessage

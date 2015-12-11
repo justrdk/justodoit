@@ -11,9 +11,12 @@
 			</div>
 			<button type="button" class="btn btn-primary search-order-details">Buscar</button>
 		</form>
-		{{#if products.length}}
-			<input class="form-control search-sales-details" type="text" placeholder="Filtrar entre detalles de venta">
-		{{/if}}
+		<input class="form-control search-sales-details" type="text" placeholder="Filtrar entre detalles de venta">
+		{{^products}}
+		<div>
+			<h4>No se encontraron productos en el sistema para las fechas especificadas</h4>
+		</div>
+		{{/products}}
 	</div>
 	{{#if products.length}}
 	<table class="table table-hover sales-details-table">
