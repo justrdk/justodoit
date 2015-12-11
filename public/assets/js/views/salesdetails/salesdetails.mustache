@@ -15,7 +15,12 @@
 			<input class="form-control search-sales-details" type="text" placeholder="Filtrar entre detalles de venta">
 		{{/if}}
 	</div>
+	{{#if products.length}}
 	<table class="table table-hover sales-details-table">
 		{{>views/salesdetails/salesdetails-table.mustache}}
 	</table>
+	<div class="text-center pagination-container">
+		{{>views/inventory/pagination.mustache}}
+	</div>
+	{{/if}}
 </div>
