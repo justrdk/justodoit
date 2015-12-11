@@ -5,7 +5,6 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 	SalesDetails = can.Control.extend
 
 		init : (element, options) ->
-			self = @
 			@initSalesDetailsOptions()
 			@renderTemplate()
 			@getSalesDetailsByDateRange()
@@ -37,10 +36,10 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 				@options.dataRender.replace @options.candidates.slice(startIndex, lastIndex)
 
 		cleanArrays: ->
-			@options.products.replace new can.List []
-			@options.dataRender.replace new can.List []
-			@options.candidates.replace new can.List []
-			@options.pages.replace new can.List []
+			@options.products.replace new can.List([])
+			@options.dataRender.replace new can.List([])
+			@options.candidates.replace new can.List([])
+			@options.pages.replace new can.List([])
 
 		initSalesDetailsOptions : ->
 			@options.products = new can.List []

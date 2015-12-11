@@ -68,6 +68,7 @@ define ['can', 'models/productModels'], (can, ProductModel) ->
 			matchRegexp = new RegExp(query, 'i')
 
 			matches.push(product) for product in @options.products when matchRegexp.test(product.code) is true or matchRegexp.test(product.name) is true
+
 			@options.candidates.replace matches
 			@calculatePages @options.candidates
 			@options.dataRender.replace @options.candidates.slice(0,10)
