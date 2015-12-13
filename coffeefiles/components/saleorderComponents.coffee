@@ -23,6 +23,8 @@ define ['can'], (can) ->
 			removeProductFromOrder : (product) ->
 				productIndex = @attr('orderproducts').indexOf product
 				@attr('orderproducts').splice productIndex, 1
+				@calculateSubtotal product
+				@calculateTotal()
 
 			updateProductQuantity : (product, el) ->
 				if product.quantity < product.quantityToSell
