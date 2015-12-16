@@ -39,7 +39,6 @@ module.exports = {
 
 				docs.forEach(function(soi) {
 					soi.name = prodIdx[soi.productId];
-					delete soi.productId;
 					salesOrders[index[soi.salesOrderId]].items.push(soi);
 				});
 
@@ -105,27 +104,19 @@ module.exports = {
 
 	getSalesOrder: function(request, cb) {
 		var soCol = 'salesOrder';
-		var soICol = 'salesOrderItem';
 		var db = request.mongo.db;
 		var ObjectId = request.mongo.ObjectID;
 		var salesOrderId = request.params._id;
+		var self = this;
 
 		db.collection(soCol).find({
 			_id: new ObjectId(salesOrderId)
 		}).toArray(function(err, docs) {
 			if (docs.length) {
-				db.collection(soICol).find({
-					salesOrderId: new ObjectId(docs[0]._id)
-				}, {
-					'productId': true,
-					'quantityToSell': true,
-					'subtotal': true,
-					'_id': false
-				}).toArray(function(err, allItems) {
-					docs[0].items = allItems;
+				self.assembleSalesOrder(db, ObjectId, docs, function(saleOrders) {
 					cb({
 						success: true,
-						data: docs[0]
+						data: saleOrders
 					});
 				});
 			} else {

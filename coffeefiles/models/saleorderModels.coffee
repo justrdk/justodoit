@@ -3,7 +3,7 @@
 define ['can'], (can) ->
 
 	SaleOrderModel = can.Model.extend
-		findAll : 'GET /getSalesOrder'
+		findOne : 'GET /getSalesOrder/{_id}'
 		create : (params) ->
 			$.ajax
 	            url: '/createSalesOrder'
