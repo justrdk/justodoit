@@ -1,3 +1,5 @@
+'use strict';
+
 var requireDir = require('require-directory');
 var controllers = requireDir(module, '../controllers/');
 var roles = require('./rolesEnum');

@@ -23,6 +23,8 @@ define ['can'], (can) ->
 			removeProductFromOrder : (product) ->
 				productIndex = @attr('orderproducts').indexOf product
 				@attr('orderproducts').splice productIndex, 1
+				if @attr('orderproducts').length is 0
+					@attr('validSale', false)
 				@calculateSubtotal product
 				@calculateTotal()
 

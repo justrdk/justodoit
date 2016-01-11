@@ -36,7 +36,7 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 					if response.roleId is 2 and routeValue in adminRoutes
 						LogoutModel.findOne().then (response) ->
 							if response.success is true
-								can.route.attr({route: 'login'}, true)
+								can.route.attr(route: 'login', true)
 					
 					else if can.$('navbar-element').length is 0
 						self.options.userMap.attr 'user', response
@@ -47,7 +47,7 @@ require ['can', 'helpers/helpers','controllers/product', 'controllers/provider',
 
 		'route' : (data) ->
 			LogoutModel.findOne()
-			can.route.attr({route: 'login'}, true)
+			can.route.attr(route: 'login', true)
 
 		'login route' : (data) ->
 			can.$('navbar-element').remove()

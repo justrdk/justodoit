@@ -81,7 +81,8 @@ module.exports = {
 			quantity: request.payload.quantity,
 			threshold: request.payload.threshold,
 			active: true,
-			provider: request.payload.provider
+			provider: request.payload.provider,
+			tax: request.payload.tax
 		};
 
 		db.collection(collectionName).save(newProduct, function(err, result) {
@@ -104,7 +105,7 @@ module.exports = {
 		var collectionName = 'product';
 		var db = request.mongo.db;
 		var ObjectId = request.mongo.ObjectID;
-		var fields = ['code', 'name', 'price', 'quantity', 'provider', 'threshold'];
+		var fields = ['code', 'name', 'price', 'quantity', 'provider', 'threshold', 'tax'];
 		var productId = request.payload._id;
 		var updateJSON = {};
 

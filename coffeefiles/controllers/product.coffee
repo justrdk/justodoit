@@ -47,6 +47,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 				quantity : 0
 				provider : ''
 				threshold : 0
+				tax: false
 
 			@options.productEdit = new can.Map
 				_id : ''
@@ -56,6 +57,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 				quantity : 0
 				provider : ''
 				threshold : 0
+				tax: false
 
 			@options.productsList = new can.List []
 			@options.productProviders = new can.List []
@@ -67,6 +69,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 			@options.product.attr 'quantity', 0
 			@options.product.attr 'provider', ''
 			@options.product.attr 'threshold', 0
+			@options.product.attr 'tax', false
 
 			@options.productEdit.attr '_id', ''
 			@options.productEdit.attr 'code', ''
@@ -75,6 +78,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 			@options.productEdit.attr 'quantity', 0
 			@options.productEdit.attr 'provider', ''
 			@options.productEdit.attr 'threshold', 0
+			@options.productEdit.attr 'tax', false
 
 		productSelected : ->
 			if @options.productEdit._id then true else false
@@ -221,6 +225,7 @@ define ['can', 'models/productModels', 'models/providerModels'], (can,  ProductM
 					self.options.productEdit.attr 'quantity', response.data.quantity
 					self.options.productEdit.attr 'provider', response.data.provider
 					self.options.productEdit.attr 'threshold', response.data.threshold
+					self.options.productEdit.attr 'tax', response.data.tax
 				else
 					Helpers.showMessage 'error', response.errorMessage
 			, (xhr) ->
