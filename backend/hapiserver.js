@@ -4,7 +4,7 @@ var Hapi = require('hapi');
 var server = new Hapi.Server();
 
 var dbConfig = {
-	'url': 'mongodb://localhost:27017/justdoit',
+	'url': 'mongodb://127.0.0.1:27017/justdoit',
 	'settings': {
 		'db': {
 			'native_parser': false

@@ -18,7 +18,9 @@ define ['can'], (can) ->
 			total : 0
 			cashPaid: 0
 			cashChange : 0
-			timer: 0
+			timer : 0
+			discountTimer : 0
+			discount : 0
 
 			removeProductFromOrder : (product) ->
 				productIndex = @attr('orderproducts').indexOf product
@@ -41,7 +43,7 @@ define ['can'], (can) ->
 					subtotal += product.price * product.quantityToSell
 				@attr('subtotal', subtotal)
 
-			validProductQuantity: ->
+			validProductQuantity : ->
 				valid = true
 				valid = false for prod in @attr('orderproducts') when prod.quantity < prod.quantityToSell
 				@attr('validSale', valid)
@@ -50,7 +52,8 @@ define ['can'], (can) ->
 				@attr('tax', @subtotal * @taxPercentage)
 
 			calculateTotal : ->
-				@attr('total', @subtotal + @tax)
+				total = (@subtotal + @tax) - @discount
+				@attr('total', total)
 
 			calculateChange : ->
 				if @cashPaid >= @total
@@ -63,7 +66,7 @@ define ['can'], (can) ->
 
 			createSaleOrder : (context, el) ->
 				product.attr('quantity', product.quantity - product.quantityToSell) for product in @attr('orderproducts')
-				can.$('.saleorder').trigger('createSaleOrder')
+				can.$('.saleorder').trigger('createSaleOrder', [@discount])
 
 			cancelSaleOrder : ->
 				while @orderproducts.length > 0
@@ -80,6 +83,17 @@ define ['can'], (can) ->
 				@scope.attr('timer', setTimeout ->
 						if change isnt '' and /\S+/.test(change) is true and isNaN(change) is false
 							self.scope.attr('cashPaid', change)
+							self.scope.calculateChange()
+					, 1100)
+
+			'.discount keyup' : (el) ->
+				self = @
+				discount = el.val().trim()
+				clearTimeout @scope.discountTimer
+				@scope.attr('discountTimer', setTimeout ->
+						if discount isnt '' and /\S+/.test(discount) is true and isNaN(discount) is false
+							self.scope.attr('discount', discount)
+							self.scope.calculateTotal()
 							self.scope.calculateChange()
 					, 1100)
 
