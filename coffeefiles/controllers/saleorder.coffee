@@ -32,8 +32,8 @@ define ['can', 'components/saleorderComponents', 'models/saleorderModels', 'mode
 			if @productAlreadyInOrder(product) is false
 				@insertProductInOrder product
 
-		'.saleorder createSaleOrder' : (el, ev) ->
-			@createSaleOrder()
+		'.saleorder createSaleOrder' : (el, ev, discount) ->
+			@createSaleOrder(discount)
 
 		getAllProducts : ->
 			self =  @
@@ -93,12 +93,14 @@ define ['can', 'components/saleorderComponents', 'models/saleorderModels', 'mode
 			@options.orderProducts.replace []
 			$('order-products').scope().attr('validSale', false)
 
-		createSaleOrder : ->
+		createSaleOrder : (discount) ->
 			self = @
 			items = []
 
 			items.push {productId: prod._id, quantityToSell: prod.quantityToSell, quantityInventory: prod.quantity} for prod in @options.orderProducts
-			deferred = SaleOrderModel.create(items:items)
+			deferred = SaleOrderModel.create(
+				items: items
+				discount: discount)
 
 			deferred.then (response) ->
 				if response.success

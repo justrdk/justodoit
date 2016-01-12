@@ -46,6 +46,7 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 			@options.dataRender = new can.List []
 			@options.pages = new can.List []
 			@options.candidates = new can.List []
+			@options.totalSold = can.compute 0
 			@options.startDate = can.compute moment(new Date()).format('DD/MM/YYYY')
 			@options.endDate = can.compute ''
 			@options.amountPages = 0
@@ -56,12 +57,18 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 			temp.push(i) for i in [1..@options.amountPages]
 			@options.pages.replace temp
 
+		totalSoldToDate : ->
+			total = 0
+			total += product.total for product in @options.products
+			@options.totalSold(total)
+
 		renderTemplate : ->
 			@element.html can.view('views/salesdetails/salesdetails.mustache',
 				products : @options.dataRender
 				startDate : @options.startDate
 				endDate: @options.endDate
 				pages: @options.pages
+				totalSold: @options.totalSold
 			,
 				formatDate : (date) ->
 					moment(date()).format 'DD-MM-YYYY' 
@@ -103,9 +110,9 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 
 		getSalesDetailsByDateRange : ->
 			self = @
-			deferred = SalesDetailModel.findAll
+			deferred = SalesDetailModel.findAll(
 				startDate: self.options.startDate()
-				endDate : self.options.endDate()
+				endDate : self.options.endDate())
 
 			deferred.then (response) ->
 				if response.success is true
@@ -113,6 +120,7 @@ define ['can', 'models/salesdetailsModels'], (can, SalesDetailModel) ->
 					self.options.candidates.replace response
 					self.calculatePages self.options.products
 					self.options.dataRender.replace self.options.products.slice(0,10)
+					self.totalSoldToDate()
 					can.$('li.inventory-page:first').addClass 'active'
 				else
 					Helpers.showMessage 'error', response.errorMessage

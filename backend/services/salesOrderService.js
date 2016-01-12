@@ -134,6 +134,7 @@ module.exports = {
 		var db = request.mongo.db;
 		var ObjectId = request.mongo.ObjectID;
 		var productCol = 'product';
+		var discount = parseInt(request.payload.discount);
 		var BlueBird = require('bluebird');
 
 		//1. Primero se crea un saleOrder
@@ -141,8 +142,11 @@ module.exports = {
 			date: new Date(),
 			subtotal: 0,
 			tax: 0,
-			total: 0
+			total: 0,
+			discount: discount,
+			createdBy: request.auth.credentials.username
 		};
+
 		db.collection(soCol).insert([newSalesOrder], function(err, result) {
 			if (err) {
 				cb({
@@ -205,7 +209,7 @@ module.exports = {
 								salesOrder.subtotal = salesOrderSubtotal;
 
 								//salesOrder.tax = salesOrderSubtotal * 0.15;
-								salesOrder.total = salesOrderSubtotal;
+								salesOrder.total = salesOrderSubtotal - discount;
 								db.collection(soCol).save(salesOrder, function(err) {
 									if (err) {
 										cb({
