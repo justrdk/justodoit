@@ -12,6 +12,9 @@
 			<button type="button" class="btn btn-primary search-order-details">Buscar</button>
 		</form>
 		<input class="form-control search-sales-details" type="text" placeholder="Filtrar entre detalles de venta">
+		<div class="total-sold">
+			<span>Total en Ventas: <strong>Lps. {{totalSold}}</strong></span>
+		</div>
 		{{^products}}
 		<div>
 			<h4>No se encontraron productos en el sistema para las fechas especificadas</h4>

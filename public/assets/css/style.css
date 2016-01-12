@@ -21,7 +21,7 @@ body {
 .search-container {
 	padding-bottom: 20px;
 }
-.search-sales-order-details-container{
+.search-sales-order-details-container {
 	padding-bottom: 80px;
 }
 .param-search {
@@ -97,4 +97,8 @@ tr {
 }
 .tt-suggestion p {
 	margin: 0;
+}
+.total-sold {
+	margin-top: 15px;
+	font-size: 1.5em;
 }
