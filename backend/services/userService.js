@@ -61,7 +61,7 @@ module.exports = {
 		var crypto = require("crypto-js");
 		var newUser = {
 			username: request.payload.username,
-			password: crypto.AES.encrypt(request.payload.password, 'secret'),
+			password: String(crypto.AES.encrypt(request.payload.password, 'secret')),
 			firstname: request.payload.firstname,
 			lastname: request.payload.lastname,
 			active: true,
@@ -95,7 +95,7 @@ module.exports = {
 
 		for (var key in request.payload) {
 			if (fields.indexOf(key) !== -1) {
-				updateJSON[key] = key !== 'password' ? request.payload[key] : crypto.AES.encrypt(request.payload[key], 'secret');
+				updateJSON[key] = key !== 'password' ? request.payload[key] : String(crypto.AES.encrypt(request.payload[key], 'secret'));
 			}
 		}
 
