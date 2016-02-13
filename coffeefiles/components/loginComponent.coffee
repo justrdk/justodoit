@@ -15,5 +15,7 @@ define ['can', 'models/loginModels'], (can, LoginModel) ->
 				deferred.then (response) ->
 					if response.success is true
 						can.route.attr 'route', 'venta'
+					else
+						Helpers.showMessage 'error', response.errorMessage
 				, (xhr) ->
 					Helpers.showMessage 'error', 'Error al tratar de iniciar sesion, favor intentar de nuevo'

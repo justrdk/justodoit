@@ -14,4 +14,4 @@ define ['can', 'models/logoutModels'], (can, LogoutModel) ->
 					if response.success is true
 						can.route.attr({route: 'login'}, true)
 				, (xhr) ->
-					console.log 'error on request'
+					Helpers.showMessage 'error', 'Error al tratar de cerrar sesion, favor intentar de nuevo'

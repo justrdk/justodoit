@@ -4,6 +4,7 @@ module.exports = {
 	authenticateUser: function(request, cb) {
 		var userCollection = 'user';
 		var db = request.mongo.db;
+		var crypto = require("crypto-js");
 
 		if (!request.payload.username || !request.payload.password) {
 			return cb({
@@ -17,17 +18,28 @@ module.exports = {
 				if (err) {
 					return cb({
 						success: false,
-						error: 'Internal MongoDB error'
+						errorMessage: 'Internal MongoDB error'
 					});
 				}
 
-				if (!user || user.password !== request.payload.password) {
+				if (!user) {
 					return cb({
 						success: false,
-						error: 'Invalid username or password'
+						errorMessage: 'Usuario o contraseña invalidos'
+					});
+				}
+
+				var bytes = crypto.AES.decrypt(user.password, 'secret');
+				var decryptedPassword = bytes.toString(crypto.enc.Utf8);
+
+				if (decryptedPassword !== request.payload.password) {
+					return cb({
+						success: false,
+						errorMessage: 'Usuario o contraseña invalidos'
 					});
 				} else {
 					user.scope = '' + user.roleId;
+					delete user.password;
 					request.auth.session.set(user);
 					return cb({
 						success: true,
@@ -54,12 +66,12 @@ module.exports = {
 				lastname: request.auth.credentials.lastname,
 				roleId: request.auth.credentials.roleId,
 				username: request.auth.credentials.username,
-				isAdmin: request.auth.credentials.roleId === 1 ? true : false
+				isAdmin: parseInt(request.auth.credentials.roleId, 10) === 1 ? true : false
 			};
 		} else {
 			reply = {
 				success: false,
-				message: 'no user authenticated'
+				errorMessage: 'no user authenticated'
 			};
 		}
 

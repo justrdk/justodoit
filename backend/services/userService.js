@@ -58,16 +58,17 @@ module.exports = {
 	createUser: function(request, cb) {
 		var collectionName = 'user';
 		var db = request.mongo.db;
-		var newProduct = {
+		var crypto = require("crypto-js");
+		var newUser = {
 			username: request.payload.username,
-			password: request.payload.password,
+			password: crypto.AES.encrypt(request.payload.password, 'secret'),
 			firstname: request.payload.firstname,
 			lastname: request.payload.lastname,
 			active: true,
 			roleId: request.payload.roleId
 		};
 
-		db.collection(collectionName).save(newProduct, function(err, result) {
+		db.collection(collectionName).save(newUser, function(err, result) {
 			if (err) {
 				cb({
 					success: false,
@@ -90,10 +91,11 @@ module.exports = {
 		var fields = ['username', 'password', 'firstname', 'lastname', 'roleId'];
 		var userId = request.payload._id;
 		var updateJSON = {};
+		var crypto = require("crypto-js");
 
 		for (var key in request.payload) {
 			if (fields.indexOf(key) !== -1) {
-				updateJSON[key] = request.payload[key];
+				updateJSON[key] = key !== 'password' ? request.payload[key] : crypto.AES.encrypt(request.payload[key], 'secret');
 			}
 		}
 

@@ -46,6 +46,40 @@ var setUniqueIndexes = function(db) {
 	});
 };
 
+var createAdminUser = function(db) {
+	var userCollection = 'user';
+	var crypto = require("crypto-js");
+	var password = crypto.AES.encrypt('password1', 'secret');
+	var roles = require('./routes/rolesEnum');
+
+	db.collection(userCollection).findOne({
+		'username': 'admin'
+	}, function(err, user) {
+		if (err) {
+			return err;
+		}
+
+		if (!user) {
+			var newUser = {
+				username: 'admin',
+				password: String(password),
+				firstname: 'maribel',
+				lastname: 'mercadal',
+				active: true,
+				roleId: roles.admin
+			};
+
+			db.collection(userCollection).save(newUser, function(err, result) {
+				if (err) {
+					return err;
+				} else {
+					return result;
+				}
+			});
+		}
+	});
+};
+
 server.register(plugins, function(err) {
 	if (err) {
 		throw err;
@@ -61,6 +95,7 @@ server.register(plugins, function(err) {
 
 	server.start(function() {
 		setUniqueIndexes(server.mongo.db);
+		createAdminUser(server.mongo.db);
 		console.log('info', 'Server running at ', server.info.uri);
 	});
 });
