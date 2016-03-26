@@ -4,7 +4,7 @@ module.exports = {
 	authenticateUser: function(request, cb) {
 		var userCollection = 'user';
 		var db = request.mongo.db;
-		var crypto = require("crypto-js");
+		var crypto = require('crypto-js');
 
 		if (!request.payload.username || !request.payload.password) {
 			return cb({
@@ -13,7 +13,7 @@ module.exports = {
 			});
 		} else {
 			db.collection(userCollection).findOne({
-				'username': request.payload.username
+				username: request.payload.username
 			}, function(err, user) {
 				if (err) {
 					return cb({

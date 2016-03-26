@@ -53,7 +53,12 @@ define ['can'], (can) ->
 
 			calculateTotal : ->
 				total = (@subtotal + @tax) - @discount
-				@attr('total', total)
+				if total < 0
+					@attr('validSale', false)
+					Helpers.showMessage 'warning', 'Descuento no puede ser mayor a subtotal'
+				else
+					@attr('total', total)
+					@calculateChange()
 
 			calculateChange : ->
 				if @cashPaid >= @total
@@ -72,9 +77,6 @@ define ['can'], (can) ->
 				while @orderproducts.length > 0
 					@orderproducts.pop()
 
-		helpers:
-			roundTwoDecimalPlaces : (value) ->
-				parseFloat(Math.round(value()*100)/100).toFixed 2
 		events:
 			'.cash-paid keyup' : (el) ->
 				self = @
@@ -83,7 +85,7 @@ define ['can'], (can) ->
 				@scope.attr('timer', setTimeout ->
 						if change isnt '' and /\S+/.test(change) is true and isNaN(change) is false
 							self.scope.attr('cashPaid', change)
-							self.scope.calculateChange()
+							self.scope.calculateTotal()
 					, 1100)
 
 			'.discount keyup' : (el) ->
@@ -94,7 +96,6 @@ define ['can'], (can) ->
 						if discount isnt '' and /\S+/.test(discount) is true and isNaN(discount) is false
 							self.scope.attr('discount', discount)
 							self.scope.calculateTotal()
-							self.scope.calculateChange()
 					, 1100)
 
 			'{orderproducts} change' : (el , ev, attr, how, newVal, oldVal) ->
@@ -102,3 +103,6 @@ define ['can'], (can) ->
 					@scope.calculateSubtotal newVal[0]
 					#@scope.calculateTax()
 					@scope.calculateTotal()
+		helpers:
+			roundTwoDecimalPlaces : (value) ->
+				parseFloat(Math.round(value()*100)/100).toFixed 2
