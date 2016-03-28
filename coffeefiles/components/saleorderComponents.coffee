@@ -101,7 +101,6 @@ define ['can'], (can) ->
 			'{orderproducts} change' : (el , ev, attr, how, newVal, oldVal) ->
 				if how isnt 'remove'
 					@scope.calculateSubtotal newVal[0]
-					#@scope.calculateTax()
 					@scope.calculateTotal()
 		helpers:
 			roundTwoDecimalPlaces : (value) ->
