@@ -1,4 +1,4 @@
 justodoit
 =========
 
-justfuckindoit
+Canjs, hapi with coffeescript
