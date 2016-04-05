@@ -53,19 +53,19 @@ module.exports = {
 		var productId = request.params._id;
 		var collectionName = 'product';
 
-		db.collection(collectionName).find({
+		db.collection(collectionName).findOne({
 			_id: new ObjectId(productId),
 			active: true
-		}).toArray(function(err, docs) {
-			if (docs.length) {
+		}, function(err, product) {
+			if (product) {
 				cb({
 					success: true,
-					data: docs[0]
+					data: product
 				});
 			} else {
 				cb({
 					success: false,
-					errorMessage: 'No existe el producto que desea leer'
+					errorMessage: 'Producto no encontrado en el sistema'
 				});
 			}
 		});

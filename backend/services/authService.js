@@ -71,7 +71,7 @@ module.exports = {
 		} else {
 			reply = {
 				success: false,
-				errorMessage: 'no user authenticated'
+				errorMessage: 'No hay usuario autenticado'
 			};
 		}
 

@@ -17,7 +17,7 @@ module.exports = {
 			} else {
 				cb({
 					success: false,
-					errorMessage: 'No se encontro isv creado',
+					errorMessage: 'No se encontro ISV creado',
 					data: []
 				});
 			}
